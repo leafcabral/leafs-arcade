@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://c15s60vsa8gyd"]
+
+[ext_resource type="Script" uid="uid://cdgc0s8b7vmqe" path="res://scripts/main.gd" id="1_choun"]
+[ext_resource type="PackedScene" uid="uid://txxmnnsfvgl8" path="res://scenes/background.tscn" id="2_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://c60omirlmv6eh" path="res://scenes/hud.tscn" id="3_sugp2"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ya4ey"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_eb6dy"]
+distance = -450.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_trceg"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_a8y0u"]
+normal = Vector2(-1, 0)
+distance = -800.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_choun")
+
+[node name="Background" parent="." instance=ExtResource("2_tbgi4")]
+z_as_relative = false
+
+[node name="Border" type="StaticBody2D" parent="."]
+collision_layer = 2
+
+[node name="Top" type="CollisionShape2D" parent="Border"]
+shape = SubResource("WorldBoundaryShape2D_ya4ey")
+
+[node name="Bottom" type="CollisionShape2D" parent="Border"]
+shape = SubResource("WorldBoundaryShape2D_eb6dy")
+
+[node name="Left" type="CollisionShape2D" parent="Border"]
+shape = SubResource("WorldBoundaryShape2D_trceg")
+
+[node name="Right" type="CollisionShape2D" parent="Border"]
+shape = SubResource("WorldBoundaryShape2D_a8y0u")
+
+[node name="BirdSpawn" type="Marker2D" parent="Border"]
+position = Vector2(400, 420)
+
+[node name="HUD" parent="." instance=ExtResource("3_sugp2")]
+z_index = 100
+
+[connection signal="clicked_screen" from="HUD" to="." method="_on_hud_clicked_screen"]

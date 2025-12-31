@@ -1,0 +1,86 @@
+[gd_scene load_steps=13 format=3 uid="uid://cs8h3f8a3o776"]
+
+[ext_resource type="Texture2D" uid="uid://bk27kjruon8kg" path="res://sprites/bird/7.png" id="1_ehebh"]
+[ext_resource type="Script" uid="uid://k85aavwv0cws" path="res://scripts/bird.gd" id="1_qavic"]
+[ext_resource type="Texture2D" uid="uid://c73yh5kyb4f15" path="res://sprites/bird/8.png" id="2_qavic"]
+[ext_resource type="Texture2D" uid="uid://c3k6om0bkrvq0" path="res://sprites/bird/3.png" id="3_ifiym"]
+[ext_resource type="Texture2D" uid="uid://14kpqlcdj6ss" path="res://sprites/bird/4.png" id="4_21s24"]
+[ext_resource type="Texture2D" uid="uid://c7gkdtggex6vq" path="res://sprites/bird/5.png" id="5_wujcm"]
+[ext_resource type="Texture2D" uid="uid://bgi855ajrixlr" path="res://sprites/bird/0.png" id="6_ai2xt"]
+[ext_resource type="Texture2D" uid="uid://dj8s5dpb5tn1b" path="res://sprites/bird/1.png" id="7_e7a8l"]
+[ext_resource type="Texture2D" uid="uid://cp4055b6svgex" path="res://sprites/bird/2.png" id="8_mlfkm"]
+[ext_resource type="Texture2D" uid="uid://e13x3w6n8g3i" path="res://sprites/bird/6.png" id="9_lm7xv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vox6r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ehebh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_qavic")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ifiym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_21s24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_wujcm")
+}],
+"loop": true,
+"name": &"fly-side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_ai2xt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_e7a8l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_mlfkm")
+}],
+"loop": true,
+"name": &"fly-up",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("9_lm7xv")
+}],
+"loop": true,
+"name": &"shot",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k3v35"]
+
+[node name="Bird" type="CharacterBody2D"]
+z_index = 2
+z_as_relative = false
+scale = Vector2(2.5, 2.5)
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_qavic")
+metadata/_edit_group_ = true
+
+[node name="AniSprites" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_vox6r")
+animation = &"fly-up"
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+scale = Vector2(1.751, 1.702)
+shape = SubResource("RectangleShape2D_k3v35")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-17.599998, -16.8, 35.199997, 33.6)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

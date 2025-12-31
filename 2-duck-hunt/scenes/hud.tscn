@@ -1,0 +1,141 @@
+[gd_scene load_steps=14 format=3 uid="uid://c60omirlmv6eh"]
+
+[ext_resource type="Theme" uid="uid://cc4a4pwjrogip" path="res://style/arcade.tres" id="1_5ysmq"]
+[ext_resource type="Script" uid="uid://bkljlb1jxab02" path="res://scripts/hud.gd" id="1_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://cbkpktb1ukwtd" path="res://sprites/hud/crosshair.png" id="2_5ysmq"]
+[ext_resource type="Texture2D" uid="uid://0o7yk6schxub" path="res://sprites/hud/round-hud.png" id="4_047uy"]
+[ext_resource type="Texture2D" uid="uid://cu17lmkfu28qq" path="res://sprites/hud/score-hud.png" id="5_5pdws"]
+[ext_resource type="FontFile" uid="uid://bqnvl7aapihp2" path="res://style/PublicPixel.ttf" id="5_hd3ao"]
+[ext_resource type="Texture2D" uid="uid://bikwxnk8f3qor" path="res://sprites/hud/shot-hud.png" id="6_hd3ao"]
+[ext_resource type="Texture2D" uid="uid://dm566b4khvwfd" path="res://sprites/hud/shot.png" id="7_0i1j5"]
+[ext_resource type="Texture2D" uid="uid://cmupfoa0wvgl" path="res://sprites/hud/hit-hud.png" id="7_5pdws"]
+[ext_resource type="Texture2D" uid="uid://vmw16tk5a6ci" path="res://sprites/hud/birds-killed.png" id="9_mphia"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0i1j5"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.54901963, 0.8392157, 0, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hd3ao"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0i1j5"]
+content_margin_left = 2.0
+content_margin_top = 1.0
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 600.0
+mouse_filter = 1
+theme = ExtResource("1_5ysmq")
+script = ExtResource("1_6fi6k")
+metadata/_edit_lock_ = true
+
+[node name="Cursor" type="Sprite2D" parent="."]
+z_index = 100
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_5ysmq")
+
+[node name="Stats" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ShotHud" type="Sprite2D" parent="Stats"]
+position = Vector2(72.727234, 560)
+scale = Vector2(3, 3)
+texture = ExtResource("6_hd3ao")
+
+[node name="Bullet 1" type="Sprite2D" parent="Stats/ShotHud"]
+position = Vector2(-7.756961, -4.044123)
+texture = ExtResource("7_0i1j5")
+
+[node name="Bullet 2" type="Sprite2D" parent="Stats/ShotHud"]
+position = Vector2(0.7575886, -4.3333282)
+texture = ExtResource("7_0i1j5")
+
+[node name="Bullet 3" type="Sprite2D" parent="Stats/ShotHud"]
+position = Vector2(8.757589, -3.999995)
+texture = ExtResource("7_0i1j5")
+
+[node name="RoundHud" type="Panel" parent="Stats"]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 501.0
+offset_right = 293.0
+offset_bottom = 533.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_0i1j5")
+
+[node name="Label" type="Sprite2D" parent="Stats/RoundHud"]
+position = Vector2(52.83049, 16.616943)
+scale = Vector2(3, 3)
+texture = ExtResource("4_047uy")
+
+[node name="Round" type="Label" parent="Stats/RoundHud/Label"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -47.37
+offset_top = -5.271
+offset_right = -15.369999
+offset_bottom = 10.729
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("5_hd3ao")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hd3ao")
+text = "00"
+horizontal_alignment = 2
+
+[node name="HitHud" type="Sprite2D" parent="Stats"]
+position = Vector2(360.3305, 560)
+scale = Vector2(3, 3)
+texture = ExtResource("7_5pdws")
+metadata/_edit_group_ = true
+
+[node name="BirdsKilled" type="Sprite2D" parent="Stats/HitHud"]
+position = Vector2(-23, -2.555)
+texture = ExtResource("9_mphia")
+region_enabled = true
+region_rect = Rect2(0, 0, 0, 9)
+
+[node name="Amount of Birds" type="ColorRect" parent="Stats/HitHud"]
+clip_contents = true
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.132
+offset_top = 2.18
+offset_right = -53.132
+offset_bottom = 11.18
+grow_horizontal = 0
+rotation = 3.1415927
+color = Color(0, 0, 0, 1)
+
+[node name="ScoreHud" type="Sprite2D" parent="Stats"]
+position = Vector2(672.7272, 560)
+scale = Vector2(3, 3)
+texture = ExtResource("5_5pdws")
+metadata/_edit_group_ = true
+
+[node name="Score" type="Label" parent="Stats/ScoreHud"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -24.875
+offset_top = -10.0
+offset_right = -24.875
+offset_bottom = 13.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("5_hd3ao")
+theme_override_font_sizes/font_size = 8
+theme_override_styles/normal = SubResource("StyleBoxEmpty_0i1j5")
+text = "000000"
+metadata/_edit_use_anchors_ = true

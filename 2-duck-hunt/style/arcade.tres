@@ -1,0 +1,12 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://cc4a4pwjrogip"]
+
+[ext_resource type="FontFile" uid="uid://bqnvl7aapihp2" path="res://style/PublicPixel.ttf" id="1_y8kov"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mq7ow"]
+
+[resource]
+default_font = ExtResource("1_y8kov")
+default_font_size = 0
+Button/colors/font_color = Color(0.73300475, 0.73300564, 0.733005, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_mq7ow")

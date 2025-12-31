@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2bkolq31mq"]
+
+[ext_resource type="Script" uid="uid://ctseldp53i2jx" path="res://scripts/main.gd" id="1_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://cnya0m0j75nvu" path="res://scenes/background.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://b5xwcfq7xp7x6" path="res://scenes/paddle.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://ctdaoaxyc04x" path="res://scenes/hud.tscn" id="5_tefeu"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_sugp2"]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0wfyh"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sugp2"]
+distance = -600.0
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_jyhfs")
+
+[node name="Background" parent="." instance=ExtResource("1_o5qli")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 800.0
+offset_bottom = 600.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Borders" type="StaticBody2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+physics_material_override = SubResource("PhysicsMaterial_sugp2")
+
+[node name="Top" type="CollisionShape2D" parent="Borders"]
+shape = SubResource("WorldBoundaryShape2D_0wfyh")
+
+[node name="Bottom" type="CollisionShape2D" parent="Borders"]
+shape = SubResource("WorldBoundaryShape2D_sugp2")
+
+[node name="Player 1" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(32, 40)
+
+[node name="Player 2" parent="." instance=ExtResource("2_0wfyh")]
+position = Vector2(768, 40)
+type = 1
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(400, 300)
+zoom = Vector2(0.8, 0.8)
+
+[node name="Initial Ball Position" type="Marker2D" parent="."]
+position = Vector2(400, 300)
+
+[node name="HUD" parent="." instance=ExtResource("5_tefeu")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+volume_db = -10.0
+
+[connection signal="paused" from="HUD" to="." method="_on_hud_paused"]
+[connection signal="unpaused" from="HUD" to="." method="_on_hud_unpaused"]

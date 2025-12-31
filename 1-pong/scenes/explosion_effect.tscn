@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://dg2xiffauf7u7"]
+
+[ext_resource type="Script" uid="uid://bhl13e8o4g3vx" path="res://scripts/explosion_effect.gd" id="1_7i385"]
+
+[sub_resource type="Gradient" id="Gradient_jyhfs"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tbgi4"]
+gradient = SubResource("Gradient_jyhfs")
+
+[sub_resource type="Curve" id="Curve_tefeu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_o6xl0"]
+curve = SubResource("Curve_tefeu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tipki"]
+particle_flag_disable_z = true
+angle_min = -320.0
+angle_max = 320.00003
+angular_velocity_min = 118.58998
+angular_velocity_max = 118.58998
+radial_velocity_min = 49.999977
+radial_velocity_max = 239.99997
+gravity = Vector3(0, 0, 0)
+scale_min = 0.19999999
+scale_max = 0.19999999
+scale_curve = SubResource("CurveTexture_o6xl0")
+
+[sub_resource type="Curve" id="Curve_85g3d"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.54545456, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_choun"]
+curve = SubResource("Curve_85g3d")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ya4ey"]
+particle_flag_disable_z = true
+angle_min = -320.0
+angle_max = 320.00003
+angular_velocity_min = 552.87994
+angular_velocity_max = 552.87994
+radial_velocity_min = -2.2351742e-05
+radial_velocity_max = 39.999977
+gravity = Vector3(0, 0, 0)
+scale_min = 0.7
+scale_max = 0.7
+scale_curve = SubResource("CurveTexture_choun")
+
+[node name="ExplosionEffect" type="Node2D"]
+script = ExtResource("1_7i385")
+
+[node name="FlyingParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+texture = SubResource("GradientTexture2D_tbgi4")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_tipki")
+
+[node name="StaticParticles" type="GPUParticles2D" parent="."]
+emitting = false
+texture = SubResource("GradientTexture2D_tbgi4")
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ya4ey")
+
+[connection signal="finished" from="FlyingParticles" to="." method="_on_flying_particles_finished"]
+[connection signal="finished" from="StaticParticles" to="." method="_on_static_particles_finished"]

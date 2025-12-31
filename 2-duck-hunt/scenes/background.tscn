@@ -1,0 +1,118 @@
+[gd_scene load_steps=17 format=3 uid="uid://txxmnnsfvgl8"]
+
+[ext_resource type="Texture2D" uid="uid://dqnhu1hwcg82j" path="res://sprites/background/sky.png" id="1_bkp1e"]
+[ext_resource type="Script" uid="uid://d3jh5i4u1y8qh" path="res://scripts/background.gd" id="1_jougr"]
+[ext_resource type="Texture2D" uid="uid://b430dygwikrsw" path="res://sprites/background/foreground.png" id="2_y0upk"]
+[ext_resource type="Texture2D" uid="uid://bwxggttso5mml" path="res://sprites/dog/9.png" id="3_0470j"]
+[ext_resource type="Texture2D" uid="uid://dndueprck00ii" path="res://sprites/dog/5.png" id="4_ivgg2"]
+[ext_resource type="Texture2D" uid="uid://b6yqjdm6bto6" path="res://sprites/dog/6.png" id="5_r4ipc"]
+[ext_resource type="Texture2D" uid="uid://becp63qr5261g" path="res://sprites/dog/7.png" id="6_5xduy"]
+[ext_resource type="Texture2D" uid="uid://b0hgq2708uqxr" path="res://sprites/dog/8.png" id="7_fligg"]
+[ext_resource type="Texture2D" uid="uid://cwkk7u5qivn2n" path="res://sprites/dog/12.png" id="8_mhjnw"]
+[ext_resource type="Texture2D" uid="uid://c0hbuxbc53dd4" path="res://sprites/dog/13.png" id="9_0y13x"]
+[ext_resource type="Texture2D" uid="uid://dw5aaegnooskx" path="res://sprites/dog/0.png" id="10_iquee"]
+[ext_resource type="Texture2D" uid="uid://ca4pil3dhflpd" path="res://sprites/dog/1.png" id="11_plk4d"]
+[ext_resource type="Texture2D" uid="uid://dhgcwnumbaa08" path="res://sprites/dog/2.png" id="12_nj1e1"]
+[ext_resource type="Texture2D" uid="uid://c1gs6f1y82foi" path="res://sprites/dog/3.png" id="13_nji80"]
+[ext_resource type="Texture2D" uid="uid://loqofnvaop6j" path="res://sprites/dog/4.png" id="14_wx42w"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jougr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_0470j")
+}],
+"loop": false,
+"name": &"caught-1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_ivgg2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_r4ipc")
+}],
+"loop": false,
+"name": &"found",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("6_5xduy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_fligg")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_mhjnw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_0y13x")
+}],
+"loop": true,
+"name": &"laugh",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_iquee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_plk4d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_nj1e1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_nji80")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_wx42w")
+}],
+"loop": true,
+"name": &"searching",
+"speed": 5.0
+}]
+
+[node name="Background" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 600.0
+mouse_filter = 2
+mouse_behavior_recursive = 1
+script = ExtResource("1_jougr")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3882353, 0.68235296, 1, 1)
+
+[node name="Trees" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(400, 169.705)
+scale = Vector2(3.15, 3.15)
+texture = ExtResource("1_bkp1e")
+
+[node name="Foreground" type="Sprite2D" parent="."]
+z_index = 4
+position = Vector2(400, 516)
+scale = Vector2(3.15, 3.15)
+texture = ExtResource("2_y0upk")
+
+[node name="Dog" type="AnimatedSprite2D" parent="."]
+z_index = 4
+position = Vector2(-82, 468)
+scale = Vector2(2.875, 2.875)
+sprite_frames = SubResource("SpriteFrames_jougr")
+animation = &"searching"

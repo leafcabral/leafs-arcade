@@ -1,0 +1,85 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn17tbs2dwo0q"]
+
+[ext_resource type="Theme" uid="uid://cc4a4pwjrogip" path="res://arcade.tres" id="1_ekxnf"]
+[ext_resource type="FontFile" uid="uid://c2t25ln23jycj" path="res://PublicPixel.ttf" id="1_l6cm7"]
+[ext_resource type="Script" uid="uid://w7g17yasd21x" path="res://scripts/main_menu.gd" id="2_bqqt6"]
+[ext_resource type="PackedScene" uid="uid://cnya0m0j75nvu" path="res://scenes/background.tscn" id="3_wu84c"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ekxnf"]
+font = ExtResource("1_l6cm7")
+font_size = 86
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ekxnf")
+script = ExtResource("2_bqqt6")
+
+[node name="Background" parent="." instance=ExtResource("3_wu84c")]
+layout_mode = 1
+
+[node name="Ttile" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -204.0
+offset_top = 77.0
+offset_right = 204.0
+offset_bottom = 213.0
+grow_horizontal = 2
+text = "PONG"
+label_settings = SubResource("LabelSettings_ekxnf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerCPU" type="Button" parent="."]
+layout_mode = 1
+offset_left = 196.0
+offset_top = 300.0
+offset_right = 604.0
+offset_bottom = 349.0
+focus_neighbor_top = NodePath("../Exit")
+focus_neighbor_bottom = NodePath("../PlayerPlayer")
+focus_next = NodePath("../PlayerPlayer")
+focus_previous = NodePath("../Exit")
+text = "PLAYER VS CPU"
+flat = true
+
+[node name="PlayerPlayer" type="Button" parent="."]
+layout_mode = 1
+offset_left = 196.0
+offset_top = 350.0
+offset_right = 604.0
+offset_bottom = 399.0
+focus_neighbor_top = NodePath("../PlayerCPU")
+focus_neighbor_bottom = NodePath("../Exit")
+focus_next = NodePath("../Exit")
+focus_previous = NodePath("../PlayerCPU")
+text = "PLAYER VS PLAYER"
+flat = true
+
+[node name="Exit" type="Button" parent="."]
+layout_mode = 1
+offset_left = 196.0
+offset_top = 400.0
+offset_right = 604.0
+offset_bottom = 449.0
+focus_neighbor_top = NodePath("../PlayerPlayer")
+focus_neighbor_bottom = NodePath("../PlayerCPU")
+focus_next = NodePath("../PlayerCPU")
+focus_previous = NodePath("../PlayerPlayer")
+text = "EXIT GAME"
+flat = true
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(400, 300)
+zoom = Vector2(0.8, 0.8)
+
+[connection signal="pressed" from="PlayerCPU" to="." method="_on_player_cpu_pressed"]
+[connection signal="pressed" from="PlayerPlayer" to="." method="_on_player_player_pressed"]
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
