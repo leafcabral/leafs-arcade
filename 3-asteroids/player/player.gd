@@ -4,6 +4,8 @@ extends CharacterBody2D
 const MOVEMENT_SPEED := 300.0
 const TURN_SPEED := TAU
 
+@onready var viewport_size: Vector2 = get_viewport_rect().size
+@onready var sprite_size: Vector2 = $MainSprite.get_rect().size * scale
 @onready var thruster_sprite: Sprite2D = $ThrusterSprite
 
 
@@ -24,3 +26,7 @@ func _physics_process(delta: float) -> void:
 		thruster_sprite.visible = false
 	
 	move_and_slide()
+	
+	var border_offset := sprite_size / 2
+	global_position.x = wrapf(global_position.x, -border_offset.x, viewport_size.x + border_offset.x)
+	global_position.y = wrapf(global_position.y, -border_offset.y, viewport_size.y + border_offset.y)
