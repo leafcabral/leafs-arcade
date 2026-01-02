@@ -1,8 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://cwa0eiwg4g2gs"]
+[gd_scene load_steps=3 format=3 uid="uid://cwa0eiwg4g2gs"]
 
 [ext_resource type="Script" uid="uid://blqt0f0xksbw4" path="res://enemies/asteroid/asteroid.gd" id="1_a7ws6"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="2_m8i42"]
 
 [node name="Asteroid" type="StaticBody2D"]
 script = ExtResource("1_a7ws6")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+
+[node name="WrapScreenComponent" type="Node2D" parent="."]
+script = ExtResource("2_m8i42")
+metadata/_custom_type_script = "uid://pcut6ho1ogu5"

@@ -1,31 +1,29 @@
 extends StaticBody2D
 
 const MAX_HEALTH: int = 3
-const AVG_SPEED := 100.0
+const AVG_SPEED := 150.0
 
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
 var health := MAX_HEALTH
+var vertices: PackedVector2Array
+var radius: float:
+	get: return min_radius * 2 ** (health - 1)
 
-@onready var vertices := create_vertices()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 
 
 func _ready() -> void:
-	collision_polygon_2d.polygon = vertices
-	rotation = PI / num_of_vertices
+	update_vertices()
+	randomize_velocities()
 	
-	constant_angular_velocity = randfn(0, PI / 2)
-	constant_linear_velocity = Vector2(
-		randfn(AVG_SPEED, 50),
-		randfn(AVG_SPEED, 50)
-	)
+	$WrapScreenComponent.border_offset = Vector2(radius, radius)
 
 
 func _process(delta: float) -> void:
 	rotation = lerp_angle(rotation, rotation + constant_angular_velocity, delta)
-	#position += constant_linear_velocity * delta
+	position += constant_linear_velocity * delta
 	
 	queue_redraw()
 
@@ -37,13 +35,18 @@ func _draw() -> void:
 	draw_polyline(vertices_repeat, Color("white"), 5, true)
 
 
+func update_vertices() -> void:
+	vertices = create_vertices()
+	collision_polygon_2d.polygon = vertices
+
+
 func create_vertices() -> PackedVector2Array:
 	var vertices_temp := PackedVector2Array()
 	
-	var radius := min_radius * 2 ** (health - 1)
+	var radius_temp := radius
 	for i in num_of_vertices:
 		var angle := deg_to_rad(i * 360.0 / num_of_vertices)
-		var random_radius := randf_range(radius/4, radius)
+		var random_radius := randf_range(radius_temp/4, radius_temp)
 		
 		var current_vertex := Vector2(
 			sin(angle) * random_radius,
@@ -53,3 +56,9 @@ func create_vertices() -> PackedVector2Array:
 		vertices_temp.append(current_vertex)
 	
 	return vertices_temp
+
+
+func randomize_velocities() -> void:
+	constant_angular_velocity = randfn(0, PI / 2)
+	var linear_direction := Vector2.from_angle(randf_range(0, TAU))
+	constant_linear_velocity = linear_direction * randfn(AVG_SPEED, 50)

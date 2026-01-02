@@ -9,6 +9,10 @@ const TURN_SPEED := TAU
 @onready var thruster_sprite: Sprite2D = $ThrusterSprite
 
 
+func _ready() -> void:
+	$WrapScreenComponent.border_offset = sprite_size / 2
+
+
 func _physics_process(delta: float) -> void:
 	var turn_direction := Input.get_axis("turn_left", "turn_right")
 	rotation += turn_direction * TURN_SPEED * delta
@@ -27,6 +31,3 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	
-	var border_offset := sprite_size / 2
-	global_position.x = wrapf(global_position.x, -border_offset.x, viewport_size.x + border_offset.x)
-	global_position.y = wrapf(global_position.y, -border_offset.y, viewport_size.y + border_offset.y)
