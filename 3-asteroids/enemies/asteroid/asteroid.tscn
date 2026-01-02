@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwa0eiwg4g2gs"]
+
+[ext_resource type="Script" uid="uid://blqt0f0xksbw4" path="res://enemies/asteroid/asteroid.gd" id="1_a7ws6"]
+
+[node name="Asteroid" type="StaticBody2D"]
+script = ExtResource("1_a7ws6")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
