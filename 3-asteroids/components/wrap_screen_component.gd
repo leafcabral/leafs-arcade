@@ -8,19 +8,18 @@ extends Node2D
 
 @export var border_offset: Vector2
 
+@onready var parent := get_parent()
 @onready var viewport_size: Vector2 = get_viewport_rect().size
 
 
 func _process(_delta: float) -> void:
-	var parent := get_parent()
-	
-	if parent and parent is Node2D:
+	if parent is Node2D:
 		parent.global_position = wrapVec2(
 			parent.global_position,
 			-border_offset,
 			viewport_size + border_offset
 		)
-	
+
 
 func wrapVec2(vector: Vector2, size_min: Vector2, size_max: Vector2) -> Vector2:
 	return Vector2(

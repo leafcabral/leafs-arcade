@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://x1yiry8tjsg7"]
+[gd_scene load_steps=6 format=3 uid="uid://x1yiry8tjsg7"]
 
 [ext_resource type="Script" uid="uid://bgt3pindiepvs" path="res://player/player.gd" id="1_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://clo7fftd8j65n" path="res://player/sprites/space-ship.png" id="1_rkbax"]
 [ext_resource type="Texture2D" uid="uid://cd8syf4soir6y" path="res://player/sprites/space-ship-thruster.png" id="2_g1dw6"]
 [ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://components/health_component.gd" id="5_qjkh3"]
 
 [node name="Player" type="CharacterBody2D"]
 scale = Vector2(0.5, 0.5)
@@ -29,3 +30,7 @@ polygon = PackedVector2Array(-2.272992e-06, -52, 34, 36, -34, 36)
 [node name="WrapScreenComponent" type="Node2D" parent="."]
 script = ExtResource("4_yw30f")
 metadata/_custom_type_script = "uid://pcut6ho1ogu5"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("5_qjkh3")
+metadata/_custom_type_script = "uid://cj5c3t6v1xf66"

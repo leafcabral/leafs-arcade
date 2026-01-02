@@ -1,17 +1,16 @@
 extends StaticBody2D
 
-const MAX_HEALTH: int = 3
 const AVG_SPEED := 150.0
 
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
-var health := MAX_HEALTH
 var vertices: PackedVector2Array
-var radius: float:
-	get: return min_radius * 2 ** (health - 1)
 
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var radius: float:
+	get: return min_radius * 2 ** (health_component.health - 1)
 
 
 func _ready() -> void:

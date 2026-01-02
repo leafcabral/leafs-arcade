@@ -25,6 +25,14 @@ window/size/viewport_height=600
 
 project/assembly_name="Leaf-s Arcade- Asteroids"
 
+[file_customization]
+
+folder_colors={
+"res://components/": "purple",
+"res://enemies/": "red",
+"res://player/": "green"
+}
+
 [input]
 
 turn_right={
