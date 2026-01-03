@@ -30,6 +30,7 @@ project/assembly_name="Leaf-s Arcade- Asteroids"
 folder_colors={
 "res://components/": "purple",
 "res://enemies/": "red",
+"res://others/": "yellow",
 "res://player/": "green"
 }
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://x1yiry8tjsg7"]
+[gd_scene load_steps=23 format=3 uid="uid://x1yiry8tjsg7"]
 
 [ext_resource type="Script" uid="uid://bgt3pindiepvs" path="res://player/player.gd" id="1_g1dw6"]
 [ext_resource type="Texture2D" uid="uid://clo7fftd8j65n" path="res://player/sprites/space-ship.png" id="1_rkbax"]
@@ -6,22 +6,67 @@
 [ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="4_yw30f"]
 [ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://components/health_component.gd" id="5_qjkh3"]
 
-[sub_resource type="Animation" id="Animation_qjkh3"]
-resource_name = "moving"
-length = 0.2
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ThrusterSprite:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
+[sub_resource type="Curve" id="Curve_qjkh3"]
+_data = [Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_g6k8r"]
+curve = SubResource("Curve_qjkh3")
+
+[sub_resource type="Gradient" id="Gradient_boad6"]
+offsets = PackedFloat32Array(0, 0.4245283)
+colors = PackedColorArray(0.3515629, 0.3515629, 0.35156286, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rgyib"]
+gradient = SubResource("Gradient_boad6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_qjkh3"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 2.085, 0)
+emission_shape_scale = Vector3(7, 1, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+angle_min = -89.99999
+angle_max = 90.000015
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 70.0
+initial_velocity_max = 90.0
+gravity = Vector3(0, 0, 0)
+scale_min = 3.0
+scale_max = 7.0
+color_initial_ramp = SubResource("GradientTexture1D_rgyib")
+alpha_curve = SubResource("CurveTexture_g6k8r")
+
+[sub_resource type="Gradient" id="Gradient_qjkh3"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g6k8r"]
+gradient = SubResource("Gradient_qjkh3")
+width = 2
+height = 32
+
+[sub_resource type="Curve" id="Curve_boad6"]
+_data = [Vector2(0.6969697, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rgyib"]
+curve = SubResource("Curve_boad6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hg6s5"]
+particle_flag_disable_z = true
+angle_min = -89.99999
+angle_max = 90.000015
+inherit_velocity_ratio = 0.5
+spread = 180.0
+initial_velocity_min = 82.35
+initial_velocity_max = 147.06
+angular_velocity_min = 79.999985
+angular_velocity_max = 159.99998
+gravity = Vector3(0, 0, 0)
+damping_min = 30.000002
+damping_max = 50.000004
+alpha_curve = SubResource("CurveTexture_rgyib")
 
 [sub_resource type="Animation" id="Animation_g6k8r"]
 length = 0.001
@@ -41,6 +86,71 @@ tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ThrusterTrail:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DeathEffect:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("MainSprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_qjkh3"]
+resource_name = "moving"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ThrusterSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ThrusterTrail:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -69,11 +179,47 @@ tracks/0/keys = {
 }
 tracks/1/type = "value"
 tracks/1/imported = false
-tracks/1/enabled = true
+tracks/1/enabled = false
 tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DeathEffect:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("MainSprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ThrusterSprite:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -87,13 +233,52 @@ _data = {
 &"respawn": SubResource("Animation_boad6")
 }
 
+[sub_resource type="Animation" id="Animation_hg6s5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = false
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ThrusterSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
 [sub_resource type="Animation" id="Animation_rgyib"]
 resource_name = "invincible"
 length = 0.1
 loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
-tracks/0/enabled = true
+tracks/0/enabled = false
 tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
@@ -103,20 +288,29 @@ tracks/0/keys = {
 "update": 1,
 "values": [false, true]
 }
-
-[sub_resource type="Animation" id="Animation_hg6s5"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("MainSprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [true]
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ThrusterSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8t03j"]
@@ -139,7 +333,6 @@ region_enabled = true
 region_rect = Rect2(26, 0, 78, 105)
 
 [node name="ThrusterSprite" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(-42, 0)
 rotation = 1.5707964
 texture = ExtResource("2_g1dw6")
@@ -148,6 +341,21 @@ offset = Vector2(0.5, 0)
 [node name="CollisionShape" type="CollisionPolygon2D" parent="."]
 rotation = 1.5707964
 polygon = PackedVector2Array(-2.272992e-06, -52, 34, 36, -34, 36)
+
+[node name="ThrusterTrail" type="GPUParticles2D" parent="."]
+position = Vector2(-42, 0)
+rotation = 1.5707964
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_qjkh3")
+
+[node name="DeathEffect" type="GPUParticles2D" parent="."]
+emitting = false
+texture = SubResource("GradientTexture2D_g6k8r")
+one_shot = true
+explosiveness = 1.0
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_hg6s5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

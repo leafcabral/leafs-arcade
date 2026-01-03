@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const MOVEMENT_SPEED := 300.0
+const MOVEMENT_SPEED := 350.0
 const TURN_SPEED := TAU
 
 @onready var initial_posiiton: Vector2 = position
