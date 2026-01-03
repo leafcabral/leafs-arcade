@@ -20,7 +20,7 @@ func _ready() -> void:
 	$WrapScreenComponent.border_offset = Vector2(radius, radius)
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	rotation = lerp_angle(rotation, rotation + constant_angular_velocity, delta)
 	position += constant_linear_velocity * delta
 	

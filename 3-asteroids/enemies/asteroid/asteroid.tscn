@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://components/health_component.gd" id="3_iay0t"]
 
 [node name="Asteroid" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_a7ws6")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]

@@ -4,9 +4,14 @@ extends CharacterBody2D
 const MOVEMENT_SPEED := 300.0
 const TURN_SPEED := TAU
 
+@onready var initial_posiiton: Vector2 = position
 @onready var viewport_size: Vector2 = get_viewport_rect().size
 @onready var sprite_size: Vector2 = $MainSprite.get_rect().size * scale
-@onready var thruster_sprite: Sprite2D = $ThrusterSprite
+
+@onready var collision_shape: CollisionPolygon2D = $CollisionShape
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var animation_player_2: AnimationPlayer = $AnimationPlayer2
 
 
 func _ready() -> void:
@@ -23,11 +28,37 @@ func _physics_process(delta: float) -> void:
 		var max_velocity := direction * MOVEMENT_SPEED
 		velocity = velocity.move_toward(max_velocity, acceleration)
 		
-		thruster_sprite.visible = not thruster_sprite.visible
+		if not animation_player.current_animation == "moving":
+			animation_player.play("moving")
 	else:
 		velocity = velocity.move_toward(Vector2(), acceleration / 2)
 		
-		thruster_sprite.visible = false
+		animation_player.play("RESET")
 	
 	move_and_slide()
+	handle_collisions()
+
+
+func handle_collisions() -> void:
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+		var collider: Node = collision.get_collider()
+		
+		if not collider.is_in_group("Player"):
+			health_component.take_damage()
+
+
+func take_damage(_damage: float) -> void:
+	set_physics_process(false)
+	animation_player.play("respawn")
+	await animation_player.animation_finished
+	animation_player_2.play("invincible")
 	
+	set_physics_process(true)
+	await health_component.invincibility_ended
+	animation_player_2.play("RESET")
+
+
+func respawn() -> void:
+	position = initial_posiiton
+	velocity = Vector2()

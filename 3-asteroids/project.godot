@@ -33,6 +33,11 @@ folder_colors={
 "res://player/": "green"
 }
 
+[global_group]
+
+Asteroids=""
+Players=""
+
 [input]
 
 turn_right={
@@ -60,6 +65,12 @@ shoot={
 , Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":1,"position":Vector2(201, 4),"global_position":Vector2(210, 52),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Asteroid"
+2d_physics/layer_3="Alien"
 
 [rendering]
 
