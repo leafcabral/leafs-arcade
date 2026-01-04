@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://7ojvpihm5shc"]
+
+[ext_resource type="Script" uid="uid://uencmpyn8oq3" path="res://projectiles/bullet.gd" id="1_a3dlt"]
+
+[sub_resource type="Gradient" id="Gradient_5md74"]
+interpolation_mode = 1
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fsry2"]
+gradient = SubResource("Gradient_5md74")
+width = 15
+height = 15
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.75, 0.25)
+metadata/_snap_enabled = true
+metadata/_snap_count = 8
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_sgjf5"]
+radius = 5.5
+
+[sub_resource type="Curve" id="Curve_a3dlt"]
+_data = [Vector2(0.70454544, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_4ambd"]
+curve = SubResource("Curve_a3dlt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_cqswp"]
+particle_flag_disable_z = true
+angle_min = -89.99999
+angle_max = 90.000015
+inherit_velocity_ratio = 1.0
+spread = 180.0
+initial_velocity_min = 24.0
+initial_velocity_max = 48.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.5
+alpha_curve = SubResource("CurveTexture_4ambd")
+
+[node name="Bullet" type="Area2D"]
+script = ExtResource("1_a3dlt")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_fsry2")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_sgjf5")
+
+[node name="LifetimeTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="DeathTimeExplosion" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_cqswp")
+
+[connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]
