@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://7ojvpihm5shc"]
+[gd_scene load_steps=12 format=3 uid="uid://7ojvpihm5shc"]
 
 [ext_resource type="Script" uid="uid://uencmpyn8oq3" path="res://projectiles/bullet.gd" id="1_a3dlt"]
 [ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="2_4ambd"]
@@ -40,6 +40,26 @@ scale_min = 0.5
 scale_max = 2.5
 alpha_curve = SubResource("CurveTexture_4ambd")
 
+[sub_resource type="Curve" id="Curve_4ambd"]
+_data = [Vector2(0.70454544, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cqswp"]
+curve = SubResource("Curve_4ambd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oovtv"]
+particle_flag_disable_z = true
+angle_min = -89.99999
+angle_max = 90.000015
+inherit_velocity_ratio = -0.5
+spread = 180.0
+initial_velocity_min = 24.0
+initial_velocity_max = 48.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 2.5
+alpha_curve = SubResource("CurveTexture_cqswp")
+
 [node name="Bullet" type="Area2D"]
 script = ExtResource("1_a3dlt")
 
@@ -60,8 +80,17 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_cqswp")
 
+[node name="DeathCollisionExplosion" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 32
+lifetime = 0.75
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_oovtv")
+
 [node name="WrapScreenComponent" type="Node2D" parent="."]
 script = ExtResource("2_4ambd")
 metadata/_custom_type_script = "uid://pcut6ho1ogu5"
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]
