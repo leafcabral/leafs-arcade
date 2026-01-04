@@ -6,6 +6,7 @@ static var num_of_vertices: int = 8
 
 var vertices: PackedVector2Array
 
+@onready var parent := get_parent()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var radius: float:
@@ -60,3 +61,9 @@ func randomize_velocities() -> void:
 	constant_angular_velocity = randfn(0, PI / 2)
 	var linear_direction := Vector2.from_angle(randf_range(0, TAU))
 	constant_linear_velocity = linear_direction * randfn(AVG_SPEED, 50)
+
+
+func take_damage(_damage: float) -> void:
+	update_vertices()
+	var other_asteroid := duplicate()
+	parent.add_child(other_asteroid)
