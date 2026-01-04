@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://7ojvpihm5shc"]
+[gd_scene load_steps=9 format=3 uid="uid://7ojvpihm5shc"]
 
 [ext_resource type="Script" uid="uid://uencmpyn8oq3" path="res://projectiles/bullet.gd" id="1_a3dlt"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="2_4ambd"]
 
 [sub_resource type="Gradient" id="Gradient_5md74"]
 interpolation_mode = 1
@@ -58,5 +59,9 @@ lifetime = 0.75
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_cqswp")
+
+[node name="WrapScreenComponent" type="Node2D" parent="."]
+script = ExtResource("2_4ambd")
+metadata/_custom_type_script = "uid://pcut6ho1ogu5"
 
 [connection signal="timeout" from="LifetimeTimer" to="." method="_on_lifetime_timer_timeout"]

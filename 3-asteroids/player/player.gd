@@ -9,9 +9,10 @@ const TURN_SPEED := TAU
 @onready var sprite_size: Vector2 = $MainSprite.get_rect().size * scale
 
 @onready var collision_shape: CollisionPolygon2D = $CollisionShape
-@onready var health_component: HealthComponent = $HealthComponent
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var animation_player_2: AnimationPlayer = $AnimationPlayer2
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var shot_component: ShotComponent = $ShotComponent
 
 
 func _ready() -> void:
@@ -23,8 +24,8 @@ func _physics_process(delta: float) -> void:
 	rotation += turn_direction * TURN_SPEED * delta
 	
 	var acceleration := MOVEMENT_SPEED * delta
+	var direction := Vector2.from_angle(rotation)
 	if Input.is_action_pressed("thurster"):
-		var direction := Vector2.from_angle(rotation)
 		var max_velocity := direction * MOVEMENT_SPEED
 		velocity = velocity.move_toward(max_velocity, acceleration)
 		
@@ -37,6 +38,9 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 	handle_collisions()
+	
+	if Input.is_action_pressed("shoot"):
+		shot_component.shot(get_parent(), direction)
 
 
 func handle_collisions() -> void:

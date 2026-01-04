@@ -18,8 +18,13 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_lifetime_timer_timeout() -> void:
+	suicide()
+
+
+func suicide() -> void:
+	$Sprite.visible = false
+	$CollisionShape.disabled = true
 	death_time_explosion.emitting = true
-	
 	await death_time_explosion.finished
-	
 	queue_free()
+	

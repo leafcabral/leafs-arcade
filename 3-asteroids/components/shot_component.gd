@@ -1,4 +1,4 @@
-class_name ShootComponent
+class_name ShotComponent
 extends Node2D
 
 
@@ -21,12 +21,17 @@ func _ready() -> void:
 	shot_cooldown.one_shot = true
 
 
-func shoot(super_parent: Node, direction: Vector2) -> void:
-	var bullet: Bullet = BULLET.instantiate()
-	bullet.velocity = direction * speed
-	bullet.global_position = global_position
-	for i in parent_groups:
-		bullet.add_to_group(i)
-	
-	super_parent.add_child(bullet)
-	
+func shot(super_parent: Node, direction: Vector2) -> void:
+	if can_shot():
+		shot_cooldown.start(shot_delay)
+		
+		var bullet: Bullet = BULLET.instantiate()
+		bullet.velocity = direction * speed
+		bullet.global_position = global_position
+		for i in parent_groups:
+			bullet.add_to_group(i)
+		
+		super_parent.add_child(bullet)
+
+func can_shot() -> bool:
+	return shot_cooldown.is_stopped()
