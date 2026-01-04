@@ -17,4 +17,6 @@ metadata/_custom_type_script = "uid://pcut6ho1ogu5"
 
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_iay0t")
+invincibility_time = 0.1
+should_free_after_death = true
 metadata/_custom_type_script = "uid://cj5c3t6v1xf66"

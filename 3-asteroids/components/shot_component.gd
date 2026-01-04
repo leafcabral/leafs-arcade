@@ -12,7 +12,6 @@ const BULLET: PackedScene = preload("uid://7ojvpihm5shc")
 
 
 @onready var parent := get_parent()
-@onready var parent_groups := parent.get_groups()
 @onready var shot_cooldown := Timer.new()
 
 
@@ -32,8 +31,7 @@ func shot(super_parent: Node, direction: Vector2) -> void:
 		
 		bullet.collision_layer = parent.collision_layer
 		bullet.collision_mask =  parent.collision_mask
-		for i in parent_groups:
-			bullet.add_to_group(i)
+		Global.apply_groups(parent, bullet)
 		
 		super_parent.add_child(bullet)
 

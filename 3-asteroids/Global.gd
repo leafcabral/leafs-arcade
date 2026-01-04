@@ -24,3 +24,8 @@ func time_to_string(time: float, hanging_zero := true, show_ms := false, ommit_h
 		format = format.remove_chars("02")
 	
 	return format % values
+
+
+func apply_groups(from: Node, to: Node) -> void:
+	for i in from.get_groups():
+		to.add_to_group(i)

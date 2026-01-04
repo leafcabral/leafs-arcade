@@ -45,4 +45,5 @@ func _on_body_entered(body: Node2D) -> void:
 			break
 	
 	if not group_match:
+		body.health_component.take_damage()
 		delete_itself(true)

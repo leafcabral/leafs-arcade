@@ -1,7 +1,6 @@
 extends StaticBody2D
 
-const AVG_SPEED := 150.0
-
+static var AVG_SPEED := 100.0
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
@@ -22,7 +21,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	rotation = lerp_angle(rotation, rotation + constant_angular_velocity, delta)
-	position += constant_linear_velocity * delta
+	move_and_collide(constant_linear_velocity * delta)
 	
 	queue_redraw()
 
