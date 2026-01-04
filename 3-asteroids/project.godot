@@ -16,6 +16,10 @@ run/main_scene="res://main_loop.tscn"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="uid://cfetr2yvmag3d"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [display]
 
 window/size/viewport_width=800
@@ -31,7 +35,9 @@ folder_colors={
 "res://components/": "purple",
 "res://enemies/": "red",
 "res://others/": "yellow",
-"res://player/": "green"
+"res://player/": "green",
+"res://projectiles/": "blue",
+"res://style/": "pink"
 }
 
 [global_group]

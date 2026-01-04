@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cc3pj8ggopno0"]
+
+[ext_resource type="Texture2D" uid="uid://clo7fftd8j65n" path="res://player/sprites/space-ship.png" id="1_tj4ub"]
+
+[node name="TextureRect" type="TextureRect"]
+texture = ExtResource("1_tj4ub")
+expand_mode = 2

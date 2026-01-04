@@ -1,23 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://y7s6ropqpkwv"]
+[gd_scene load_steps=6 format=3 uid="uid://y7s6ropqpkwv"]
 
+[ext_resource type="Script" uid="uid://bdj04s5hy07xc" path="res://main_loop.gd" id="1_4ytva"]
+[ext_resource type="PackedScene" uid="uid://xypeueubkqt8" path="res://others/background.tscn" id="1_5mxxk"]
 [ext_resource type="PackedScene" uid="uid://x1yiry8tjsg7" path="res://player/player.tscn" id="1_230xs"]
 [ext_resource type="PackedScene" uid="uid://cwa0eiwg4g2gs" path="res://enemies/asteroid/asteroid.tscn" id="2_ns238"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_230xs"]
-bg_color = Color(0, 0, 0, 1)
+[ext_resource type="PackedScene" uid="uid://c5em8b0l3jcnd" path="res://others/hud.tscn" id="4_4ytva"]
 
 [node name="MainLoop" type="Node2D"]
+script = ExtResource("1_4ytva")
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="ColorRect" type="Panel" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_230xs")
+[node name="Background" parent="." instance=ExtResource("1_5mxxk")]
 
 [node name="Player" parent="." instance=ExtResource("1_230xs")]
 position = Vector2(400, 300)
@@ -30,3 +22,5 @@ position = Vector2(429, 495)
 
 [node name="Asteroid3" parent="." instance=ExtResource("2_ns238")]
 position = Vector2(209, 139)
+
+[node name="HUD" parent="." instance=ExtResource("4_4ytva")]

@@ -62,3 +62,11 @@ func take_damage(_damage: float) -> void:
 func respawn() -> void:
 	position = initial_posiiton
 	velocity = Vector2()
+
+
+func get_max_health() -> int:
+	return health_component.MAX_HEALTH
+
+
+func get_health() -> float:
+	return health_component.health

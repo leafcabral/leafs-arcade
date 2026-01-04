@@ -14,6 +14,7 @@ signal died
 
 @export_range(1, 10, 1, "or_greater") var MAX_HEALTH := 3
 @export_range(0, 5, 0.1, "suffix:s") var invincibility_time := 0.5
+@export var should_free_after_death := false
 
 var health: float
 
@@ -44,7 +45,7 @@ func take_damage(damage: float = 1.0) -> void:
 		
 		if parent.has_method("die"):
 			parent.die()
-		else:
+		elif should_free_after_death:
 			parent.queue_free()
 
 
