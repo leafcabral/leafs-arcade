@@ -77,7 +77,7 @@ func randomize_velocities() -> void:
 func die() -> void:
 	asteroid_hit.emit(size)
 	
-	if size <= 0:
+	if size <= 1:
 		return
 	
 	for i in 2:
