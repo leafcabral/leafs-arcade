@@ -23,7 +23,7 @@ var health: float
 
 
 func _ready() -> void:
-	health = MAX_HEALTH
+	reset_health()
 	
 	add_child(hit_cooldown)
 	hit_cooldown.timeout.connect(func(): invincibility_ended.emit())
@@ -56,5 +56,10 @@ func is_invincible() -> bool:
 func make_invincible(time: float = invincibility_time) -> void:
 	hit_cooldown.start(time)
 
+
 func is_dead() -> bool:
 	return health <= 0
+
+
+func reset_health() -> void:
+	health = MAX_HEALTH

@@ -47,3 +47,7 @@ func pause_unpause() -> void:
 func show_death_message() -> void:
 	death_message.show()
 	death_message.create_tween().tween_property(death_message, "modulate", Color("white"), 2)
+
+func hide_death_message() -> void:
+	death_message.hide()
+	death_message.modulate = Color("white", 0)

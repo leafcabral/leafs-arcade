@@ -71,14 +71,18 @@ func die() -> void:
 	died.emit()
 
 
-func respawn() -> void:
+func respawn(reset_health := false) -> void:
 	position = initial_posiiton
+	rotation = 0
 	velocity = Vector2()
+
+	if reset_health:
+		health_component.reset_health()
 
 
 func get_max_health() -> int:
 	return health_component.MAX_HEALTH
 
 
-func get_health() -> float:
-	return health_component.health
+func get_health() -> int:
+	return int(health_component.health)
