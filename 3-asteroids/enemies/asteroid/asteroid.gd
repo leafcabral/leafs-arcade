@@ -23,7 +23,12 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	rotation = lerp_angle(rotation, rotation + constant_angular_velocity, delta)
-	move_and_collide(constant_linear_velocity * delta)
+	var collision := move_and_collide(constant_linear_velocity * delta)
+	
+	if collision:
+		var collider: Node = collision.get_collider()
+		if collider.is_in_group("Players") and not collider.is_in_group("Bullets"):
+			constant_linear_velocity = constant_linear_velocity.bounce(collision.get_normal())
 	
 	queue_redraw()
 

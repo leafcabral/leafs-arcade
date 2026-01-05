@@ -60,7 +60,7 @@ scale_min = 0.5
 scale_max = 2.5
 alpha_curve = SubResource("CurveTexture_cqswp")
 
-[node name="Bullet" type="Area2D" groups=["Bullet"]]
+[node name="Bullet" type="Area2D" groups=["Bullets"]]
 script = ExtResource("1_a3dlt")
 
 [node name="Sprite" type="Sprite2D" parent="."]
