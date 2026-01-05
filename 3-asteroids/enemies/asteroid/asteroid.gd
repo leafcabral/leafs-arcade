@@ -32,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	
 	if collision:
 		var collider: Node = collision.get_collider()
-		if collider.is_in_group("Players") and not collider.is_in_group("Bullets"):
+		if collider is Player:
 			constant_linear_velocity = constant_linear_velocity.bounce(collision.get_normal())
 	
 	queue_redraw()
