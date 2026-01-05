@@ -1,16 +1,17 @@
 extends StaticBody2D
 
-static var AVG_SPEED := 100.0
+static var AVG_SPEED := 150.0
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
 var vertices: PackedVector2Array
+var size := 3.0
 
 @onready var parent := get_parent()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var radius: float:
-	get: return min_radius * 2 ** (health_component.health - 1)
+	get: return min_radius * 2 ** (size - 1)
 
 
 func _ready() -> void:
@@ -63,7 +64,11 @@ func randomize_velocities() -> void:
 	constant_linear_velocity = linear_direction * randfn(AVG_SPEED, 50)
 
 
-func take_damage(_damage: float) -> void:
-	update_vertices()
-	var other_asteroid := duplicate()
-	parent.add_child(other_asteroid)
+func die() -> void:
+	if size <= 0:
+		return
+	
+	for i in 2:
+		var new_asteroid := duplicate()
+		new_asteroid.size = size - 1
+		parent.call_deferred("add_child", new_asteroid)
