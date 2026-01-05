@@ -4,6 +4,7 @@ extends Area2D
 
 var lifetime := 2.0
 var velocity := Vector2()
+var emitter: Node2D
 
 @onready var lifetime_timer: Timer = $LifetimeTimer
 @onready var death_time_explosion: GPUParticles2D = $DeathTimeExplosion
@@ -36,14 +37,6 @@ func delete_itself(with_collision := false) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	var groups := get_groups()
-	var group_match := false
-	
-	for i in body.get_groups():
-		if groups.has(i):
-			group_match = true
-			break
-	
-	if not group_match:
+	if body is Asteroid or not is_instance_of(body, emitter):
 		body.health_component.take_damage()
 		delete_itself(true)

@@ -83,4 +83,4 @@ func die() -> void:
 	for i in 2:
 		var new_asteroid := duplicate()
 		new_asteroid.size = size - 1
-		Global.get_scene_node().call_deferred("add_child", new_asteroid)
+		Global.get_scene_node().world.call_deferred("add_child", new_asteroid)

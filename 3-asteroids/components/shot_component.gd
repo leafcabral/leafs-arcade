@@ -21,7 +21,7 @@ func _ready() -> void:
 	shot_cooldown.one_shot = true
 
 
-func shot(direction: Vector2, super_parent := Global.get_scene_node()) -> void:
+func shot(direction: Vector2, super_parent: Node = Global.get_scene_node().world) -> void:
 	if can_shot():
 		shot_cooldown.start(shot_delay)
 		
@@ -31,7 +31,8 @@ func shot(direction: Vector2, super_parent := Global.get_scene_node()) -> void:
 		
 		bullet.collision_layer = parent.collision_layer
 		bullet.collision_mask =  parent.collision_mask
-		Global.apply_groups(parent, bullet)
+		
+		bullet.emitter = parent
 		
 		super_parent.add_child(bullet)
 

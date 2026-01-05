@@ -7,25 +7,30 @@
 [ext_resource type="PackedScene" uid="uid://c5em8b0l3jcnd" path="res://others/hud.tscn" id="4_4ytva"]
 
 [node name="MainLoop" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_4ytva")
 
 [node name="Background" parent="." instance=ExtResource("1_5mxxk")]
 
-[node name="Player" parent="." instance=ExtResource("1_230xs")]
+[node name="World" type="Node" parent="."]
+process_mode = 1
+
+[node name="Player" parent="World" instance=ExtResource("1_230xs")]
 position = Vector2(400, 300)
 
-[node name="Asteroid" parent="." instance=ExtResource("2_ns238")]
+[node name="Asteroid" parent="World" instance=ExtResource("2_ns238")]
 position = Vector2(584, 187)
 
-[node name="Asteroid2" parent="." instance=ExtResource("2_ns238")]
+[node name="Asteroid2" parent="World" instance=ExtResource("2_ns238")]
 position = Vector2(429, 495)
 
-[node name="Asteroid3" parent="." instance=ExtResource("2_ns238")]
+[node name="Asteroid3" parent="World" instance=ExtResource("2_ns238")]
 position = Vector2(209, 139)
 
 [node name="HUD" parent="." instance=ExtResource("4_4ytva")]
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
-[connection signal="asteroid_hit" from="Asteroid" to="." method="_on_asteroid_hit"]
-[connection signal="asteroid_hit" from="Asteroid2" to="." method="_on_asteroid_hit"]
-[connection signal="asteroid_hit" from="Asteroid3" to="." method="_on_asteroid_hit"]
+[connection signal="died" from="World/Player" to="." method="_on_player_died"]
+[connection signal="asteroid_hit" from="World/Asteroid" to="." method="_on_asteroid_hit"]
+[connection signal="asteroid_hit" from="World/Asteroid2" to="." method="_on_asteroid_hit"]
+[connection signal="asteroid_hit" from="World/Asteroid3" to="." method="_on_asteroid_hit"]

@@ -2,6 +2,9 @@ class_name Player
 extends CharacterBody2D
 
 
+signal died
+
+
 const MOVEMENT_SPEED := 350.0
 const TURN_SPEED := TAU
 
@@ -62,6 +65,10 @@ func take_damage(_damage: float) -> void:
 	set_physics_process(true)
 	await health_component.invincibility_ended
 	animation_player_2.play("RESET")
+
+
+func die() -> void:
+	died.emit()
 
 
 func respawn() -> void:

@@ -1,3 +1,4 @@
+class_name HUD
 extends CanvasLayer
 
 
@@ -8,6 +9,8 @@ var health_nodes: Array[TextureRect] = []
 @onready var score: Label = $RoundStats/Score
 @onready var time: Label = $RoundStats/Time
 @onready var life_container: HBoxContainer = $Lifes/Container
+@onready var paused_overlay: ColorRect = $PausedOverlay
+@onready var death_message: RichTextLabel = $DeathMessage
 
 
 func create_life_nodes(max_amount: int) -> void:
@@ -35,3 +38,12 @@ func update_score(new_score: int) -> void:
 
 func update_timer(time_seconds: float) -> void:
 	time.text = Global.time_to_string(time_seconds)
+
+
+func pause_unpause() -> void:
+	paused_overlay.visible = not paused_overlay.visible
+
+
+func show_death_message() -> void:
+	death_message.show()
+	death_message.create_tween().tween_property(death_message, "modulate", Color("white"), 2)
