@@ -40,7 +40,7 @@ func _physics_process(delta: float) -> void:
 	handle_collisions()
 	
 	if Input.is_action_pressed("shoot"):
-		shot_component.shot(get_parent(), direction)
+		shot_component.shot(direction)
 
 
 func handle_collisions() -> void:

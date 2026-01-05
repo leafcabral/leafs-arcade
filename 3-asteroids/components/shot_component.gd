@@ -21,7 +21,7 @@ func _ready() -> void:
 	shot_cooldown.one_shot = true
 
 
-func shot(super_parent: Node, direction: Vector2) -> void:
+func shot(direction: Vector2, super_parent := Global.get_scene_node()) -> void:
 	if can_shot():
 		shot_cooldown.start(shot_delay)
 		

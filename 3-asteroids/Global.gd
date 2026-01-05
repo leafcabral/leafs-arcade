@@ -29,3 +29,7 @@ func time_to_string(time: float, hanging_zero := true, show_ms := false, ommit_h
 func apply_groups(from: Node, to: Node) -> void:
 	for i in from.get_groups():
 		to.add_to_group(i)
+
+
+func get_scene_node() -> Node:
+	return get_tree().current_scene
