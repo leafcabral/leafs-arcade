@@ -1,11 +1,16 @@
+class_name Asteroid
 extends StaticBody2D
+
+
+signal asteroid_hit(size: int)
+
 
 static var AVG_SPEED := 150.0
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
 var vertices: PackedVector2Array
-var size := 3.0
+var size: int = 3
 
 @onready var parent := get_parent()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
@@ -70,6 +75,8 @@ func randomize_velocities() -> void:
 
 
 func die() -> void:
+	asteroid_hit.emit(size)
+	
 	if size <= 0:
 		return
 	

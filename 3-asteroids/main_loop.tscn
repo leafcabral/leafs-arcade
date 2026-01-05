@@ -24,3 +24,8 @@ position = Vector2(429, 495)
 position = Vector2(209, 139)
 
 [node name="HUD" parent="." instance=ExtResource("4_4ytva")]
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="asteroid_hit" from="Asteroid" to="." method="_on_asteroid_hit"]
+[connection signal="asteroid_hit" from="Asteroid2" to="." method="_on_asteroid_hit"]
+[connection signal="asteroid_hit" from="Asteroid3" to="." method="_on_asteroid_hit"]
