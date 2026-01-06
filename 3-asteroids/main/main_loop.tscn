@@ -3,8 +3,13 @@
 [ext_resource type="Script" uid="uid://bdj04s5hy07xc" path="res://main/main_loop.gd" id="1_4ytva"]
 [ext_resource type="PackedScene" uid="uid://xypeueubkqt8" path="res://ui/background.tscn" id="1_5mxxk"]
 [ext_resource type="PackedScene" uid="uid://x1yiry8tjsg7" path="res://entities/player/player.tscn" id="1_230xs"]
-[ext_resource type="PackedScene" uid="uid://cwa0eiwg4g2gs" path="res://entities/asteroid/asteroid.tscn" id="2_ns238"]
 [ext_resource type="PackedScene" uid="uid://c5em8b0l3jcnd" path="res://ui/hud/hud.tscn" id="4_4ytva"]
+
+[sub_resource type="Curve2D" id="Curve2D_g5tep"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 800, 0, 0, 0, 0, 0, 800, 600, 0, 0, 0, 0, 0, 600, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
 
 [node name="MainLoop" type="Node2D"]
 process_mode = 3
@@ -15,22 +20,16 @@ script = ExtResource("1_4ytva")
 [node name="World" type="Node" parent="."]
 process_mode = 1
 
-[node name="Player" parent="World" instance=ExtResource("1_230xs")]
+[node name="WorldBorder" type="Path2D" parent="World"]
+curve = SubResource("Curve2D_g5tep")
+
+[node name="WorldCenter" type="Marker2D" parent="World"]
 position = Vector2(400, 300)
 
-[node name="Asteroid" parent="World" instance=ExtResource("2_ns238")]
-position = Vector2(584, 187)
-
-[node name="Asteroid2" parent="World" instance=ExtResource("2_ns238")]
-position = Vector2(429, 495)
-
-[node name="Asteroid3" parent="World" instance=ExtResource("2_ns238")]
-position = Vector2(209, 139)
+[node name="Player" parent="World" instance=ExtResource("1_230xs")]
+position = Vector2(400, 300)
 
 [node name="HUD" parent="." instance=ExtResource("4_4ytva")]
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="died" from="World/Player" to="." method="_on_player_died"]
-[connection signal="asteroid_hit" from="World/Asteroid" to="." method="_on_asteroid_hit"]
-[connection signal="asteroid_hit" from="World/Asteroid2" to="." method="_on_asteroid_hit"]
-[connection signal="asteroid_hit" from="World/Asteroid3" to="." method="_on_asteroid_hit"]

@@ -5,18 +5,23 @@ extends StaticBody2D
 signal asteroid_hit(size: int)
 
 
-static var AVG_SPEED := 150.0
+static var max_size := 3
+static var avg_speed := 150.0
 static var min_radius := 32.0
 static var num_of_vertices: int = 8
 
 var vertices: PackedVector2Array
-var size: int = 3
+var size: int = max_size
 
 @onready var parent := get_parent()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var radius: float:
 	get: return min_radius * 2 ** (size - 1)
+
+
+static func get_max_radius() -> float:
+	return min_radius * 2 ** (max_size - 1)
 
 
 func _ready() -> void:
@@ -71,7 +76,7 @@ func create_vertices() -> PackedVector2Array:
 func randomize_velocities() -> void:
 	constant_angular_velocity = randfn(0, PI / 2)
 	var linear_direction := Vector2.from_angle(randf_range(0, TAU))
-	constant_linear_velocity = linear_direction * randfn(AVG_SPEED, 50)
+	constant_linear_velocity = linear_direction * randfn(avg_speed, 50)
 
 
 func die() -> void:
