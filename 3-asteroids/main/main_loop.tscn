@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://y7s6ropqpkwv"]
+[gd_scene load_steps=7 format=3 uid="uid://y7s6ropqpkwv"]
 
 [ext_resource type="Script" uid="uid://bdj04s5hy07xc" path="res://main/main_loop.gd" id="1_4ytva"]
 [ext_resource type="PackedScene" uid="uid://xypeueubkqt8" path="res://ui/background.tscn" id="1_5mxxk"]
 [ext_resource type="PackedScene" uid="uid://x1yiry8tjsg7" path="res://entities/player/player.tscn" id="1_230xs"]
+[ext_resource type="Script" uid="uid://du7qxxrx1x8af" path="res://main/world.gd" id="3_g5tep"]
 [ext_resource type="PackedScene" uid="uid://c5em8b0l3jcnd" path="res://ui/hud/hud.tscn" id="4_4ytva"]
 
 [sub_resource type="Curve2D" id="Curve2D_g5tep"]
@@ -19,6 +20,7 @@ script = ExtResource("1_4ytva")
 
 [node name="World" type="Node" parent="."]
 process_mode = 1
+script = ExtResource("3_g5tep")
 
 [node name="WorldBorder" type="Path2D" parent="World"]
 curve = SubResource("Curve2D_g5tep")
@@ -32,4 +34,6 @@ position = Vector2(400, 300)
 [node name="HUD" parent="." instance=ExtResource("4_4ytva")]
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_entered_tree" from="World" to="World" method="_on_child_entered_tree"]
+[connection signal="score_increased" from="World" to="." method="_on_world_score_increased"]
 [connection signal="died" from="World/Player" to="." method="_on_player_died"]

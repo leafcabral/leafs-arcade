@@ -40,6 +40,7 @@ func _process(delta: float) -> void:
 
 
 func new_game() -> void:
+	score = 0
 	hud.hide_death_message()
 	hud.create_life_nodes(player.get_max_health())
 	player.respawn(true)
@@ -62,17 +63,11 @@ func spawn_asteroid() -> void:
 		world.add_child(asteroid)
 
 
-func _on_asteroid_hit(size: int) -> void:
-	score += int(100.0 / 2 ** (size - 1))
-
-
-func _on_child_entered_tree(node: Node) -> void:
-	if node is Asteroid:
-		if not node.is_connected("asteroid_hit", _on_asteroid_hit):
-			node.connect("asteroid_hit", _on_asteroid_hit)
-
-
 func _on_player_died() -> void:
 	is_player_dead = true
 	hud.show_death_message()
 	world.remove_child(player)
+
+
+func _on_world_score_increased(increase: int) -> void:
+	score += increase
