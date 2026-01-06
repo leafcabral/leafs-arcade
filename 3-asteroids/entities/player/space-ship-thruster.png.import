@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cd8syf4soir6y"
-path="res://.godot/imported/space-ship-thruster.png-fee1d7744f01c7f82ee903d175e46946.ctex"
+path="res://.godot/imported/space-ship-thruster.png-2ef489001162007bc01d081ffa22e1fa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player/sprites/space-ship-thruster.png"
-dest_files=["res://.godot/imported/space-ship-thruster.png-fee1d7744f01c7f82ee903d175e46946.ctex"]
+source_file="res://entities/player/space-ship-thruster.png"
+dest_files=["res://.godot/imported/space-ship-thruster.png-2ef489001162007bc01d081ffa22e1fa.ctex"]
 
 [params]
 

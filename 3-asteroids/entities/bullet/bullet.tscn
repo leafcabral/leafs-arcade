@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://7ojvpihm5shc"]
 
-[ext_resource type="Script" uid="uid://uencmpyn8oq3" path="res://projectiles/bullet.gd" id="1_a3dlt"]
-[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="2_4ambd"]
+[ext_resource type="Script" uid="uid://uencmpyn8oq3" path="res://entities/bullet/bullet.gd" id="1_a3dlt"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/wrap_screen_component.gd" id="2_4ambd"]
 
 [sub_resource type="Gradient" id="Gradient_5md74"]
 interpolation_mode = 1

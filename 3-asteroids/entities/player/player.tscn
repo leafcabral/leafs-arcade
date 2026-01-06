@@ -1,11 +1,11 @@
 [gd_scene load_steps=24 format=3 uid="uid://x1yiry8tjsg7"]
 
-[ext_resource type="Script" uid="uid://bgt3pindiepvs" path="res://player/player.gd" id="1_g1dw6"]
-[ext_resource type="Texture2D" uid="uid://clo7fftd8j65n" path="res://player/sprites/space-ship.png" id="1_rkbax"]
-[ext_resource type="Texture2D" uid="uid://cd8syf4soir6y" path="res://player/sprites/space-ship-thruster.png" id="2_g1dw6"]
-[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="4_yw30f"]
-[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://components/health_component.gd" id="5_qjkh3"]
-[ext_resource type="Script" uid="uid://c05ng7tfcrvw6" path="res://components/shot_component.gd" id="6_g6k8r"]
+[ext_resource type="Script" uid="uid://bgt3pindiepvs" path="res://entities/player/player.gd" id="1_g1dw6"]
+[ext_resource type="Texture2D" uid="uid://clo7fftd8j65n" path="res://entities/player/space-ship.png" id="1_rkbax"]
+[ext_resource type="Texture2D" uid="uid://cd8syf4soir6y" path="res://entities/player/space-ship-thruster.png" id="2_g1dw6"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/wrap_screen_component.gd" id="4_yw30f"]
+[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://common/health_component.gd" id="5_qjkh3"]
+[ext_resource type="Script" uid="uid://c05ng7tfcrvw6" path="res://common/shot_component.gd" id="6_g6k8r"]
 
 [sub_resource type="Curve" id="Curve_qjkh3"]
 _data = [Vector2(0.75, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]

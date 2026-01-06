@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://cwa0eiwg4g2gs"]
 
-[ext_resource type="Script" uid="uid://blqt0f0xksbw4" path="res://enemies/asteroid/asteroid.gd" id="1_a7ws6"]
-[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://components/wrap_screen_component.gd" id="2_m8i42"]
-[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://components/health_component.gd" id="3_iay0t"]
+[ext_resource type="Script" uid="uid://blqt0f0xksbw4" path="res://entities/asteroid/asteroid.gd" id="1_a7ws6"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/wrap_screen_component.gd" id="2_m8i42"]
+[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://common/health_component.gd" id="3_iay0t"]
 
 [node name="Asteroid" type="StaticBody2D" groups=["Asteroids"]]
 collision_layer = 2
