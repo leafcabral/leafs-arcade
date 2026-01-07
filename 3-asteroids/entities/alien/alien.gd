@@ -8,11 +8,23 @@ var direction := Vector2.from_angle(randf_range(0, TAU))
 var speed := randfn(AVG_SPEED, 50)
 
 @onready var sprite: Sprite2D = $Sprite
+@onready var health_component: HealthComponent = $HealthComponent
 
 
 func _physics_process(_delta: float) -> void:
 	velocity = direction * speed
 	move_and_slide()
+	
+	handle_collisions()
+
+
+func handle_collisions() -> void:
+	for i in get_slide_collision_count():
+		var collision := get_slide_collision(i)
+		var collider: Node = collision.get_collider()
+		
+		if collider is Asteroid:
+			direction = direction.bounce(collision.get_normal())
 
 
 func _on_change_velocity_timeout() -> void:
