@@ -5,6 +5,7 @@ extends CanvasLayer
 const PLAYER_LIFE_TEXTURE_RECT: PackedScene = preload("uid://cc3pj8ggopno0")
 
 var health_nodes: Array[TextureRect] = []
+var max_health: int
 
 @onready var score: Label = $RoundStats/Score
 @onready var time: Label = $RoundStats/Time
@@ -13,7 +14,15 @@ var health_nodes: Array[TextureRect] = []
 @onready var death_message: RichTextLabel = $DeathMessage
 
 
+func reset_hud() -> void:
+	score.text = "0"
+	time.text = Global.time_to_string(0)
+	update_health(max_health)
+
+
 func create_life_nodes(max_amount: int) -> void:
+	max_health = max_amount
+	
 	for i in health_nodes:
 		i.queue_free()
 	health_nodes.clear()

@@ -2,6 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 
+signal took_damage(damage: float)
 signal died
 
 
@@ -56,7 +57,9 @@ func handle_collisions() -> void:
 			health_component.take_damage()
 
 
-func take_damage(_damage: float) -> void:
+func take_damage(damage: float) -> void:
+	took_damage.emit(damage)
+	
 	set_physics_process(false)
 	animation_player.play("respawn")
 	await animation_player.animation_finished
