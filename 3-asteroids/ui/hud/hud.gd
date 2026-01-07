@@ -14,13 +14,6 @@ var max_health: int
 @onready var death_message: RichTextLabel = $DeathMessage
 
 
-func reset_hud() -> void:
-	score.text = "0"
-	time.text = Global.time_to_string(0)
-	update_health(max_health)
-	hide_death_message()
-
-
 func create_life_nodes(max_amount: int) -> void:
 	max_health = max_amount
 	
@@ -32,6 +25,13 @@ func create_life_nodes(max_amount: int) -> void:
 		var health: TextureRect = PLAYER_LIFE_TEXTURE_RECT.instantiate()
 		life_container.add_child(health)
 		health_nodes.append(health)
+
+
+func reset_hud() -> void:
+	score.text = "0"
+	time.text = Global.time_to_string(0)
+	update_health(max_health)
+	hide_death_message()
 
 
 func update_health(new_health: int) -> void:

@@ -10,6 +10,8 @@ var time_elapsed := 0.0
 
 func _ready() -> void:
 	hud.create_life_nodes(world.get_player_current_health())
+	hud.reset_hud()
+	
 	new_game()
 
 

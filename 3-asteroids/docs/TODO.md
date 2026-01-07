@@ -9,7 +9,6 @@ defeated by them, but they can also be killed by asteroids.
 ## Fixes
 - Message: Condition "p_child->data.parent != this" is true.
 	- Cause: Calling remove_child(...) with player in world.gd
-- HUD score starting without any number
 
 
 ## Refactors
