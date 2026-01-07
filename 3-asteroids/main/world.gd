@@ -5,11 +5,12 @@ signal score_increased(increase: int)
 signal asteroids_cleared
 
 
+const ALIEN = preload("uid://p037cuw2mek8")
 const ASTEROID := preload("uid://cwa0eiwg4g2gs")
 const ASTEROIDS_PER_ROUND := 6
 const MAX_SCORE_PER_ASTEROID := 100
 
-var border_offset := Asteroid.get_max_radius()
+var asteroid_border_offset := Asteroid.get_max_radius()
 var asteroids: Array[Asteroid]
 
 @onready var player: Player = $Player
@@ -36,15 +37,18 @@ func new_game() -> void:
 
 
 func create_new_asteroid() -> void:
+	var asteroid: Asteroid = ASTEROID.instantiate()
+	asteroid.position = get_random_position_for_spawning(asteroid_border_offset)
+	add_child(asteroid)
+
+
+func get_random_position_for_spawning(border_offset := 0.0) -> Vector2:
 	var random_position := world_border_curve.sample_baked(
 		randf_range(0.0, world_border_length)
 	)
 	var distance := (random_position - world_center.position).normalized()
 	
-	var asteroid: Asteroid = ASTEROID.instantiate()
-	asteroid.position = random_position + distance * border_offset
-	
-	add_child(asteroid)
+	return random_position + distance * border_offset
 
 
 func _on_child_entered_tree(node: Node) -> void:
@@ -72,3 +76,11 @@ func _on_player_died() -> void:
 
 func is_player_inside_world() -> bool:
 	return player.is_inside_tree()
+
+
+func spawn_alien() -> void:
+	var alien: Alien = ALIEN.instantiate()
+	call_deferred("add_child", alien)
+	
+	await alien.ready
+	alien.position = get_random_position_for_spawning(alien.get_width())

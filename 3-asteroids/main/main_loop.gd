@@ -1,7 +1,10 @@
 extends Node2D
 
 
+const SCORE_TO_SPAWN_ALIEN := 500
+
 var score: int = 0
+var next_score_to_spawn_alien := SCORE_TO_SPAWN_ALIEN
 var time_elapsed := 0.0
 
 @onready var hud: HUD = $HUD
@@ -42,6 +45,10 @@ func new_game() -> void:
 func _on_world_score_increased(increase: int) -> void:
 	score += increase
 	hud.update_score(score)
+	
+	if score >= next_score_to_spawn_alien and randf() <= 0.7:
+		world.spawn_alien()
+		next_score_to_spawn_alien += SCORE_TO_SPAWN_ALIEN
 
 
 func _on_player_took_damage(_damage: float) -> void:
