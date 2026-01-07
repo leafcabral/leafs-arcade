@@ -12,6 +12,7 @@ const MAX_SCORE_PER_ASTEROID := 100
 
 var asteroid_border_offset := Asteroid.get_max_radius()
 var asteroids: Array[Asteroid]
+var aliens: Array[Alien]
 
 @onready var player: Player = $Player
 @onready var world_center: Marker2D = $WorldCenter
@@ -27,10 +28,14 @@ func new_game() -> void:
 	if not is_player_inside_world():
 		add_child(player)
 		player.respawn(true)
-	
-	for i in asteroids:
-		i.queue_free()
-	asteroids.clear()
+		
+		for i in asteroids:
+			i.queue_free()
+		asteroids.clear()
+		
+		for i in aliens:
+			i.queue_free()
+		aliens.clear()
 	
 	for i in ASTEROIDS_PER_ROUND:
 		create_new_asteroid()
@@ -84,3 +89,5 @@ func spawn_alien() -> void:
 	
 	await alien.ready
 	alien.position = get_random_position_for_spawning(alien.get_width())
+	
+	aliens.append(alien)
