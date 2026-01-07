@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://p037cuw2mek8"]
+[gd_scene load_steps=12 format=3 uid="uid://p037cuw2mek8"]
 
 [ext_resource type="Texture2D" uid="uid://cqv73nwe54xyc" path="res://entities/alien/alien.png" id="1_weg3q"]
 [ext_resource type="Script" uid="uid://cp4cbg4dc3ne7" path="res://entities/alien/alien.gd" id="1_wla3g"]
@@ -9,6 +9,38 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qp64o"]
 radius = 49.0
 height = 136.0
+
+[sub_resource type="Gradient" id="Gradient_qjkh3"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_wla3g"]
+gradient = SubResource("Gradient_qjkh3")
+width = 2
+height = 16
+
+[sub_resource type="Curve" id="Curve_0u8vb"]
+_data = [Vector2(0.6969697, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gy8da"]
+curve = SubResource("Curve_0u8vb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1n5jh"]
+particle_flag_disable_z = true
+angle_min = -89.99999
+angle_max = 90.000015
+inherit_velocity_ratio = 0.5
+spread = 180.0
+initial_velocity_min = 82.35
+initial_velocity_max = 147.06
+angular_velocity_min = 79.999985
+angular_velocity_max = 159.99998
+gravity = Vector3(0, 0, 0)
+damping_min = 30.000002
+damping_max = 50.000004
+scale_max = 3.0
+alpha_curve = SubResource("CurveTexture_gy8da")
 
 [node name="Alien" type="CharacterBody2D" groups=["Aliens"]]
 collision_layer = 4
@@ -28,6 +60,15 @@ shape = SubResource("CapsuleShape2D_qp64o")
 [node name="ChangeVelocity" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
+
+[node name="DeathEffect" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+texture = SubResource("GradientTexture2D_wla3g")
+one_shot = true
+explosiveness = 1.0
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_1n5jh")
 
 [node name="WrapScreenComponent" type="Node2D" parent="."]
 script = ExtResource("2_hwx3q")

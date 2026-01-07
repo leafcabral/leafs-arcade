@@ -38,12 +38,12 @@ scale_max = 7.0
 color_initial_ramp = SubResource("GradientTexture1D_rgyib")
 alpha_curve = SubResource("CurveTexture_g6k8r")
 
-[sub_resource type="Gradient" id="Gradient_qjkh3"]
+[sub_resource type="Gradient" id="Gradient_8fjmc"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_g6k8r"]
-gradient = SubResource("Gradient_qjkh3")
+gradient = SubResource("Gradient_8fjmc")
 width = 2
 height = 32
 
@@ -51,7 +51,7 @@ height = 32
 _data = [Vector2(0.6969697, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_rgyib"]
+[sub_resource type="CurveTexture" id="CurveTexture_qiwj3"]
 curve = SubResource("Curve_boad6")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hg6s5"]
@@ -67,7 +67,7 @@ angular_velocity_max = 159.99998
 gravity = Vector3(0, 0, 0)
 damping_min = 30.000002
 damping_max = 50.000004
-alpha_curve = SubResource("CurveTexture_rgyib")
+alpha_curve = SubResource("CurveTexture_qiwj3")
 
 [sub_resource type="Animation" id="Animation_g6k8r"]
 length = 0.001

@@ -13,6 +13,7 @@ var speed := randfn(AVG_SPEED, 50)
 @onready var sprite: Sprite2D = $Sprite
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var shot_component: ShotComponent = $ShotComponent
+@onready var death_effect: GPUParticles2D = $DeathEffect
 
 
 func _ready() -> void:
@@ -53,3 +54,10 @@ func _on_shot_component_finished_reloading() -> void:
 
 func take_damage(_damage: float) -> void:
 	alien_hit.emit(self)
+
+
+func die() -> void:
+	sprite.hide()
+	death_effect.emitting = true
+	
+	await death_effect.finished
