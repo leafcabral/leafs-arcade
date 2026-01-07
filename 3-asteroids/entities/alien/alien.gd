@@ -14,6 +14,7 @@ var speed := randfn(AVG_SPEED, 50)
 @onready var health_component: HealthComponent = $HealthComponent
 @onready var shot_component: ShotComponent = $ShotComponent
 @onready var death_effect: GPUParticles2D = $DeathEffect
+@onready var collision_shape: CollisionShape2D = $CollisionShape
 
 
 func _ready() -> void:
@@ -58,6 +59,8 @@ func take_damage(_damage: float) -> void:
 
 func die() -> void:
 	sprite.hide()
+	collision_shape.set_deferred("disabled", true)
 	death_effect.emitting = true
 	
 	await death_effect.finished
+	queue_free()

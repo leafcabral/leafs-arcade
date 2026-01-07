@@ -1,7 +1,7 @@
 extends Node2D
 
 
-const SCORE_TO_SPAWN_ALIEN := 500
+const SCORE_TO_SPAWN_ALIEN := 750
 
 var score: int = 0
 var next_score_to_spawn_alien := SCORE_TO_SPAWN_ALIEN

@@ -77,7 +77,6 @@ metadata/_custom_type_script = "uid://pcut6ho1ogu5"
 [node name="HealthComponent" type="Node" parent="."]
 script = ExtResource("3_wla3g")
 MAX_HEALTH = 1
-should_free_after_death = true
 metadata/_custom_type_script = "uid://cj5c3t6v1xf66"
 
 [node name="ShotComponent" type="Node2D" parent="."]

@@ -44,7 +44,7 @@ func take_damage(damage: float = 1.0) -> void:
 		died.emit()
 		
 		if parent.has_method("die"):
-			await parent.die()
+			parent.die()
 		if should_free_after_death:
 			parent.queue_free()
 
