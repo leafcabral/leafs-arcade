@@ -2,7 +2,7 @@ class_name Asteroid
 extends StaticBody2D
 
 
-signal asteroid_hit(size: int)
+signal asteroid_hit(asteroid: Asteroid, size: int)
 
 
 static var max_size := 3
@@ -52,7 +52,7 @@ func _draw() -> void:
 
 func update_vertices() -> void:
 	vertices = create_vertices()
-	collision_polygon_2d.polygon = vertices
+	collision_polygon_2d.set_deferred("polygon", vertices)
 
 
 func create_vertices() -> PackedVector2Array:
@@ -80,7 +80,7 @@ func randomize_velocities() -> void:
 
 
 func die() -> void:
-	asteroid_hit.emit(size)
+	asteroid_hit.emit(self, size)
 	
 	if size <= 1:
 		return

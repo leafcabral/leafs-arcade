@@ -30,11 +30,11 @@ func _process(delta: float) -> void:
 
 
 func new_game() -> void:
-	score = 0
-	hud.hide_death_message()
+	if not world.is_player_inside_world():
+		score = 0
+		hud.reset_hud()
 	
 	world.new_game()
-	hud.reset_hud()
 
 
 func _on_world_score_increased(increase: int) -> void:
@@ -48,3 +48,7 @@ func _on_player_took_damage(_damage: float) -> void:
 
 func _on_player_died() -> void:
 	hud.show_death_message()
+
+
+func _on_world_asteroids_cleared() -> void:
+	new_game()

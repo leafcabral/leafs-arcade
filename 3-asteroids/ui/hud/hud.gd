@@ -18,6 +18,7 @@ func reset_hud() -> void:
 	score.text = "0"
 	time.text = Global.time_to_string(0)
 	update_health(max_health)
+	hide_death_message()
 
 
 func create_life_nodes(max_amount: int) -> void:

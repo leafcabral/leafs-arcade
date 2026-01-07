@@ -2,7 +2,7 @@ extends Node
 
 
 signal score_increased(increase: int)
-signal asteroids_emptied
+signal asteroids_cleared
 
 
 const ASTEROID := preload("uid://cwa0eiwg4g2gs")
@@ -45,23 +45,25 @@ func create_new_asteroid() -> void:
 	asteroid.position = random_position + distance * border_offset
 	
 	add_child(asteroid)
-	asteroids.append(asteroid)
 
 
 func _on_child_entered_tree(node: Node) -> void:
 	if node is Asteroid:
+		asteroids.append(node)
+		
 		if not node.is_connected("asteroid_hit", _on_asteroid_hit):
 			node.connect("asteroid_hit", _on_asteroid_hit)
 
 
-func _on_asteroid_hit(size: int) -> void:
+func _on_asteroid_hit(asteroid: Asteroid, size: int) -> void:
 	var divisor := 2 ** (size - 1)
 	@warning_ignore("integer_division")
 	var score_increase := MAX_SCORE_PER_ASTEROID / divisor
 	score_increased.emit(score_increase)
 	
-	if asteroids.is_empty():
-		asteroids_emptied.emit()
+	asteroids.erase(asteroid)
+	if asteroids.is_empty() and size <= 1:
+		asteroids_cleared.emit()
 
 
 func _on_player_died() -> void:

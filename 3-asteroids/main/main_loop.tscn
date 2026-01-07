@@ -33,6 +33,7 @@ position = Vector2(400, 300)
 
 [node name="HUD" parent="." instance=ExtResource("4_4ytva")]
 
+[connection signal="asteroids_cleared" from="World" to="." method="_on_world_asteroids_cleared"]
 [connection signal="child_entered_tree" from="World" to="World" method="_on_child_entered_tree"]
 [connection signal="score_increased" from="World" to="." method="_on_world_score_increased"]
 [connection signal="died" from="World/Player" to="." method="_on_player_died"]
