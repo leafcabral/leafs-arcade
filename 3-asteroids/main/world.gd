@@ -5,7 +5,8 @@ signal score_increased(increase: int)
 signal asteroids_cleared
 
 
-const ALIEN = preload("uid://p037cuw2mek8")
+const ALIEN := preload("uid://p037cuw2mek8")
+const SCORE_PER_ALIEN := 300
 const ASTEROID := preload("uid://cwa0eiwg4g2gs")
 const ASTEROIDS_PER_ROUND := 6
 const MAX_SCORE_PER_ASTEROID := 100
@@ -82,7 +83,7 @@ func _on_asteroid_hit(asteroid: Asteroid, size: int) -> void:
 
 
 func _on_alien_hit(alien: Alien) -> void:
-	score_increased.emit(500)
+	score_increased.emit(SCORE_PER_ALIEN)
 	aliens.erase(alien)
 
 
