@@ -12,6 +12,7 @@ static var num_of_vertices: int = 8
 
 var vertices: PackedVector2Array
 var size: int = max_size
+var hit_by_alien := false
 
 @onready var parent := get_parent()
 @onready var collision_polygon_2d: CollisionPolygon2D = $CollisionPolygon2D
@@ -39,6 +40,8 @@ func _physics_process(delta: float) -> void:
 		var collider: Node = collision.get_collider()
 		if collider is Player:
 			constant_linear_velocity = constant_linear_velocity.bounce(collision.get_normal())
+		elif collider.is_in_group("Aliens"):
+			hit_by_alien = true
 	
 	queue_redraw()
 

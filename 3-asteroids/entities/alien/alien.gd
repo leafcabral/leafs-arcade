@@ -2,6 +2,9 @@ class_name Alien
 extends CharacterBody2D
 
 
+signal alien_hit(alien: Alien)
+
+
 const AVG_SPEED := 175.0
 
 var direction := Vector2.from_angle(randf_range(0, TAU))
@@ -9,6 +12,11 @@ var speed := randfn(AVG_SPEED, 50)
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var health_component: HealthComponent = $HealthComponent
+@onready var shot_component: ShotComponent = $ShotComponent
+
+
+func _ready() -> void:
+	shoot_rand_angle()
 
 
 func _physics_process(_delta: float) -> void:
@@ -16,6 +24,10 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 	
 	handle_collisions()
+
+
+func shoot_rand_angle() -> void:
+	shot_component.shot(Vector2.from_angle(randf_range(0, TAU)))
 
 
 func handle_collisions() -> void:
@@ -33,3 +45,11 @@ func _on_change_velocity_timeout() -> void:
 
 func get_width() -> float:
 	return sprite.get_rect().size.x
+
+
+func _on_shot_component_finished_reloading() -> void:
+	shoot_rand_angle()
+
+
+func take_damage(_damage: float) -> void:
+	alien_hit.emit(self)

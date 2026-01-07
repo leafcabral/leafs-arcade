@@ -62,17 +62,28 @@ func _on_child_entered_tree(node: Node) -> void:
 		
 		if not node.is_connected("asteroid_hit", _on_asteroid_hit):
 			node.connect("asteroid_hit", _on_asteroid_hit)
+	elif node is Alien:
+		aliens.append(node)
+		
+		if not node.is_connected("alien_hit", _on_alien_hit):
+			node.connect("alien_hit", _on_alien_hit)
 
 
 func _on_asteroid_hit(asteroid: Asteroid, size: int) -> void:
-	var divisor := 2 ** (size - 1)
-	@warning_ignore("integer_division")
-	var score_increase := MAX_SCORE_PER_ASTEROID / divisor
-	score_increased.emit(score_increase)
+	if not asteroid.hit_by_alien:
+		var divisor := 2 ** (size - 1)
+		@warning_ignore("integer_division")
+		var score_increase := MAX_SCORE_PER_ASTEROID / divisor
+		score_increased.emit(score_increase)
 	
 	asteroids.erase(asteroid)
 	if asteroids.is_empty() and size <= 1:
 		asteroids_cleared.emit()
+
+
+func _on_alien_hit(alien: Alien) -> void:
+	score_increased.emit(500)
+	aliens.erase(alien)
 
 
 func _on_player_died() -> void:
@@ -89,5 +100,3 @@ func spawn_alien() -> void:
 	
 	await alien.ready
 	alien.position = get_random_position_for_spawning(alien.get_width())
-	
-	aliens.append(alien)

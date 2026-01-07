@@ -44,3 +44,4 @@ script = ExtResource("4_0u8vb")
 metadata/_custom_type_script = "uid://c05ng7tfcrvw6"
 
 [connection signal="timeout" from="ChangeVelocity" to="." method="_on_change_velocity_timeout"]
+[connection signal="finished_reloading" from="ShotComponent" to="." method="_on_shot_component_finished_reloading"]
