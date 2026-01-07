@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://p037cuw2mek8"]
+
+[ext_resource type="Texture2D" uid="uid://cqv73nwe54xyc" path="res://entities/alien/alien.png" id="1_weg3q"]
+[ext_resource type="Script" uid="uid://cp4cbg4dc3ne7" path="res://entities/alien/alien.gd" id="1_wla3g"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/wrap_screen_component.gd" id="2_hwx3q"]
+[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://common/health_component.gd" id="3_wla3g"]
+[ext_resource type="Script" uid="uid://c05ng7tfcrvw6" path="res://common/shot_component.gd" id="4_0u8vb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qp64o"]
+radius = 49.0
+height = 136.0
+
+[node name="Alien" type="CharacterBody2D" groups=["Aliens"]]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_wla3g")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_weg3q")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+rotation = 1.5707964
+scale = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_qp64o")
+
+[node name="ChangeVelocity" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="WrapScreenComponent" type="Node2D" parent="."]
+script = ExtResource("2_hwx3q")
+metadata/_custom_type_script = "uid://pcut6ho1ogu5"
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("3_wla3g")
+MAX_HEALTH = 1
+should_free_after_death = true
+metadata/_custom_type_script = "uid://cj5c3t6v1xf66"
+
+[node name="ShotComponent" type="Node2D" parent="."]
+script = ExtResource("4_0u8vb")
+metadata/_custom_type_script = "uid://c05ng7tfcrvw6"
+
+[connection signal="timeout" from="ChangeVelocity" to="." method="_on_change_velocity_timeout"]
