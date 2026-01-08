@@ -1,0 +1,104 @@
+[gd_scene load_steps=7 format=3 uid="uid://dn17tbs2dwo0q"]
+
+[ext_resource type="Script" uid="uid://7x5veg5s8dqh" path="res://main/main_menu.gd" id="1_4u0aa"]
+[ext_resource type="FontFile" uid="uid://c2t25ln23jycj" path="res://assets/PublicPixel.ttf" id="1_l6cm7"]
+[ext_resource type="PackedScene" uid="uid://cwa0eiwg4g2gs" path="res://entities/asteroid/asteroid.tscn" id="3_w2mlq"]
+[ext_resource type="PackedScene" uid="uid://xypeueubkqt8" path="res://ui/background.tscn" id="3_wu84c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u0aa"]
+
+[sub_resource type="Theme" id="Theme_8cpu2"]
+Button/colors/font_color = Color(0.69550246, 0.6955034, 0.69550264, 1)
+Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_4u0aa")
+Control/colors/font_color = Color(0.69411767, 0.69411767, 0.69411767, 1)
+Control/fonts/font = ExtResource("1_l6cm7")
+
+[node name="Main Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_8cpu2")
+script = ExtResource("1_4u0aa")
+
+[node name="Background" parent="." instance=ExtResource("3_wu84c")]
+
+[node name="Ttile" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -336.0
+offset_right = 336.0
+offset_bottom = 293.0
+grow_horizontal = 2
+theme_override_fonts/normal_font = ExtResource("1_l6cm7")
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[wave]ASTEROIDS[/wave]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = 48.0
+offset_right = 196.0
+offset_bottom = 176.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="Play" type="Button" parent="Buttons"]
+z_index = 10
+layout_mode = 2
+focus_next = NodePath("../Difficulty")
+focus_previous = NodePath("../Exit")
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 24
+text = "PLAY"
+flat = true
+
+[node name="Difficulty" type="Button" parent="Buttons"]
+visible = false
+z_index = 10
+layout_mode = 2
+focus_next = NodePath("../Exit")
+focus_previous = NodePath("../Play")
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 24
+text = "DIFFICULTY: HARD"
+flat = true
+
+[node name="Exit" type="Button" parent="Buttons"]
+z_index = 10
+layout_mode = 2
+focus_next = NodePath("../Play")
+focus_previous = NodePath("../Difficulty")
+theme_override_fonts/font = ExtResource("1_l6cm7")
+theme_override_font_sizes/font_size = 24
+text = "EXIT GAME"
+flat = true
+
+[node name="Asteroid" parent="." instance=ExtResource("3_w2mlq")]
+position = Vector2(98, 178)
+
+[node name="Asteroid2" parent="." instance=ExtResource("3_w2mlq")]
+position = Vector2(638, 152)
+
+[node name="Asteroid3" parent="." instance=ExtResource("3_w2mlq")]
+position = Vector2(686, 469)
+
+[node name="Asteroid4" parent="." instance=ExtResource("3_w2mlq")]
+position = Vector2(153, 470)
+
+[connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Exit" to="." method="_on_exit_pressed"]

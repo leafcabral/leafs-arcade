@@ -19,6 +19,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		get_tree().change_scene_to_file("res://main/main_menu.tscn")
+	
 	if world.is_player_inside_world():
 		if event.is_action_pressed("pause"):
 			get_tree().paused = not get_tree().paused
