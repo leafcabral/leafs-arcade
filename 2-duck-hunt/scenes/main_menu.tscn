@@ -35,7 +35,7 @@ offset_top = 77.0
 offset_right = 204.0
 offset_bottom = 213.0
 grow_horizontal = 2
-text = "DICK
+text = "DUCK
 HUNT"
 label_settings = SubResource("LabelSettings_ekxnf")
 horizontal_alignment = 1
