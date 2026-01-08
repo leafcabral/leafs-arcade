@@ -40,6 +40,7 @@ func _process(delta: float) -> void:
 func new_game() -> void:
 	if not world.is_player_inside_world():
 		score = 0
+		next_score_to_spawn_alien = SCORE_TO_SPAWN_ALIEN
 		hud.reset_hud()
 	
 	world.new_game()

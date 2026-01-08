@@ -14,7 +14,7 @@ an emulator for these games.
 ### Games Included
 - Pong
 - Duck Hunt
-- ~~Asteroids~~
+- Asteroids
 - *More games will be added over time as development continues.*
 
 ## Installation
