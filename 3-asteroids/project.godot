@@ -18,7 +18,7 @@ config/icon="uid://cfetr2yvmag3d"
 
 [autoload]
 
-Global="*res://Global.gd"
+Global="*res://autoloads/Global.gd"
 
 [display]
 

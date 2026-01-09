@@ -1,18 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://dn17tbs2dwo0q"]
+[gd_scene load_steps=6 format=3 uid="uid://dn17tbs2dwo0q"]
 
 [ext_resource type="Script" uid="uid://7x5veg5s8dqh" path="res://main/main_menu.gd" id="1_4u0aa"]
+[ext_resource type="Theme" uid="uid://cr24qucqw6we" path="res://ui/main_menu.tres" id="1_8cpu2"]
 [ext_resource type="FontFile" uid="uid://c2t25ln23jycj" path="res://assets/PublicPixel.ttf" id="1_l6cm7"]
 [ext_resource type="PackedScene" uid="uid://cwa0eiwg4g2gs" path="res://entities/asteroid/asteroid.tscn" id="3_w2mlq"]
 [ext_resource type="PackedScene" uid="uid://xypeueubkqt8" path="res://ui/background.tscn" id="3_wu84c"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u0aa"]
-
-[sub_resource type="Theme" id="Theme_8cpu2"]
-Button/colors/font_color = Color(0.69550246, 0.6955034, 0.69550264, 1)
-Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
-Button/styles/focus = SubResource("StyleBoxEmpty_4u0aa")
-Control/colors/font_color = Color(0.69411767, 0.69411767, 0.69411767, 1)
-Control/fonts/font = ExtResource("1_l6cm7")
 
 [node name="Main Menu" type="Control"]
 layout_mode = 3
@@ -21,7 +13,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_8cpu2")
+theme = ExtResource("1_8cpu2")
 script = ExtResource("1_4u0aa")
 
 [node name="Background" parent="." instance=ExtResource("3_wu84c")]

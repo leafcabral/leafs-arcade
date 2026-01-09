@@ -1,6 +1,15 @@
 extends Node
 
 
+signal high_score_changed(new_hs)
+
+
+var high_score := 0:
+	set(value):
+		high_score = value
+		high_score_changed.emit(high_score)
+
+
 func time_to_string(time: float, hanging_zero := true, show_ms := false, ommit_hours := true) -> String:
 	var seconds := int(time)
 	var milliseconds := time - seconds

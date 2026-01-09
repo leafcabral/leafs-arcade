@@ -12,6 +12,14 @@ var max_health: int
 @onready var life_container: HBoxContainer = $Lifes/Container
 @onready var paused_overlay: ColorRect = $PausedOverlay
 @onready var death_message: RichTextLabel = $DeathMessage
+@onready var high_score_value: Label = $Lifes/HighScoreValue
+
+
+func _ready() -> void:
+	Global.high_score_changed.connect(
+		func(value: int):
+			high_score_value.text = str(value)
+	)
 
 
 func create_life_nodes(max_amount: int) -> void:
