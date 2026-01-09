@@ -37,6 +37,7 @@ func create_life_nodes(max_amount: int) -> void:
 
 func reset_hud() -> void:
 	score.text = "0"
+	high_score_value.text = str(Global.high_score)
 	time.text = Global.time_to_string(0)
 	update_health(max_health)
 	hide_death_message()
@@ -65,6 +66,7 @@ func pause_unpause() -> void:
 func show_death_message() -> void:
 	death_message.show()
 	death_message.create_tween().tween_property(death_message, "modulate", Color("white"), 2)
+
 
 func hide_death_message() -> void:
 	death_message.hide()

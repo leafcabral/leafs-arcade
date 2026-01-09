@@ -23,6 +23,13 @@ var difficulty := GameDifficulty.MEDIUM:
 		difficulty_changed.emit(difficulty)
 
 
+func _ready() -> void:
+	var previous_data := SaveLoadSystem.load_data()
+	if previous_data:
+		difficulty = previous_data["difficulty"]
+		high_score = previous_data["high_score"]
+
+
 func time_to_string(time: float, hanging_zero := true, show_ms := false, ommit_hours := true) -> String:
 	var seconds := int(time)
 	var milliseconds := time - seconds

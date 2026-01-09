@@ -20,6 +20,13 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
+		SaveLoadSystem.save_data(
+			{
+				"difficulty": Global.difficulty,
+				"high_score": Global.high_score,
+			}
+		)
+		
 		get_tree().change_scene_to_file("res://main/main_menu.tscn")
 	
 	if world.is_player_inside_world():

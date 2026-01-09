@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://cqv73nwe54xyc" path="res://entities/alien/alien.png" id="1_weg3q"]
 [ext_resource type="Script" uid="uid://cp4cbg4dc3ne7" path="res://entities/alien/alien.gd" id="1_wla3g"]
-[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/wrap_screen_component.gd" id="2_hwx3q"]
-[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://common/health_component.gd" id="3_wla3g"]
-[ext_resource type="Script" uid="uid://c05ng7tfcrvw6" path="res://common/shot_component.gd" id="4_0u8vb"]
+[ext_resource type="Script" uid="uid://pcut6ho1ogu5" path="res://common/components/wrap_screen_component.gd" id="2_hwx3q"]
+[ext_resource type="Script" uid="uid://cj5c3t6v1xf66" path="res://common/components/health_component.gd" id="3_wla3g"]
+[ext_resource type="Script" uid="uid://c05ng7tfcrvw6" path="res://common/components/shot_component.gd" id="4_0u8vb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qp64o"]
 radius = 49.0
