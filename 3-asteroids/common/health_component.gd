@@ -31,6 +31,10 @@ func _ready() -> void:
 
 
 func take_damage(damage: float = 1.0) -> void:
+	var dead := is_dead()
+	if dead:
+		return
+	
 	if not is_invincible():
 		health -= damage
 		took_damage.emit(damage)
