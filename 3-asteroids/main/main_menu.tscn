@@ -60,7 +60,6 @@ text = "PLAY"
 flat = true
 
 [node name="Difficulty" type="Button" parent="Buttons"]
-visible = false
 z_index = 10
 layout_mode = 2
 focus_next = NodePath("../Exit")
@@ -93,4 +92,5 @@ position = Vector2(686, 469)
 position = Vector2(153, 470)
 
 [connection signal="pressed" from="Buttons/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Buttons/Difficulty" to="." method="_on_difficulty_pressed"]
 [connection signal="pressed" from="Buttons/Exit" to="." method="_on_exit_pressed"]

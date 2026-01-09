@@ -14,11 +14,17 @@ const MAX_SCORE_PER_ASTEROID := 100
 var asteroid_border_offset := Asteroid.get_max_radius()
 var asteroids: Array[Asteroid]
 var aliens: Array[Alien]
+var difficulty_multiplier := remap(Global.difficulty * 1.0 / 3, 0, 1, 0.5, 1)
 
 @onready var player: Player = $Player
 @onready var world_center: Marker2D = $WorldCenter
 @onready var world_border_curve: Curve2D = $WorldBorder.curve
 @onready var world_border_length := world_border_curve.get_baked_length()
+
+
+func _ready() -> void:
+	Asteroid.avg_speed *= difficulty_multiplier
+	Alien.avg_speed *= difficulty_multiplier
 
 
 func get_player_current_health() -> int:

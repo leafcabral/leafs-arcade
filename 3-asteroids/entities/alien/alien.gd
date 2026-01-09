@@ -5,10 +5,10 @@ extends CharacterBody2D
 signal alien_hit(alien: Alien)
 
 
-const AVG_SPEED := 175.0
+static var avg_speed := 175.0
 
 var direction := Vector2.from_angle(randf_range(0, TAU))
-var speed := randfn(AVG_SPEED, 50)
+var speed := randfn(avg_speed, 50)
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var health_component: HealthComponent = $HealthComponent

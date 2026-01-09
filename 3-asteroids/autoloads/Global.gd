@@ -2,12 +2,25 @@ extends Node
 
 
 signal high_score_changed(new_hs)
+signal difficulty_changed(new_difficulty)
+
+
+enum GameDifficulty {
+	EASY = 0,
+	MEDIUM = 1,
+	HARD = 2,
+	EXTREME= 3,
+}
 
 
 var high_score := 0:
 	set(value):
 		high_score = value
 		high_score_changed.emit(high_score)
+var difficulty := GameDifficulty.MEDIUM:
+	set(value): 
+		difficulty = value
+		difficulty_changed.emit(difficulty)
 
 
 func time_to_string(time: float, hanging_zero := true, show_ms := false, ommit_hours := true) -> String:
