@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3vlxe62crhsp"]
+
+[ext_resource type="Script" uid="uid://bgc27cdssepdl" path="res://entities/player/player.gd" id="1_symyc"]
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_symyc")
+
+[node name="DeleteSlicePointDelay" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

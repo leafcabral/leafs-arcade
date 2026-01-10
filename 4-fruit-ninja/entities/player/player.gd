@@ -1,3 +1,4 @@
+class_name Player
 extends Node2D
 
 
@@ -27,7 +28,7 @@ func _process(_delta: float) -> void:
 			delete_slice_point_delay.start()
 		
 	if delete_slice_point_delay.is_stopped() and not slice_points.is_empty():
-		await get_tree().create_timer(0.01).timeout
+		await get_tree().create_timer(0.05).timeout
 		slice_points.remove_at(0)
 		
 		#slice_start = slice_start.move_toward(slice_end, 300 * delta)
