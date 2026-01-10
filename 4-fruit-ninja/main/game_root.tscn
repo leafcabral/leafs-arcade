@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ckefh8ijiavng"]
+
+[ext_resource type="Script" uid="uid://c3o8totjh8ofe" path="res://main/game_root.gd" id="1_oc7al"]
+
+[node name="GameRoot" type="Node2D"]
+script = ExtResource("1_oc7al")
+
+[node name="DeleteSlicePointDelay" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true

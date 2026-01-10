@@ -15,6 +15,7 @@ an emulator for these games.
 - Pong
 - Duck Hunt
 - Asteroids
+- ~~Fruit Ninja~~
 - *More games will be added over time as development continues.*
 
 ## Installation
