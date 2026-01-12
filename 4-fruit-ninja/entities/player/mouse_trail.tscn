@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://b6cfwt851qca4"]
+
+[ext_resource type="Script" uid="uid://d0njow448eo23" path="res://common/components/mouse_trail_component.gd" id="1_oyhl6"]
+
+[sub_resource type="Curve" id="Curve_abrql"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 1), 0.0, 0.0, 0, 0, Vector2(0.8478261, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Gradient" id="Gradient_abrql"]
+offsets = PackedFloat32Array(0.4710145, 0.89855075, 0.9927536)
+colors = PackedColorArray(0.36659443, 0.36659467, 0.36659443, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sglur"]
+gradient = SubResource("Gradient_abrql")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="MouseTrailComponent" type="Line2D"]
+width_curve = SubResource("Curve_abrql")
+texture = SubResource("GradientTexture2D_sglur")
+texture_mode = 1
+joint_mode = 2
+script = ExtResource("1_oyhl6")
+metadata/_custom_type_script = "uid://d0njow448eo23"
