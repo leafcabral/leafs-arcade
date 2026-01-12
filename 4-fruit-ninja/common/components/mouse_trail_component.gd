@@ -10,8 +10,8 @@ var time_since_trail_start := 0.0
 var time_since_last_point := 0.0
 
 
-func _physics_process(delta: float) -> void:
-	var mouse_position := get_global_mouse_position()
+func _process(delta: float) -> void:
+	var mouse_position := get_local_mouse_position()
 	
 	if Input.is_action_just_pressed("slice"):
 		clear_points()
@@ -30,8 +30,11 @@ func _physics_process(delta: float) -> void:
 		
 		if can_place_point:
 			add_point(mouse_position)
+		
+		if number_of_points == 2:
+			add_point((points[0] + points[1]) / 2)
 	
-	if number_of_points:
+	if number_of_points >= 2:
 		if time_since_trail_start >= fade_start_delay:
 			if time_since_last_point >= point_fade_delay:
 				remove_point(0)
@@ -40,4 +43,3 @@ func _physics_process(delta: float) -> void:
 				time_since_last_point += delta
 		else:
 			time_since_trail_start += delta
-			
