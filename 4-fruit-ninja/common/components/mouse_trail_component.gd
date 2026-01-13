@@ -8,6 +8,11 @@ extends Line2D
 @export_range(1, 20, 0.1) var speed_factor := 8.0
 @export_range(1, 1000, 0.1) var minimum_speed := 100.0
 @export_range(0, 1, 0.01, "or_greater", "suffix:s") var start_delay := 0.15
+@export_group("Show points")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var show_points := false
+@export var point_color := Color.RED
+@export_range(0, 10, 0.1, "suffix:px") var point_radius := 5.0
+
 
 var time_since_trail_start := 0.0
 
@@ -27,6 +32,12 @@ func _process(delta: float) -> void:
 		remove_trail_points(delta)
 	else:
 		time_since_trail_start += delta
+
+
+func _draw() -> void:
+	if show_points:
+		for i in points:
+			draw_circle(i, point_radius, point_color)
 
 
 func handle_mouse_movement(mouse_position: Vector2) -> void:
