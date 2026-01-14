@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://6rsron8monuy"]
+
+[ext_resource type="Script" uid="uid://did4q4oy80l83" path="res://entities/fruit/fruit.gd" id="1_cv02n"]
+
+[sub_resource type="Gradient" id="Gradient_7yd1m"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0.54901963, 0.24313726, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cv02n"]
+gradient = SubResource("Gradient_7yd1m")
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cv02n"]
+size = Vector2(64, 64)
+
+[node name="Fruit" type="RigidBody2D"]
+collision_layer = 2
+angular_damp = -1.0
+script = ExtResource("1_cv02n")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("GradientTexture2D_cv02n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cv02n")
