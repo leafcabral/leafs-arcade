@@ -21,4 +21,5 @@ script = ExtResource("1_sd42p")
 curve = SubResource("Curve2D_sd42p")
 script = ExtResource("2_mf5tn")
 
+[connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]

@@ -2,7 +2,8 @@ class_name FruitManager
 extends Path2D
 
 
-signal spawn_cooldown_finished()
+signal spawn_cooldown_finished
+signal fruits_depleted
 
 const FRUIT := preload("uid://6rsron8monuy")
 
@@ -42,6 +43,13 @@ func pool_unspawned_fruit() -> Fruit:
 	return null
 
 
-func _on_fruit_exited_screen(fruit: Fruit) -> void:
-	fruit.queue_free()
+func erase_fruit(fruit: Fruit) -> void:
 	fruits.erase(fruit)
+	fruit.queue_free()
+	
+	if not fruits:
+		fruits_depleted.emit()
+
+
+func _on_fruit_exited_screen(fruit: Fruit) -> void:
+	erase_fruit(fruit)
