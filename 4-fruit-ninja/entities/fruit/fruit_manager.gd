@@ -28,6 +28,7 @@ func spawn_fruits(amount: int) -> void:
 		
 		fruits.append(fruit)
 		fruit.connect("exited_screen", _on_fruit_exited_screen)
+		fruit.connect("hit", _on_fruit_hit)
 		
 		fruit_timers.append(randf())
 
@@ -53,3 +54,7 @@ func erase_fruit(fruit: Fruit) -> void:
 
 func _on_fruit_exited_screen(fruit: Fruit) -> void:
 	erase_fruit(fruit)
+
+
+func _on_fruit_hit(fruit: Fruit) -> void:
+	fruit.modulate = Color.AQUAMARINE

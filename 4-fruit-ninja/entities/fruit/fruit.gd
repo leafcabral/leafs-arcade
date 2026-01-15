@@ -3,11 +3,13 @@ extends RigidBody2D
 
 
 signal exited_screen(fruit: Fruit)
+signal hit(fruit: Fruit)
 
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
 
 @onready var viewport_size := get_viewport_rect().size
+@onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D2
 
 
 func _ready() -> void:
@@ -36,3 +38,8 @@ func launch() -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	exited_screen.emit(self)
+
+
+func _on_area_2d_body_entered(_body: Node2D) -> void:
+	hit.emit(self)
+	collision_shape_2d.set_deferred("disabled", true)

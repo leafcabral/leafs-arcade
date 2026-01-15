@@ -21,7 +21,7 @@ var time_since_trail_start := 0.0
 @onready var collision_objects_2d := find_children("*", "CollisionObject2D", false)
 
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	var mouse_position := get_local_mouse_position()
 	
 	if Input.is_action_just_pressed("slice"):
@@ -108,10 +108,10 @@ func create_collision_shapes() -> void:
 	
 	if points and collision_objects_2d:
 		var num_points_for_collision: int = min(get_point_count(), collision_points_enabled)
-		for i in num_points_for_collision - 1:
+		for i in range(-1, -num_points_for_collision, -1):
 			var segment := SegmentShape2D.new()
 			segment.a = points[i]
-			segment.b = points[i + 1]
+			segment.b = points[i - 1]
 			var collision_shape := CollisionShape2D.new()
 			collision_shape.shape = segment
 			
