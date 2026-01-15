@@ -26,9 +26,6 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("slice"):
 		clear_points()
-		add_point(mouse_position)
-		
-		time_since_trail_start = 0.0
 	elif Input.is_action_pressed("slice"):
 		handle_mouse_movement(mouse_position)
 	
@@ -50,7 +47,7 @@ func _draw() -> void:
 func handle_mouse_movement(mouse_position: Vector2) -> void:
 	var number_of_points := get_point_count()
 	
-	if number_of_points > 1:
+	if number_of_points >= 1:
 		var distance_to_last := mouse_position.distance_to(points[-1])
 		if distance_to_last < point_spacing:
 			return
@@ -60,6 +57,7 @@ func handle_mouse_movement(mouse_position: Vector2) -> void:
 	add_point(mouse_position)
 	if number_of_points + 1 > max_points:
 		remove_point(0)
+	
 	# Workaround for width_curve "glitch" where the line won't show
 	# if there are only two points in the line
 	if get_point_count() == 2:
