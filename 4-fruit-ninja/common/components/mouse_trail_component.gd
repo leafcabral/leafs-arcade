@@ -8,6 +8,8 @@ extends Line2D
 @export_range(1, 20, 0.1) var speed_factor := 8.0
 @export_range(1, 1000, 0.1) var minimum_speed := 100.0
 @export_range(0, 1, 0.01, "or_greater", "suffix:s") var start_delay := 0.15
+@export_group("Collision", "collision_")
+@export_range(0, 100, 1) var collision_points_enabled := 5
 @export_group("Show points")
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var show_points := false
 @export var point_color := Color.RED
@@ -15,6 +17,8 @@ extends Line2D
 
 
 var time_since_trail_start := 0.0
+
+@onready var collision_objects_2d := find_children("*", "CollisionObject2D", false)
 
 
 func _process(delta: float) -> void:
@@ -32,6 +36,9 @@ func _process(delta: float) -> void:
 		remove_trail_points(delta)
 	else:
 		time_since_trail_start += delta
+	
+	if collision_objects_2d:
+		create_collision_shapes()
 
 
 func _draw() -> void:
@@ -92,3 +99,21 @@ func get_relative_vanishing_speed() -> float:
 		total_trail_length += points[i].distance_to(points[i + 1])
 	
 	return maxf(total_trail_length * speed_factor, minimum_speed)
+
+
+func create_collision_shapes() -> void:
+	for i in collision_objects_2d:
+		for j in i.get_children():
+			j.queue_free()
+	
+	if points and collision_objects_2d:
+		var num_points_for_collision: int = min(get_point_count(), collision_points_enabled)
+		for i in num_points_for_collision - 1:
+			var segment := SegmentShape2D.new()
+			segment.a = points[i]
+			segment.b = points[i + 1]
+			var collision_shape := CollisionShape2D.new()
+			collision_shape.shape = segment
+			
+			for j in collision_objects_2d:
+				j.add_child(collision_shape)

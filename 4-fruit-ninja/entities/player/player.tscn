@@ -7,3 +7,7 @@
 script = ExtResource("1_symyc")
 
 [node name="MouseTrailComponent" parent="." instance=ExtResource("2_abrql")]
+show_points = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="MouseTrailComponent"]
+collision_mask = 2
