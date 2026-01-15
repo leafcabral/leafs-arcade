@@ -1,7 +1,24 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=5 format=3 uid="uid://ckefh8ijiavng"]
 
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
+[ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/game_world.gd" id="1_sd42p"]
+[ext_resource type="Script" uid="uid://308svwjg04wa" path="res://entities/fruit/fruit_manager.gd" id="2_mf5tn"]
+
+[sub_resource type="Curve2D" id="Curve2D_sd42p"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 100, 600, 0, 0, 0, 0, 700, 600)
+}
+point_count = 2
 
 [node name="GameRoot" type="Node2D"]
 
-[node name="Player" parent="." instance=ExtResource("1_oc7al")]
+[node name="GameWorld" type="Node" parent="."]
+script = ExtResource("1_sd42p")
+
+[node name="Player" parent="GameWorld" instance=ExtResource("1_oc7al")]
+
+[node name="FruitManager" type="Path2D" parent="GameWorld"]
+curve = SubResource("Curve2D_sd42p")
+script = ExtResource("2_mf5tn")
+
+[connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]

@@ -2,6 +2,8 @@ class_name Fruit
 extends RigidBody2D
 
 
+signal exited_screen(fruit: Fruit)
+
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
 
@@ -30,3 +32,7 @@ func launch() -> void:
 		[-1, 1].pick_random() * randf_range(x_move_half_screen, x_move_half_screen * 1.1)
 	)
 	linear_velocity.y = -viewport_size.y * randf_range(1.5, 1.8)
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	exited_screen.emit(self)
