@@ -25,6 +25,10 @@ window/size/viewport_height=600
 
 project/assembly_name="Leaf-s Arcade- Fruit Ninja"
 
+[global_group]
+
+Player=""
+
 [input]
 
 slice={

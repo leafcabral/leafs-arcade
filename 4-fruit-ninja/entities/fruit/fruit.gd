@@ -40,6 +40,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	exited_screen.emit(self)
 
 
-func _on_area_2d_body_entered(_body: Node2D) -> void:
-	hit.emit(self)
-	collision_shape_2d.set_deferred("disabled", true)
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Player"):
+		hit.emit(self)
+		collision_shape_2d.set_deferred("disabled", true)

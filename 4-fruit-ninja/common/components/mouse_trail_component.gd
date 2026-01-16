@@ -2,18 +2,23 @@ class_name MouseTrailComponent
 extends Line2D
 
 
-@export_range(0.0, 10.0, 0.1, "suffix:px") var point_spacing := 5.0
 @export_range(2, 100, 1, "or_greater") var max_points := 32
+@export_range(0.0, 50.0, 0.01, "suffix:px") var min_point_spacing := 5.0
+
 @export_group("Vanishing Effect")
 @export_range(1, 20, 0.1) var speed_factor := 8.0
 @export_range(1, 1000, 0.1) var minimum_speed := 100.0
 @export_range(0, 1, 0.01, "or_greater", "suffix:s") var start_delay := 0.15
+
 @export_group("Collision", "collision_")
-@export_range(0, 100, 1) var collision_points_enabled := 5
-@export_group("Show points")
-@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var show_points := false
-@export var point_color := Color.RED
-@export_range(0, 10, 0.1, "suffix:px") var point_radius := 5.0
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var collision_enabled := false
+@export var collision_node: CollisionObject2D
+@export_range(0, 100, 1) var collision_max_lines := 4
+
+@export_group("Show Points", "points_")
+@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var points_enabled := false
+@export var points_color := Color.RED
+@export_range(0, 10, 0.1, "suffix:px") var points_radius := 5.0
 
 
 var time_since_trail_start := 0.0
@@ -34,14 +39,14 @@ func _physics_process(delta: float) -> void:
 	else:
 		time_since_trail_start += delta
 	
-	if collision_objects_2d:
+	if collision_enabled and collision_node:
 		create_collision_shapes()
 
 
 func _draw() -> void:
-	if show_points:
+	if points_enabled:
 		for i in points:
-			draw_circle(i, point_radius, point_color)
+			draw_circle(i, points_radius, points_color)
 
 
 func handle_mouse_movement(mouse_position: Vector2) -> void:
@@ -49,7 +54,7 @@ func handle_mouse_movement(mouse_position: Vector2) -> void:
 	
 	if number_of_points >= 1:
 		var distance_to_last := mouse_position.distance_to(points[-1])
-		if distance_to_last < point_spacing:
+		if distance_to_last < min_point_spacing:
 			return
 	else:
 		time_since_trail_start = 0.0
@@ -100,18 +105,17 @@ func get_relative_vanishing_speed() -> float:
 
 
 func create_collision_shapes() -> void:
-	for i in collision_objects_2d:
-		for j in i.get_children():
-			j.queue_free()
+	for collision_shape in collision_node.get_children():
+		collision_shape.queue_free()
 	
-	if points and collision_objects_2d:
-		var num_points_for_collision: int = min(get_point_count(), collision_points_enabled)
+	if points:
+		var num_points_for_collision: int = min(get_point_count(), collision_max_lines + 1)
 		for i in range(-1, -num_points_for_collision, -1):
 			var segment := SegmentShape2D.new()
 			segment.a = points[i]
 			segment.b = points[i - 1]
+			
 			var collision_shape := CollisionShape2D.new()
 			collision_shape.shape = segment
 			
-			for j in collision_objects_2d:
-				j.add_child(collision_shape)
+			collision_node.add_child(collision_shape)

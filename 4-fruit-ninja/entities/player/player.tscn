@@ -3,10 +3,12 @@
 [ext_resource type="Script" uid="uid://bgc27cdssepdl" path="res://entities/player/player.gd" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://b6cfwt851qca4" path="res://entities/player/mouse_trail.tscn" id="2_abrql"]
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="Node"]
 script = ExtResource("1_symyc")
 
-[node name="MouseTrailComponent" parent="." instance=ExtResource("2_abrql")]
+[node name="MouseTrailComponent" parent="." node_paths=PackedStringArray("collision_node") instance=ExtResource("2_abrql")]
+collision_enabled = true
+collision_node = NodePath("../Area2D")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="MouseTrailComponent"]
+[node name="Area2D" type="Area2D" parent="." groups=["Player"]]
 collision_mask = 2
