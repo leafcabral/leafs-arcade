@@ -23,4 +23,5 @@ texture = SubResource("GradientTexture2D_sglur")
 texture_mode = 1
 joint_mode = 2
 script = ExtResource("1_oyhl6")
+input_action = &"slice"
 metadata/_custom_type_script = "uid://d0njow448eo23"

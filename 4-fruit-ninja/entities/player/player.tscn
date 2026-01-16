@@ -6,9 +6,9 @@
 [node name="Player" type="Node"]
 script = ExtResource("1_symyc")
 
-[node name="MouseTrailComponent" parent="." node_paths=PackedStringArray("collision_node") instance=ExtResource("2_abrql")]
+[node name="Blade" parent="." node_paths=PackedStringArray("collision_node") instance=ExtResource("2_abrql")]
 collision_enabled = true
-collision_node = NodePath("../Area2D")
+collision_node = NodePath("CollisionArea")
 
-[node name="Area2D" type="Area2D" parent="." groups=["Player"]]
+[node name="CollisionArea" type="Area2D" parent="Blade" groups=["Player"]]
 collision_mask = 2
