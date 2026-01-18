@@ -1,29 +1,26 @@
 class_name HealthComponent
 extends Node
-## Component that gives its parent health that can be damaged.
+## Component that gives its parent health that can be damaged until death and
+## healed.
 ## 
 ## [b]HealthComponent[/b] holds an amount of health limited to
-## [member MAX_HEALTH].
-## [br][br]
+## [member max_health].
 ## [b]Note:[/b]
 ## It needs to be manually damaged by other nodes and the damage taken should be
 ## handled by its parent with this component's signals.
 
 
-## Emitted when the shield's points reduces by a certain [param amount].
-signal shield_damaged(amount: float)
-## Emitted when health reduces by a certain [param amount], or increases if 
-## [member healing_treated_as_damage] is enabled.
+## Emitted when [member health] reduces,.
 signal damaged(amount: float)
-## Emitted when the shield's points increases by a certain [param amount].
-signal shield_restored(amount: float)
-## Emitted when health increases by a certain [param amount], unless
-## [member healing_treated_as_damage] is enabled.
+## Emitted when [member health] increases.
 signal healed(amount: float)
-## Emitted when the shield's points reaches 0.
-signal shield_broken
-## Emitted when health reaches 0.
+## Emitted when [member health] tries to increase when its value is
+## [max_health]
+signal overhealed(amount: float)
+## Emitted when [member health] reaches 0.
 signal died
+## Emitted when [member max_health] is changed.
+signal max_health_changed(new_health: float, old_health: float)
 ## Emitted when [member invincibility_time] starts counting down after taking
 ## damage or when manually called by [method make_invincible] with
 ## [param silent] set to [code]true[/code]
@@ -34,7 +31,8 @@ signal invincibility_ended
 
 ## The maximum value of [member health] and the default value of
 ## [param new_health] for [method reset_health].
-@export_range(1, 100, 0.01, "or_greater") var max_health := 10.0
+@export_range(1, 100, 0.01, "or_greater") var max_health := 10.0:
+	set = change_max_health
 ## The time, in seconds, [member health] won't be able to be reduced after
 ## taking damage. If [member healing_treated_as_damage] is [code]true[/code]
 ## health will also not be able to be increased.
@@ -42,6 +40,7 @@ signal invincibility_ended
 ## If set to [code]true[/code], this node will call [method Node.queue_free()]
 ## to its parent after [signal dead] is emitted.
 @export var free_after_death := false
+
 
 @export_group("Healing", "healing_")
 ## If set to [code]true[/code], [member health] can be increased without
@@ -51,128 +50,155 @@ signal invincibility_ended
 ## negative damage will be treated as heal and will trigger [signal damaged]
 ## instead of [signal healed], while also being subjected to
 ## [member invincibility_time].
-@export var healing_treated_as_damage := false
+@export var healing_from_negative_damage := false
 
-@export_group("Shield", "shield_")
-## If set to [code]true[/code], will treat [member shield] as extra health.
-@export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var shield_enabled := false
-## The maximum value of [member shield] and the default value of
-## [param new_shield] for [method restore_shield].
-@export_range(1, 100, 0.01, "or_greater") var shield_max := 10.0
-## If set to [code]true[/code], extra damage will be discarted and extra heal 
-## won't restore shield.
-@export var shield_different_layer := true
 
-var health := 0.0
-var shield := 0.0
+## Current health, should not be set manually.
+var health := 0.0:
+	set(value):
+		if value < 0 and healing_from_negative_damage:
+			heal(value)
+		elif value > 0:
+			damage(value)
+		push_warning("Avoid setting health manually, use heal() or damage")
+## Amount of health that was overhealed.
+var overflow_health := 0.0
 
-@onready var _parent := get_parent()
 @onready var _hit_cooldown := Timer.new()
 
 
 func _ready() -> void:
 	reset_health(true)
-	if shield_enabled:
-		restore_shield(true)
 	
 	add_child(_hit_cooldown)
 	_hit_cooldown.timeout.connect(func(): invincibility_ended.emit())
 	_hit_cooldown.one_shot = true
 
 
-func take_damage(damage := 1.0) -> void:
+## Damages the node's [member health] by [param amount], or call [method heal]
+## if [param amount] is negative and [member healing_from_negative_damage] is
+## [code]true[/code].
+## Will not work if [method is_dead] or [method is_invincible] returns false.
+## [br][br]
+## After successfuly damaging [member health], it will emit [signal damaged, and
+## emit [signal died] if dead or [signal invincibility_started] if not.
+func damage(amount := 1.0) -> void:
 	if is_dead() or is_invincible():
 		return
 	
-	if damage < 0 and healing_treated_as_damage:
-		heal(-damage)
-	elif not is_shield_broken():
-		_damage_shield(damage)
-	else:
-		_take_damage(damage)
+	if amount > 0:
+		_damage(amount)
+	elif healing_from_negative_damage:
+		heal(-amount)
 
 
+## Heals the node's [member health] by [param amount], or call [method damage]
+## if [param amount] is positive and [member healing_from_negative_damage] is
+## [code]true[/code].
+## Will not work if [method is_dead] returns false.
+## [br][br]
+## After successfuly healing [member health], it will emit [signal healed], and
+## emit [signal overhealed] if after the heal [member health] was greater than
+## [member max_health]
 func heal(amount := 1.0) -> void:
-	if healing_enabled and amount > 0:
-		health += amount
-		var health_overflow := health - max_health
-		if health_overflow > 0:
-			_handle_health_overflow(health_overflow)
-		healed.emit(amount - health_overflow)
+	if is_dead():
+		return
+	
+	if healing_enabled:
+		if amount > 0:
+			_heal(amount)
+		elif healing_from_negative_damage:
+			damage(-amount)
 
 
+## Change the current [member max_health] to [param new_health]. If
+## [param new_health] is lesser than the current [member health], it will be
+## damaged with [method damage].
+## [br][br]
+## Won't work if [param new_health] is negative.
+func change_max_health(new_health: float):
+	if new_health < 0:
+		return
+	
+	if new_health < health:
+		damage(health - new_health)
+	
+	var old_max_health = max_health
+	max_health = new_health
+	
+	max_health_changed.emit(max_health, old_max_health)
+
+
+## Make the [member health] immune to damage for [param time] seconds. If
+## [param silent] is false, won't emit [signal invincibility_started].
+## Will not work if [method is_dead] returns false.
+## [br][br]
 func make_invincible(silent := false, time := invincibility_time) -> void:
+	if is_dead():
+		return
+	
 	_hit_cooldown.start(time)
+	
 	if not silent:
 		invincibility_started.emit()
 
 
+## Make the [member health] the value of [param new_health], which is defaulted
+## to [member max_health]. If [param silent] is false, signals won't be emitted.
+## Will not work if [method is_dead] returns false.
+## [br][br]
 func reset_health(silent := false, new_health := max_health) -> void:
+	if new_health < 0 or is_dead():
+		return
+	
 	var old_health := health
-	health = new_health
+	health = min(new_health, max_health)
 	
 	if not silent:
-		healed.emit(new_health - old_health)
+		var difference := absf(new_health - old_health)
+		if health > old_health:
+			healed.emit(difference)
+		else:
+			damaged.emit(difference)
 
 
-func restore_shield(silent := false, new_shield := shield_max) -> void:
-	if shield_enabled:
-		var old_shield := shield
-		shield = new_shield
-		
-		if not silent:
-			shield_restored.emit(new_shield - old_shield)
-
-
-func is_shield_broken() -> bool:
-	return shield <= 0
-
-
+## Returns true if [member health] is greater than or equal to 0.
 func is_dead() -> bool:
 	return health <= 0
 
 
+## Returns true if [member health] cannot be damaged because it is invulnerable.
 func is_invincible() -> bool:
 	return not _hit_cooldown.is_stopped()
 
 
-func get_health_percentage() -> float:
+## Returns the ratio between [member health] and [member max_health], between
+## [code]0[/code] and [code]1[/code].
+func get_proportion() -> float:
 	return health / max_health
 
 
-func get_shield_percentage() -> float:
-	return shield / shield_max
+## Returns the difference between [member max_health] and [member health].
+func get_available() -> float:
+	return max_health - health
 
 
-func _damage_shield(damage: float) -> void:
-	if shield_enabled and shield > 0:
-		shield -= damage
-		var damage_taken := damage if shield >= 0 else damage + shield
-		shield_damaged.emit(damage_taken)
-		
-		if is_shield_broken():
-			shield = 0
-			shield_broken.emit()
-			
-			if not shield_different_layer:
-				_take_damage(damage_taken)
-
-
-func _take_damage(damage: float) -> void:
-	health -= damage
-	damaged.emit(damage)
-	
-	make_invincible()
+func _damage(amount: float) -> void:
+	health -= amount
+	damaged.emit(amount)
 	
 	if is_dead():
 		died.emit()
 		
 		if free_after_death:
-			_parent.queue_free()
+			get_parent().queue_free()
+	else:
+		make_invincible()
 
 
-func _handle_health_overflow(overflow_amount: float) -> void:
-	health -= overflow_amount
-	
-	if not shield_different_layer:
-		restore_shield(false, min(shield_max, shield + overflow_amount))
+func _heal(amount: float):
+	health += amount
+	var overheal := minf(0, health - max_health)
+	if overheal > 0:
+		overhealed.emit(overheal)
+	healed.emit(amount - overheal)
