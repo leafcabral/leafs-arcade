@@ -46,10 +46,10 @@ signal invincibility_ended
 ## If set to [code]true[/code], [member health] can be increased without
 ## resetting.
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var healing_enabled := true
-## If set to [code]true[/code] (with [member healing_enabled] also true,
-## negative damage will be treated as heal and will trigger [signal damaged]
-## instead of [signal healed], while also being subjected to
-## [member invincibility_time].
+## If set to [code]true[/code], [method damage] and [method heal] can be used
+## for both damaging and healing, with negative damage being considered healing
+## and negative healing being considered damage. The correct signals will be
+## emitted.
 @export var healing_from_negative_damage := false
 
 
