@@ -6,6 +6,7 @@ const MAXIMUM_FRUITS := 15
 
 var wave := 1
 
+@onready var player: Player = $Player
 @onready var fruit_manager: FruitManager = $FruitManager
 
 
@@ -29,3 +30,10 @@ func _on_fruit_manager_fruits_depleted() -> void:
 	
 	await get_tree().create_timer(2.0).timeout
 	start_wave()
+
+
+func _on_fruit_manager_unsliced_fruit_left() -> void:
+	var player_health_component: HealthComponent = player.get_node("HealthComponent")
+	if player_health_component:
+		player_health_component.damage()
+		print(player_health_component.health)

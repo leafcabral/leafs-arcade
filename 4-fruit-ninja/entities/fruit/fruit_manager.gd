@@ -3,6 +3,7 @@ extends Path2D
 
 
 signal spawn_cooldown_finished
+signal unsliced_fruit_left
 signal fruits_depleted
 
 const FRUIT := preload("uid://6rsron8monuy")
@@ -53,6 +54,8 @@ func erase_fruit(fruit: Fruit) -> void:
 
 
 func _on_fruit_exited_screen(fruit: Fruit) -> void:
+	if not fruit.sliced:
+		unsliced_fruit_left.emit()
 	erase_fruit(fruit)
 
 

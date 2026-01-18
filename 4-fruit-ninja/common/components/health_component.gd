@@ -34,8 +34,7 @@ signal invincibility_ended
 @export_range(1, 100, 0.01, "or_greater") var max_health := 10.0:
 	set = change_max_health
 ## The time, in seconds, [member health] won't be able to be reduced after
-## taking damage. If [member healing_treated_as_damage] is [code]true[/code]
-## health will also not be able to be increased.
+## taking damage.
 @export_range(0, 5, 0.01, "or_greater", "suffix:s") var invincibility_time := 0.5
 ## If set to [code]true[/code], this node will call [method Node.queue_free()]
 ## to its parent after [signal dead] is emitted.
@@ -54,13 +53,7 @@ signal invincibility_ended
 
 
 ## Current health, should not be set manually.
-var health := 0.0:
-	set(value):
-		if value < 0 and healing_from_negative_damage:
-			heal(value)
-		elif value > 0:
-			damage(value)
-		push_warning("Avoid setting health manually, use heal() or damage")
+var health := 0.0
 ## Amount of health that was overhealed.
 var overflow_health := 0.0
 
@@ -145,10 +138,8 @@ func make_invincible(silent := false, time := invincibility_time) -> void:
 
 ## Make the [member health] the value of [param new_health], which is defaulted
 ## to [member max_health]. If [param silent] is false, signals won't be emitted.
-## Will not work if [method is_dead] returns false.
-## [br][br]
 func reset_health(silent := false, new_health := max_health) -> void:
-	if new_health < 0 or is_dead():
+	if new_health < 0:
 		return
 	
 	var old_health := health
@@ -192,7 +183,7 @@ func _damage(amount: float) -> void:
 		
 		if free_after_death:
 			get_parent().queue_free()
-	else:
+	elif invincibility_time > 0:
 		make_invincible()
 
 

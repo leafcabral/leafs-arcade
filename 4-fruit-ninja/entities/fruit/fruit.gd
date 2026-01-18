@@ -8,6 +8,8 @@ signal hit(fruit: Fruit)
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
 
+var sliced := false
+
 @onready var viewport_size := get_viewport_rect().size
 @onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D2
 
@@ -42,5 +44,6 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
+		sliced = true
 		hit.emit(self)
 		collision_shape_2d.set_deferred("disabled", true)
