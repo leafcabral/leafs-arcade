@@ -3,19 +3,19 @@ extends RigidBody2D
 
 
 signal exited_screen(fruit: Fruit)
-signal hit(fruit: Fruit)
+signal sliced(fruit: Fruit)
 
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
 
-var sliced := false
+var is_sliced := false
 
 @onready var viewport_size := get_viewport_rect().size
-@onready var collision_shape_2d: CollisionShape2D = $Area2D/CollisionShape2D2
 
 
 func _ready() -> void:
-	launch()
+	if not is_sliced:
+		launch()
 
 
 func launch() -> void:
@@ -44,6 +44,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
-		sliced = true
-		hit.emit(self)
-		collision_shape_2d.set_deferred("disabled", true)
+		$Area2D.queue_free()
+		$Sprite2D.modulate = Color.AQUA
+		is_sliced = true
+		sliced.emit(self)

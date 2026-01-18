@@ -29,7 +29,7 @@ func spawn_fruits(amount: int) -> void:
 		
 		fruits.append(fruit)
 		fruit.connect("exited_screen", _on_fruit_exited_screen)
-		fruit.connect("hit", _on_fruit_hit)
+		fruit.connect("sliced", _on_fruit_sliced)
 		
 		fruit_timers.append(randf())
 
@@ -54,10 +54,14 @@ func erase_fruit(fruit: Fruit) -> void:
 
 
 func _on_fruit_exited_screen(fruit: Fruit) -> void:
-	if not fruit.sliced:
+	if not fruit.is_sliced:
 		unsliced_fruit_left.emit()
 	erase_fruit(fruit)
 
 
-func _on_fruit_hit(fruit: Fruit) -> void:
-	fruit.modulate = Color.AQUAMARINE
+func _on_fruit_sliced(fruit: Fruit) -> void:
+	var other_sliced_fruit := fruit.duplicate()
+	other_sliced_fruit.linear_velocity.x *= -1
+	other_sliced_fruit.linear_velocity.y += randfn(0, 200)
+	other_sliced_fruit.is_sliced = true
+	call_deferred("add_child", other_sliced_fruit)
