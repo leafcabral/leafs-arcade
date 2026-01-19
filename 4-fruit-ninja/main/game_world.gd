@@ -8,6 +8,8 @@ var wave := 1
 
 @onready var player: Player = $Player
 @onready var fruit_manager: FruitManager = $FruitManager
+@onready var hud: CanvasLayer = $"../HUD"
+@onready var player_health: HealthComponent = player.get_node("HealthComponent")
 
 
 func _ready() -> void:
@@ -33,7 +35,5 @@ func _on_fruit_manager_fruits_depleted() -> void:
 
 
 func _on_fruit_manager_unsliced_fruit_left() -> void:
-	var player_health_component: HealthComponent = player.get_node("HealthComponent")
-	if player_health_component:
-		player_health_component.damage()
-		print(player_health_component.health)
+	player_health.damage()
+	hud.set_misses(player_health.get_available())

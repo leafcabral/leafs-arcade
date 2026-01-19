@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=13 format=3 uid="uid://ckefh8ijiavng"]
 
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
 [ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/game_world.gd" id="1_sd42p"]
@@ -9,6 +9,8 @@
 [ext_resource type="Resource" uid="uid://cj4sw67dnxi0w" path="res://entities/fruit/types/banana.tres" id="7_50ijx"]
 [ext_resource type="Resource" uid="uid://bnqlntbttwqo5" path="res://entities/fruit/types/coconut.tres" id="8_d0ffj"]
 [ext_resource type="Resource" uid="uid://bbc83fdly4wqt" path="res://entities/fruit/types/pineapple.tres" id="9_yhd5o"]
+[ext_resource type="Texture2D" uid="uid://by4chl8jgl7l6" path="res://main/hud/missed-false.png" id="10_d0ffj"]
+[ext_resource type="Script" uid="uid://2kbfohb1a4x6" path="res://main/hud/hud.gd" id="10_yhd5o"]
 
 [sub_resource type="Curve2D" id="Curve2D_sd42p"]
 _data = {
@@ -27,6 +29,27 @@ script = ExtResource("1_sd42p")
 curve = SubResource("Curve2D_sd42p")
 script = ExtResource("2_mf5tn")
 sprite_datas = Array[ExtResource("4_5ki0c")]([ExtResource("4_ruu41"), ExtResource("7_50ijx"), ExtResource("8_d0ffj"), ExtResource("6_0lrfc"), ExtResource("9_yhd5o")])
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("10_yhd5o")
+
+[node name="Miss1" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(554, 53)
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("10_d0ffj")
+
+[node name="Miss2" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(628, 62)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("10_d0ffj")
+
+[node name="Miss3" type="Sprite2D" parent="HUD"]
+texture_filter = 1
+position = Vector2(728, 72)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("10_d0ffj")
 
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]
