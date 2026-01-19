@@ -5,7 +5,7 @@ const MISSED_TRUE := preload("uid://4bjtxjfandrj")
 const MISSED_FALSE := preload("uid://by4chl8jgl7l6")
 
 
-@onready var misses: Array[Sprite2D] = [$Miss1, $Miss2, $Miss3]
+@onready var misses: Array[Node] = $Misses.get_children()
 @onready var misses_length := len(misses)
 
 

@@ -33,21 +33,24 @@ sprite_datas = Array[ExtResource("4_5ki0c")]([ExtResource("4_ruu41"), ExtResourc
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("10_yhd5o")
 
-[node name="Miss1" type="Sprite2D" parent="HUD"]
+[node name="Misses" type="Node2D" parent="HUD"]
+position = Vector2(776, 24)
+
+[node name="Miss1" type="Sprite2D" parent="HUD/Misses"]
 texture_filter = 1
-position = Vector2(554, 53)
+position = Vector2(-212, 28.8)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("10_d0ffj")
 
-[node name="Miss2" type="Sprite2D" parent="HUD"]
+[node name="Miss2" type="Sprite2D" parent="HUD/Misses"]
 texture_filter = 1
-position = Vector2(628, 62)
+position = Vector2(-140, 38.4)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("10_d0ffj")
 
-[node name="Miss3" type="Sprite2D" parent="HUD"]
+[node name="Miss3" type="Sprite2D" parent="HUD/Misses"]
 texture_filter = 1
-position = Vector2(728, 72)
+position = Vector2(-48, 48)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("10_d0ffj")
 
