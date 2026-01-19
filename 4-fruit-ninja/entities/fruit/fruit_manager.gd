@@ -8,6 +8,8 @@ signal fruits_depleted
 
 const FRUIT := preload("uid://6rsron8monuy")
 
+@export var sprite_datas: Array[FruitSpriteData]
+
 var fruits: Array[Fruit] = []
 var fruit_timers: Array[float] = []
 
@@ -26,6 +28,7 @@ func spawn_fruits(amount: int) -> void:
 	for i in amount:
 		var fruit := FRUIT.instantiate()
 		fruit.position = get_random_position()
+		fruit.sprite_data = sprite_datas.pick_random()
 		
 		fruits.append(fruit)
 		fruit.connect("exited_screen", _on_fruit_exited_screen)
@@ -60,8 +63,9 @@ func _on_fruit_exited_screen(fruit: Fruit) -> void:
 
 
 func _on_fruit_sliced(fruit: Fruit) -> void:
-	var other_sliced_fruit := fruit.duplicate()
-	other_sliced_fruit.linear_velocity.x *= -1
-	other_sliced_fruit.linear_velocity.y += randfn(0, 200)
-	other_sliced_fruit.is_sliced = true
-	call_deferred("add_child", other_sliced_fruit)
+	for i in 2:
+		var fruit_slice := fruit.duplicate()
+		fruit_slice.linear_velocity.x *= [-1, 1][i]
+		fruit_slice.sprite_half_num = i
+		call_deferred("add_child", fruit_slice)
+	erase_fruit(fruit)

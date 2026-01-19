@@ -1,8 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=11 format=3 uid="uid://ckefh8ijiavng"]
 
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
 [ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/game_world.gd" id="1_sd42p"]
 [ext_resource type="Script" uid="uid://308svwjg04wa" path="res://entities/fruit/fruit_manager.gd" id="2_mf5tn"]
+[ext_resource type="Script" uid="uid://cmyijexk5nwjg" path="res://entities/fruit/fruit_sprite_data.gd" id="4_5ki0c"]
+[ext_resource type="Resource" uid="uid://cclr3xwvyu4te" path="res://entities/fruit/types/apple.tres" id="4_ruu41"]
+[ext_resource type="Resource" uid="uid://b55su3h4yc4c8" path="res://entities/fruit/types/orange.tres" id="6_0lrfc"]
+[ext_resource type="Resource" uid="uid://cj4sw67dnxi0w" path="res://entities/fruit/types/banana.tres" id="7_50ijx"]
+[ext_resource type="Resource" uid="uid://bnqlntbttwqo5" path="res://entities/fruit/types/coconut.tres" id="8_d0ffj"]
+[ext_resource type="Resource" uid="uid://bbc83fdly4wqt" path="res://entities/fruit/types/pineapple.tres" id="9_yhd5o"]
 
 [sub_resource type="Curve2D" id="Curve2D_sd42p"]
 _data = {
@@ -20,6 +26,7 @@ script = ExtResource("1_sd42p")
 [node name="FruitManager" type="Path2D" parent="GameWorld"]
 curve = SubResource("Curve2D_sd42p")
 script = ExtResource("2_mf5tn")
+sprite_datas = Array[ExtResource("4_5ki0c")]([ExtResource("4_ruu41"), ExtResource("7_50ijx"), ExtResource("8_d0ffj"), ExtResource("6_0lrfc"), ExtResource("9_yhd5o")])
 
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]

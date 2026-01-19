@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FruitSpriteData" load_steps=5 format=3 uid="uid://b55su3h4yc4c8"]
+
+[ext_resource type="Texture2D" uid="uid://chwud0dmipig8" path="res://entities/fruit/types/sprites/orange-full.png" id="1_31kfa"]
+[ext_resource type="Texture2D" uid="uid://dlnw6t8uok548" path="res://entities/fruit/types/sprites/orange-half-1.png" id="2_xcfim"]
+[ext_resource type="Texture2D" uid="uid://dnjxseaygq1nk" path="res://entities/fruit/types/sprites/orange-half-2.png" id="3_o206g"]
+[ext_resource type="Script" uid="uid://cmyijexk5nwjg" path="res://entities/fruit/fruit_sprite_data.gd" id="4_7sivp"]
+
+[resource]
+script = ExtResource("4_7sivp")
+full = ExtResource("1_31kfa")
+halfs = Array[CompressedTexture2D]([ExtResource("3_o206g"), ExtResource("2_xcfim")])
+metadata/_custom_type_script = "uid://cmyijexk5nwjg"

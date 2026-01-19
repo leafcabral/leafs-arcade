@@ -22,10 +22,11 @@ angular_damp = -1.0
 script = ExtResource("1_cv02n")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.2, 1.2)
 texture = SubResource("GradientTexture2D_cv02n")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-rect = Rect2(-32, -32, 64, 64)
+rect = Rect2(-64, -64, 128, 128)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 2

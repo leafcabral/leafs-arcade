@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="FruitSpriteData" load_steps=5 format=3 uid="uid://bbc83fdly4wqt"]
+
+[ext_resource type="Texture2D" uid="uid://dgrqbp84w2fn6" path="res://entities/fruit/types/sprites/pineapple-full.png" id="1_lpe2p"]
+[ext_resource type="Texture2D" uid="uid://cg3b4d6l3jjr2" path="res://entities/fruit/types/sprites/pineapple-half-2.png" id="2_htqex"]
+[ext_resource type="Texture2D" uid="uid://b77wj8qwsj2x" path="res://entities/fruit/types/sprites/pineapple-half1.png" id="3_83cgy"]
+[ext_resource type="Script" uid="uid://cmyijexk5nwjg" path="res://entities/fruit/fruit_sprite_data.gd" id="4_uhsy0"]
+
+[resource]
+script = ExtResource("4_uhsy0")
+full = ExtResource("1_lpe2p")
+halfs = Array[CompressedTexture2D]([ExtResource("2_htqex"), ExtResource("3_83cgy")])
+metadata/_custom_type_script = "uid://cmyijexk5nwjg"

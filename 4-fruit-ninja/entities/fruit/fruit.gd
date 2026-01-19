@@ -8,14 +8,20 @@ signal sliced(fruit: Fruit)
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
 
-var is_sliced := false
+@export var sprite_data: FruitSpriteData
+@export var is_sliced := false
+
+var sprite_half_num: int
 
 @onready var viewport_size := get_viewport_rect().size
 
 
 func _ready() -> void:
 	if not is_sliced:
+		$Sprite2D.texture = sprite_data.full
 		launch()
+	else:
+		$Sprite2D.texture = sprite_data.halfs[sprite_half_num]
 
 
 func launch() -> void:
@@ -45,6 +51,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
 		$Area2D.queue_free()
-		$Sprite2D.modulate = Color.AQUA
 		is_sliced = true
 		sliced.emit(self)
