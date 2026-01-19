@@ -5,6 +5,8 @@ const MINIMUM_FRUITS := 3
 const MAXIMUM_FRUITS := 15
 
 var wave := 1
+var score := 0
+var high_score := 0
 
 @onready var player: Player = $Player
 @onready var fruit_manager: FruitManager = $FruitManager
@@ -37,3 +39,12 @@ func _on_fruit_manager_fruits_depleted() -> void:
 func _on_fruit_manager_unsliced_fruit_left() -> void:
 	player_health.damage()
 	hud.set_misses(player_health.get_available())
+
+
+func _on_fruit_manager_fruit_sliced() -> void:
+	score += 1
+	hud.update_score(score)
+	
+	if score > high_score:
+		high_score = score
+		hud.update_high_score(high_score)

@@ -3,6 +3,7 @@ extends Path2D
 
 
 signal spawn_cooldown_finished
+signal fruit_sliced
 signal unsliced_fruit_left
 signal fruits_depleted
 
@@ -69,3 +70,4 @@ func _on_fruit_sliced(fruit: Fruit) -> void:
 		fruit_slice.sprite_half_num = i
 		call_deferred("add_child", fruit_slice)
 	erase_fruit(fruit)
+	fruit_sliced.emit()
