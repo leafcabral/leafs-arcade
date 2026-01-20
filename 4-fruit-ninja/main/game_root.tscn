@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=17 format=3 uid="uid://ckefh8ijiavng"]
 
 [ext_resource type="Texture2D" uid="uid://tcnyxsjtxkp7" path="res://main/hud/background.png" id="1_m7g0w"]
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
 [ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/game_world.gd" id="1_sd42p"]
+[ext_resource type="Script" uid="uid://c3o8totjh8ofe" path="res://main/game_root.gd" id="1_yqxk6"]
 [ext_resource type="Script" uid="uid://308svwjg04wa" path="res://entities/fruit/fruit_manager.gd" id="2_mf5tn"]
 [ext_resource type="Script" uid="uid://cmyijexk5nwjg" path="res://entities/fruit/fruit_sprite_data.gd" id="4_5ki0c"]
 [ext_resource type="Resource" uid="uid://cclr3xwvyu4te" path="res://entities/fruit/types/apple.tres" id="4_ruu41"]
@@ -11,7 +12,7 @@
 [ext_resource type="Resource" uid="uid://bnqlntbttwqo5" path="res://entities/fruit/types/coconut.tres" id="8_d0ffj"]
 [ext_resource type="Resource" uid="uid://bbc83fdly4wqt" path="res://entities/fruit/types/pineapple.tres" id="9_yhd5o"]
 [ext_resource type="Texture2D" uid="uid://by4chl8jgl7l6" path="res://main/hud/missed-false.png" id="10_d0ffj"]
-[ext_resource type="Script" uid="uid://2kbfohb1a4x6" path="res://main/hud/hud.gd" id="10_yhd5o"]
+[ext_resource type="Script" uid="uid://2kbfohb1a4x6" path="res://main/hud/game_hud.gd" id="10_yhd5o"]
 [ext_resource type="Texture2D" uid="uid://bfqk20rnuwoaq" path="res://entities/fruit/types/sprites/coconut-half-2.png" id="12_ukkfd"]
 [ext_resource type="Theme" uid="uid://0y0qe7aesqr" path="res://style/ui.tres" id="13_ukkfd"]
 
@@ -22,6 +23,7 @@ _data = {
 point_count = 2
 
 [node name="GameRoot" type="Node2D"]
+script = ExtResource("1_yqxk6")
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
@@ -44,38 +46,38 @@ curve = SubResource("Curve2D_sd42p")
 script = ExtResource("2_mf5tn")
 sprite_datas = Array[ExtResource("4_5ki0c")]([ExtResource("4_ruu41"), ExtResource("7_50ijx"), ExtResource("8_d0ffj"), ExtResource("6_0lrfc"), ExtResource("9_yhd5o")])
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="GameHUD" type="CanvasLayer" parent="."]
 script = ExtResource("10_yhd5o")
 
-[node name="Misses" type="Node2D" parent="HUD"]
+[node name="Misses" type="Node2D" parent="GameHUD"]
 position = Vector2(776, 24)
 
-[node name="Miss1" type="Sprite2D" parent="HUD/Misses"]
+[node name="Miss1" type="Sprite2D" parent="GameHUD/Misses"]
 texture_filter = 1
 position = Vector2(-212, 28.8)
 scale = Vector2(0.9, 0.9)
 texture = ExtResource("10_d0ffj")
 
-[node name="Miss2" type="Sprite2D" parent="HUD/Misses"]
+[node name="Miss2" type="Sprite2D" parent="GameHUD/Misses"]
 texture_filter = 1
 position = Vector2(-140, 38.4)
 scale = Vector2(1.2, 1.2)
 texture = ExtResource("10_d0ffj")
 
-[node name="Miss3" type="Sprite2D" parent="HUD/Misses"]
+[node name="Miss3" type="Sprite2D" parent="GameHUD/Misses"]
 texture_filter = 1
 position = Vector2(-48, 48)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("10_d0ffj")
 
-[node name="Score" type="Node2D" parent="HUD"]
+[node name="Score" type="Node2D" parent="GameHUD"]
 position = Vector2(24, 24)
 
-[node name="SlicedFruit" type="Sprite2D" parent="HUD/Score"]
+[node name="SlicedFruit" type="Sprite2D" parent="GameHUD/Score"]
 position = Vector2(32, 32)
 texture = ExtResource("12_ukkfd")
 
-[node name="ScoreLabel" type="RichTextLabel" parent="HUD/Score"]
+[node name="ScoreLabel" type="RichTextLabel" parent="GameHUD/Score"]
 offset_left = 72.0
 offset_top = 16.0
 offset_right = 248.0
@@ -84,7 +86,7 @@ theme = ExtResource("13_ukkfd")
 bbcode_enabled = true
 text = "0"
 
-[node name="HighScoreLabel" type="RichTextLabel" parent="HUD/Score"]
+[node name="HighScoreLabel" type="RichTextLabel" parent="GameHUD/Score"]
 offset_left = 8.0
 offset_top = 64.0
 offset_right = 112.0
@@ -95,7 +97,7 @@ text = "[font_size=16][color=\"lightgreen\"]high score:
 0"
 horizontal_alignment = 1
 
-[node name="Message" type="RichTextLabel" parent="HUD"]
+[node name="Message" type="RichTextLabel" parent="GameHUD"]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -118,6 +120,10 @@ text = "[wave][color=crimson]Game over[/color][/wave]
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="fruit_sliced" from="GameWorld" to="." method="_on_game_world_fruit_sliced"]
+[connection signal="game_restarted" from="GameWorld" to="." method="_on_game_world_game_restarted"]
+[connection signal="player_damaged" from="GameWorld" to="." method="_on_game_world_player_damaged"]
+[connection signal="player_died" from="GameWorld" to="." method="_on_game_world_player_died"]
 [connection signal="fruit_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruit_sliced"]
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]

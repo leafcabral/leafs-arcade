@@ -1,42 +1,33 @@
+class_name GameWorld
 extends Node
 
+
+signal fruit_sliced
+signal player_damaged(misses: int)
+signal player_died
+signal game_restarted()
 
 const MINIMUM_FRUITS := 3
 const MAXIMUM_FRUITS := 15
 
 var running := true
 var wave := 1
-var score := 0
-var high_score := 0
 
 @onready var player: Player = $Player
 @onready var fruit_manager: FruitManager = $FruitManager
-@onready var hud: CanvasLayer = $"../HUD"
 @onready var player_health: HealthComponent = player.get_node("HealthComponent")
-
-
-func _ready() -> void:
-	await get_tree().create_timer(0.3).timeout
-	new_game()
 
 
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("ui_accept") and not running:
 		running = true
-		hud.hide_message(0.3)
-		
-		new_game()
+		game_restarted.emit()
 
 
-func new_game() -> void:
-	score = 0
+func restart() -> void:
 	wave = 1
 	player_health.reset_health()
 	fruit_manager.clear_fruits()
-	hud.reset_misses()
-	hud.update_score(score)
-	
-	await get_tree().create_timer(1).timeout
 	
 	start_wave()
 
@@ -63,18 +54,13 @@ func _on_fruit_manager_fruits_depleted() -> void:
 func _on_fruit_manager_unsliced_fruit_left() -> void:
 	if running:
 		player_health.damage()
-		hud.set_misses(player_health.get_available())
+		player_damaged.emit(int(player_health.get_available()))
 		
 		if player_health.is_dead():
 			running = false
-			hud.show_game_over_message()
+			player_died.emit()
 
 
 func _on_fruit_manager_fruit_sliced() -> void:
 	if running:
-		score += 1
-		hud.update_score(score)
-		
-		if score > high_score:
-			high_score = score
-			hud.update_high_score(high_score)
+		fruit_sliced.emit()
