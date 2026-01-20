@@ -50,3 +50,11 @@ func _on_game_world_player_died() -> void:
 func _on_game_world_game_restarted() -> void:
 	game_hud.hide_message(0.3)
 	new_game()
+
+
+func _on_game_world_bomb_sliced() -> void:
+	game_hud.show_explosion_animation()
+
+
+func _on_game_hud_explosion_finished() -> void:
+	game_world.kill_player()

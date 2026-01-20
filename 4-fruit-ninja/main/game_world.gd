@@ -3,6 +3,7 @@ extends Node
 
 
 signal fruit_sliced
+signal bomb_sliced
 signal player_damaged(misses: int)
 signal player_died
 signal game_restarted()
@@ -34,7 +35,17 @@ func restart() -> void:
 
 func start_wave() -> void:
 	var enemy_increase := floori(wave * 0.5)
-	fruit_manager.spawn_fruits(min(MINIMUM_FRUITS + enemy_increase, MAXIMUM_FRUITS))
+	fruit_manager.spawn_fruits(min(MINIMUM_FRUITS + enemy_increase, MAXIMUM_FRUITS), wave > 1)
+
+
+func kill_player() -> void:
+	var damage := player_health.max_health
+		
+	player_health.damage(damage)
+	player_damaged.emit(damage)
+	
+	running = false
+	player_died.emit()
 
 
 func _on_fruit_manager_spawn_cooldown_finished() -> void:
@@ -64,3 +75,9 @@ func _on_fruit_manager_unsliced_fruit_left() -> void:
 func _on_fruit_manager_fruit_sliced() -> void:
 	if running:
 		fruit_sliced.emit()
+
+
+func _on_fruit_manager_bomb_sliced() -> void:
+	if running:
+		running = false
+		bomb_sliced.emit()

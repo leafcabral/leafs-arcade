@@ -2,6 +2,8 @@ class_name GameHUD
 extends CanvasLayer
 
 
+signal explosion_finished
+
 const MISSED_TRUE := preload("uid://4bjtxjfandrj")
 const MISSED_FALSE := preload("uid://by4chl8jgl7l6")
 
@@ -11,6 +13,7 @@ const MISSED_FALSE := preload("uid://by4chl8jgl7l6")
 @onready var score_label: RichTextLabel = $Score/ScoreLabel
 @onready var high_score_label: RichTextLabel = $Score/HighScoreLabel
 @onready var message: RichTextLabel = $Message
+@onready var explosion: ColorRect = $Explosion
 
 
 func reset_misses() -> void:
@@ -49,3 +52,11 @@ func show_message(text: String, fade_in := 0.0) -> void:
 
 func hide_message(fade_out := 0.0) -> void:
 	message.create_tween().tween_property(message, "modulate", Color(1,1,1,0), fade_out)
+
+
+func show_explosion_animation(fade_in := 0.6, fade_out := 0.3) -> void:
+	explosion.modulate = Color(1,1,1,0)
+	var explosion_tween := explosion.create_tween()
+	explosion_tween.tween_property(explosion, "modulate", Color.WHITE, fade_in)
+	explosion_tween.tween_property(explosion, "modulate", explosion.modulate, fade_out)
+	explosion_tween.tween_callback(explosion_finished.emit)

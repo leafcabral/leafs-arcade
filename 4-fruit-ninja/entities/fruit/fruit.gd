@@ -7,9 +7,11 @@ signal sliced(fruit: Fruit)
 
 const AVG_SPEED := 300.0
 const MAX_ANGLE_DELTA := PI / 3
+const BOMB_SPRITE := preload("uid://psufnpn2jiu6")
 
 @export var sprite_data: FruitSpriteData
 @export var is_sliced := false
+@export var is_bomb := false
 
 var sprite_half_num: int
 
@@ -17,11 +19,18 @@ var sprite_half_num: int
 
 
 func _ready() -> void:
-	if not is_sliced:
-		$Sprite2D.texture = sprite_data.full
-		launch()
+	var sprite := $Sprite2D
+	
+	if not is_bomb:
+		if not is_sliced:
+			sprite.texture = sprite_data.full
+			launch()
+		else:
+			sprite.texture = sprite_data.halfs[sprite_half_num]
 	else:
-		$Sprite2D.texture = sprite_data.halfs[sprite_half_num]
+		sprite.texture = BOMB_SPRITE
+		$BombFireTrail.show()
+		launch()
 
 
 func launch() -> void:

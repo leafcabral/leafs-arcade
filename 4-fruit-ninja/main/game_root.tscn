@@ -120,11 +120,19 @@ text = "[wave][color=crimson]Game over[/color][/wave]
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Explosion" type="ColorRect" parent="GameHUD"]
+modulate = Color(1, 1, 1, 0)
+offset_right = 800.0
+offset_bottom = 600.0
+
+[connection signal="bomb_sliced" from="GameWorld" to="." method="_on_game_world_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld" to="." method="_on_game_world_fruit_sliced"]
 [connection signal="game_restarted" from="GameWorld" to="." method="_on_game_world_game_restarted"]
 [connection signal="player_damaged" from="GameWorld" to="." method="_on_game_world_player_damaged"]
 [connection signal="player_died" from="GameWorld" to="." method="_on_game_world_player_died"]
+[connection signal="bomb_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruit_sliced"]
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]
 [connection signal="unsliced_fruit_left" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_unsliced_fruit_left"]
+[connection signal="explosion_finished" from="GameHUD" to="." method="_on_game_hud_explosion_finished"]

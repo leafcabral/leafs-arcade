@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="FruitSpriteData" load_steps=3 format=3 uid="uid://chbpmnknkyl3s"]
-
-[ext_resource type="Texture2D" uid="uid://psufnpn2jiu6" path="res://entities/fruit/types/sprites/bomb.png" id="1_3xpuc"]
-[ext_resource type="Script" uid="uid://cmyijexk5nwjg" path="res://entities/fruit/fruit_sprite_data.gd" id="1_c4iec"]
-
-[resource]
-script = ExtResource("1_c4iec")
-full = ExtResource("1_3xpuc")
-metadata/_custom_type_script = "uid://cmyijexk5nwjg"
