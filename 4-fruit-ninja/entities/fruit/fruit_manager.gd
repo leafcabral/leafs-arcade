@@ -42,6 +42,13 @@ func get_random_position() -> Vector2:
 	return curve.sample_baked(randf_range(0, curve_legth))
 
 
+func clear_fruits() -> void:
+	for i in fruits:
+		i.queue_free()
+	fruits.clear()
+	fruit_timers.clear()
+
+
 func pool_unspawned_fruit() -> Fruit:
 	for i in fruits:
 		if not i.is_inside_tree():

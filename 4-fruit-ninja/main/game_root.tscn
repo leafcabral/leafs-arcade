@@ -95,6 +95,29 @@ text = "[font_size=16][color=\"lightgreen\"]high score:
 0"
 horizontal_alignment = 1
 
+[node name="Message" type="RichTextLabel" parent="HUD"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -44.0
+offset_right = 320.0
+offset_bottom = 44.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("13_ukkfd")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/normal_font_size = 52
+bbcode_enabled = true
+text = "[wave][color=crimson]Game over[/color][/wave]
+[font_size=16][outline_size=8]Press ENTER or SPACE to play again"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="fruit_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruit_sliced"]
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]
