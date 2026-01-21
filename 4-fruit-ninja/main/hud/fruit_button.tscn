@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dhg5e2fmjei63"]
+
+[ext_resource type="Script" uid="uid://clkfbkwaywvjk" path="res://main/hud/fruit_button.gd" id="1_2bukb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2bukb"]
+
+[node name="FruitButton" type="Button"]
+offset_right = 64.0
+offset_bottom = 64.0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_2bukb")
+flat = true
+script = ExtResource("1_2bukb")
+metadata/_edit_group_ = true
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

@@ -51,13 +51,21 @@ func _ready() -> void:
 		Type.BOMB:
 			$BombFireTrail.show()
 			launch()
-	
+
 	sprite_2d.texture = sprite
 
 
 func launch() -> void:
+	apply_random_spin()
+	apply_random_x_velocity()
+	apply_random_y_velocity()
+
+
+func apply_random_spin() -> void:
 	angular_velocity = randf_range(PI / 2, PI)
-	
+
+
+func apply_random_x_velocity() -> void:
 	var half_sprite_size: Vector2 = $Sprite2D.get_rect().size / 2
 	var x_position_ratio := remap(
 		global_position.x,
@@ -72,6 +80,9 @@ func launch() -> void:
 		if abs(x_position_ratio) >= 0.2 else
 		[-1, 1].pick_random() * randf_range(x_move_half_screen, x_move_half_screen * 1.1)
 	)
+
+
+func apply_random_y_velocity() -> void:
 	linear_velocity.y = -viewport_size.y * randf_range(1.5, 1.8)
 
 
@@ -99,7 +110,10 @@ func explode() -> void:
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
-	exited_screen.emit(self)
+	if type == Type.NORMAL_SLICE:
+		queue_free()
+	else:
+		exited_screen.emit(self)
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:

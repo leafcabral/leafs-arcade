@@ -62,9 +62,6 @@ func clear_fruits() -> void:
 
 func erase_fruit(fruit: Fruit) -> void:
 	fruit.queue_free()
-	if fruit.type == Fruit.Type.NORMAL_SLICE:
-		return
-	
 	fruits_spawned.erase(fruit)
 	
 	if fruits_spawned.is_empty() and fruits_to_spawn.is_empty():
