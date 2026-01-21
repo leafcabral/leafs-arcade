@@ -126,6 +126,5 @@ offset_bottom = 600.0
 [connection signal="bomb_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruit_sliced"]
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
-[connection signal="spawn_cooldown_finished" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_spawn_cooldown_finished"]
 [connection signal="unsliced_fruit_left" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_unsliced_fruit_left"]
 [connection signal="explosion_finished" from="GameHUD" to="." method="_on_game_hud_explosion_finished"]

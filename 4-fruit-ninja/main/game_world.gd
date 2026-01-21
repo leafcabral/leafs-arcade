@@ -48,12 +48,6 @@ func kill_player() -> void:
 	player_died.emit()
 
 
-func _on_fruit_manager_spawn_cooldown_finished() -> void:
-	var fruit := fruit_manager.pool_unspawned_fruit()
-	if fruit:
-		add_child(fruit)
-
-
 func _on_fruit_manager_fruits_depleted() -> void:
 	if running:
 		wave += 1
