@@ -79,7 +79,7 @@ func create_slices() -> Array[Fruit]:
 		for i in 2:
 			var slice: Fruit = duplicate()
 			slice.type = Type.NORMAL_SLICE
-			slice.linear_velocity *= [-1,1][i]
+			slice.linear_velocity.x *= [-1,1][i]
 			slice.sprite = sprite_data.halfs[i]
 			
 			slices.append(slice)
