@@ -54,7 +54,7 @@ func hide_message(fade_out := 0.0) -> void:
 	message.create_tween().tween_property(message, "modulate", Color(1,1,1,0), fade_out)
 
 
-func show_explosion_animation(fade_in := 0.6, fade_out := 0.3) -> void:
+func show_explosion_animation(fade_in := Fruit.BOMB_EXPLODE_TIME, fade_out := 0.3) -> void:
 	explosion.modulate = Color(1,1,1,0)
 	var explosion_tween := explosion.create_tween()
 	explosion_tween.tween_property(explosion, "modulate", Color.WHITE, fade_in)
