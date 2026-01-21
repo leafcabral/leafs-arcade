@@ -37,15 +37,19 @@ func spawn_fruits(amount: int, should_spawn_bomb: bool) -> void:
 		fruit.position = get_random_position()
 		
 		fruits_to_spawn.append(fruit)
-		fruit.connect("exited_screen", _on_fruit_exited_screen)
-		fruit.connect("sliced", _on_fruit_sliced)
-		fruit.connect("exploded", _on_fruit_exploded)
+		connect_fruit_signals(fruit)
 		
 		fruit_timers.append(randf())
 
 
 func get_random_position() -> Vector2:
 	return curve.sample_baked(randf_range(0, curve_legth))
+
+
+func connect_fruit_signals(fruit: Fruit) -> void:
+	fruit.connect("exited_screen", _on_fruit_exited_screen)
+	fruit.connect("sliced", _on_fruit_sliced)
+	fruit.connect("exploded", _on_fruit_exploded)
 
 
 func clear_fruits() -> void:
@@ -57,10 +61,13 @@ func clear_fruits() -> void:
 
 
 func erase_fruit(fruit: Fruit) -> void:
-	fruits_spawned.erase(fruit)
 	fruit.queue_free()
+	if fruit.type == Fruit.Type.NORMAL_SLICE:
+		return
 	
-	if not fruits_spawned and not fruits_to_spawn:
+	fruits_spawned.erase(fruit)
+	
+	if fruits_spawned.is_empty() and fruits_to_spawn.is_empty():
 		fruits_depleted.emit()
 
 
@@ -74,9 +81,10 @@ func _on_fruit_sliced(fruit: Fruit) -> void:
 	if fruit.type == Fruit.Type.NORMAL:
 		for i in fruit.create_slices():
 			call_deferred("add_child", i)
+			connect_fruit_signals(i)
 		fruit_sliced.emit()
 		erase_fruit(fruit)
-	else:
+	elif fruit.type == Fruit.Type.BOMB:
 		fruit.explode()
 		
 		bomb_sliced.emit()

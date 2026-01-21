@@ -45,6 +45,9 @@ func _ready() -> void:
 		Type.NORMAL:
 			$BombFireTrail.queue_free()
 			launch()
+		Type.NORMAL_SLICE:
+			$BombFireTrail.queue_free()
+			$Area2D.queue_free()
 		Type.BOMB:
 			$BombFireTrail.show()
 			launch()
