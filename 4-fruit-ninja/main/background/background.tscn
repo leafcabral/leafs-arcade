@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://csux4ial0xf1l"]
+
+[ext_resource type="Texture2D" uid="uid://tcnyxsjtxkp7" path="res://main/background/background.png" id="1_o2hd1"]
+
+[node name="Background" type="CanvasLayer"]
+layer = -1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(400.00003, 300.00003)
+scale = Vector2(0.78125006, 0.78125006)
+texture = ExtResource("1_o2hd1")
+region_enabled = true
+region_rect = Rect2(0, 512, 1024, 768)

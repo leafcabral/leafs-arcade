@@ -7,13 +7,22 @@ signal unsliced_fruit_left
 signal bomb_sliced
 signal fruits_depleted
 
+const MINIMUM_FRUITS := 3
+const MAXIMUM_FRUITS := 15
 const BOMB_CHANCE := 0.1
+
+@export var auto_spawn := false
 
 var fruits_to_spawn: Array[Fruit] = []
 var fruits_spawned: Array[Fruit] = []
 var fruit_timers: Array[float] = []
 
 @onready var curve_legth := curve.get_baked_length()
+
+
+func _ready() -> void:
+	if auto_spawn:
+		spawn_fruits(randi_range(MINIMUM_FRUITS, MAXIMUM_FRUITS))
 
 
 func _process(delta: float) -> void:
@@ -27,8 +36,8 @@ func _process(delta: float) -> void:
 			add_child(fruit)
 
 
-func spawn_fruits(amount: int, should_spawn_bomb: bool) -> void:
-	for i in amount:
+func spawn_fruits(amount: int, should_spawn_bomb := true) -> void:
+	for i in clampi(amount, MINIMUM_FRUITS, MAXIMUM_FRUITS):
 		var fruit: Fruit
 		if should_spawn_bomb and randf() < BOMB_CHANCE:
 			fruit = Fruit.create_bomb()
@@ -65,7 +74,10 @@ func erase_fruit(fruit: Fruit) -> void:
 	fruits_spawned.erase(fruit)
 	
 	if fruits_spawned.is_empty() and fruits_to_spawn.is_empty():
-		fruits_depleted.emit()
+		if auto_spawn:
+			spawn_fruits(randi_range(MINIMUM_FRUITS, MAXIMUM_FRUITS))
+		else:
+			fruits_depleted.emit()
 
 
 func _on_fruit_exited_screen(fruit: Fruit) -> void:

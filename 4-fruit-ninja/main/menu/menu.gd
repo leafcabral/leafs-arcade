@@ -72,3 +72,10 @@ func _on_exit_button_pressed_and_animated() -> void:
 func _on_continue_button_fruit_sliced(slices: Array[Fruit]) -> void:
 	for i in slices:
 		call_deferred("add_child", i)
+
+
+func _on_start_button_pressed_and_animated() -> void:
+	var main_menu := $MainMenu
+	var menu_tween := main_menu.create_tween()
+	menu_tween.tween_property(main_menu, "modulate", Color.TRANSPARENT, VFX_DURATION)
+	menu_tween.tween_callback(main_menu.call_deferred.bind("queue_free"))

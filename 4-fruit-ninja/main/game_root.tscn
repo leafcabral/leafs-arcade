@@ -1,38 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=13 format=3 uid="uid://ckefh8ijiavng"]
 
-[ext_resource type="Texture2D" uid="uid://tcnyxsjtxkp7" path="res://main/background/background.png" id="1_m7g0w"]
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
 [ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/world/game_world.gd" id="1_sd42p"]
 [ext_resource type="Script" uid="uid://c3o8totjh8ofe" path="res://main/game_root.gd" id="1_yqxk6"]
-[ext_resource type="Script" uid="uid://308svwjg04wa" path="res://main/world/fruit_manager.gd" id="2_mf5tn"]
-[ext_resource type="Script" uid="uid://crt8scyt0ld0j" path="res://main/explosion_layer.gd" id="6_anaw7"]
+[ext_resource type="PackedScene" uid="uid://csux4ial0xf1l" path="res://main/background/background.tscn" id="2_anaw7"]
+[ext_resource type="PackedScene" uid="uid://c5o23re14myby" path="res://main/world/fruit_manager.tscn" id="5_ukkfd"]
 [ext_resource type="PackedScene" uid="uid://dhg5e2fmjei63" path="res://main/menu/fruit_button.tscn" id="10_anaw7"]
 [ext_resource type="Texture2D" uid="uid://by4chl8jgl7l6" path="res://main/hud/missed-false.png" id="10_d0ffj"]
 [ext_resource type="Script" uid="uid://cv2awjkbn1i0j" path="res://main/menu/menu.gd" id="10_ukkfd"]
 [ext_resource type="Script" uid="uid://2kbfohb1a4x6" path="res://main/hud/game_hud.gd" id="10_yhd5o"]
+[ext_resource type="PackedScene" uid="uid://vkcq7ho5pab1" path="res://main/explosion_layer.tscn" id="12_anaw7"]
 [ext_resource type="Texture2D" uid="uid://bfqk20rnuwoaq" path="res://entities/fruit/types/sprites/coconut-half-2.png" id="12_ukkfd"]
 [ext_resource type="Theme" uid="uid://0y0qe7aesqr" path="res://style/ui.tres" id="13_ukkfd"]
-
-[sub_resource type="Curve2D" id="Curve2D_sd42p"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 100, 600, 0, 0, 0, 0, 700, 600)
-}
-point_count = 2
 
 [node name="GameRoot" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_yqxk6")
 
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="Sprite2D" type="Sprite2D" parent="Background"]
-texture_filter = 1
-position = Vector2(400.00003, 300.00003)
-scale = Vector2(0.78125006, 0.78125006)
-texture = ExtResource("1_m7g0w")
-region_enabled = true
-region_rect = Rect2(0, 512, 1024, 768)
+[node name="Background" parent="." instance=ExtResource("2_anaw7")]
 
 [node name="GameWorld" type="Node" parent="."]
 process_mode = 1
@@ -41,9 +26,7 @@ script = ExtResource("1_sd42p")
 [node name="Player" parent="GameWorld" instance=ExtResource("1_oc7al")]
 process_mode = 3
 
-[node name="FruitManager" type="Path2D" parent="GameWorld"]
-curve = SubResource("Curve2D_sd42p")
-script = ExtResource("2_mf5tn")
+[node name="FruitManager" parent="GameWorld" instance=ExtResource("5_ukkfd")]
 
 [node name="GameHUD" type="CanvasLayer" parent="."]
 process_mode = 1
@@ -101,6 +84,45 @@ horizontal_alignment = 1
 layer = 2
 script = ExtResource("10_ukkfd")
 
+[node name="MainMenu" type="Control" parent="Menu"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Menu/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 116.0
+offset_top = 217.0
+offset_right = 684.0
+offset_bottom = 316.0
+grow_horizontal = 2
+theme = ExtResource("13_ukkfd")
+theme_override_constants/outline_size = 24
+theme_override_font_sizes/normal_font_size = 64
+bbcode_enabled = true
+text = "[wave amp=100]Fruit ninja"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StartButton" parent="Menu/MainMenu" instance=ExtResource("10_anaw7")]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 400.0
+offset_right = 320.0
+offset_bottom = 464.0
+label_text = "Start"
+
+[node name="ExitButton" parent="Menu/MainMenu" instance=ExtResource("10_anaw7")]
+layout_mode = 0
+offset_left = 450.0
+offset_top = 400.0
+offset_right = 514.0
+offset_bottom = 464.0
+label_text = "Exit"
+type = 1
+
 [node name="All" type="Control" parent="Menu"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 3
@@ -130,7 +152,6 @@ offset_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("13_ukkfd")
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 24
 theme_override_font_sizes/normal_font_size = 52
 bbcode_enabled = true
@@ -160,18 +181,7 @@ offset_bottom = 448.0
 label_text = "Exit"
 type = 1
 
-[node name="ExplosionLayer" type="CanvasLayer" parent="."]
-layer = 3
-script = ExtResource("6_anaw7")
-
-[node name="ColorRect" type="ColorRect" parent="ExplosionLayer"]
-modulate = Color(1, 1, 1, 0)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
+[node name="ExplosionLayer" parent="." instance=ExtResource("12_anaw7")]
 
 [connection signal="bomb_sliced" from="GameWorld" to="." method="_on_game_world_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld" to="." method="_on_game_world_fruit_sliced"]
@@ -183,6 +193,10 @@ mouse_filter = 2
 [connection signal="unsliced_fruit_left" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_unsliced_fruit_left"]
 [connection signal="continue_pressed" from="Menu" to="." method="_on_menu_continue_pressed"]
 [connection signal="exit_pressed" from="Menu" to="." method="_on_menu_exit_pressed"]
+[connection signal="fruit_sliced" from="Menu/MainMenu/StartButton" to="Menu" method="_on_continue_button_fruit_sliced"]
+[connection signal="pressed_and_animated" from="Menu/MainMenu/StartButton" to="." method="_on_start_button_pressed_and_animated"]
+[connection signal="pressed_and_animated" from="Menu/MainMenu/StartButton" to="Menu" method="_on_start_button_pressed_and_animated"]
+[connection signal="pressed_and_animated" from="Menu/MainMenu/ExitButton" to="Menu" method="_on_exit_button_pressed_and_animated"]
 [connection signal="fruit_sliced" from="Menu/All/ContinueButton" to="Menu" method="_on_continue_button_fruit_sliced"]
 [connection signal="pressed_and_animated" from="Menu/All/ContinueButton" to="Menu" method="_on_continue_button_pressed_and_animated"]
 [connection signal="pressed_and_animated" from="Menu/All/ExitButton" to="Menu" method="_on_exit_button_pressed_and_animated"]

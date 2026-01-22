@@ -13,7 +13,6 @@ enum Type {
 
 @export var label_text: String:
 	set = change_label_text
-		
 @export var type := Type.CONFIRM
 @export var should_spin := true
 
@@ -77,8 +76,9 @@ func handle_interaction() -> void:
 
 
 func change_label_text(new_label: String) -> void:
+	label_text = new_label
 	if label:
-		label.text = new_label
+		label.text = label_text
 
 
 func _on_fruit_sliced(_fruit: Fruit) -> void:

@@ -7,9 +7,6 @@ signal bomb_sliced
 signal player_damaged(misses: int)
 signal player_died
 
-const MINIMUM_FRUITS := 3
-const MAXIMUM_FRUITS := 15
-
 var running := true
 var wave := 1
 
@@ -28,8 +25,8 @@ func restart() -> void:
 
 
 func start_wave() -> void:
-	var enemy_increase := floori(wave * 0.5)
-	fruit_manager.spawn_fruits(min(MINIMUM_FRUITS + enemy_increase, MAXIMUM_FRUITS), wave > 1)
+	var enemy_amount := FruitManager.MINIMUM_FRUITS + floori(wave * 0.5)
+	fruit_manager.spawn_fruits(enemy_amount, wave > 1)
 
 
 func kill_player() -> void:

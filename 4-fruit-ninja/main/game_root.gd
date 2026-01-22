@@ -1,6 +1,7 @@
 extends Node2D
 
 
+var main_menu := true
 var score := 0
 var high_score := 0
 var game_over := false
@@ -13,12 +14,12 @@ var game_over := false
 
 
 func _ready() -> void:
-	await get_tree().create_timer(0.3).timeout
-	new_game()
+	game_hud.hide()
+	game_world.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause") and not game_over:
+	if event.is_action_pressed("pause") and not game_over and not main_menu:
 		if game_world.process_mode == Node.PROCESS_MODE_PAUSABLE:
 			game_world.process_mode = Node.PROCESS_MODE_DISABLED
 			menu.show_paused()
@@ -85,3 +86,9 @@ func _on_menu_continue_pressed() -> void:
 		Input.parse_input_event(pause_event)
 	else:
 		new_game()
+
+
+func _on_start_button_pressed_and_animated() -> void:
+	game_hud.show()
+	game_world.process_mode = Node.PROCESS_MODE_PAUSABLE
+	new_game()

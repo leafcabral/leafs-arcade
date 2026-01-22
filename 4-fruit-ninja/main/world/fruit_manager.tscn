@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5o23re14myby"]
+
+[ext_resource type="Script" uid="uid://308svwjg04wa" path="res://main/world/fruit_manager.gd" id="1_bq2kc"]
+
+[sub_resource type="Curve2D" id="Curve2D_sd42p"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 100, 600, 0, 0, 0, 0, 700, 600)
+}
+point_count = 2
+
+[node name="FruitManager" type="Path2D"]
+curve = SubResource("Curve2D_sd42p")
+script = ExtResource("1_bq2kc")
