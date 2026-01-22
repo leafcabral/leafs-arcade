@@ -87,3 +87,8 @@ func _on_fruit_sliced(_fruit: Fruit) -> void:
 
 func _on_pressed() -> void:
 	handle_interaction()
+
+
+func _on_visibility_changed() -> void:
+	if fruit:
+		fruit.toggle_collision(visible)

@@ -24,6 +24,8 @@ var sprite: Texture2D
 
 @onready var viewport_size := get_viewport_rect().size
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var bomb_fire_trail: GPUParticles2D = $BombFireTrail
+@onready var area_2d: Area2D = $Area2D
 
 
 static func create_random_normal() -> Fruit:
@@ -43,13 +45,13 @@ static func create_bomb() -> Fruit:
 func _ready() -> void:
 	match type:
 		Type.NORMAL:
-			$BombFireTrail.queue_free()
+			bomb_fire_trail.queue_free()
 			launch()
 		Type.NORMAL_SLICE:
-			$BombFireTrail.queue_free()
-			$Area2D.queue_free()
+			bomb_fire_trail.queue_free()
+			area_2d.queue_free()
 		Type.BOMB:
-			$BombFireTrail.show()
+			bomb_fire_trail.show()
 			launch()
 
 	sprite_2d.texture = sprite
@@ -109,6 +111,11 @@ func explode() -> void:
 		tween.tween_callback(exploded.emit.bind(self))
 
 
+func toggle_collision(on: bool) -> void:
+	area_2d.set_deferred("monitorable", on)
+	area_2d.set_deferred("monitoring", on)
+
+
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	if type == Type.NORMAL_SLICE:
 		queue_free()
@@ -118,5 +125,5 @@ func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
-		$Area2D.queue_free()
+		area_2d.queue_free()
 		sliced.emit(self)

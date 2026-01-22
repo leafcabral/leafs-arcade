@@ -54,3 +54,4 @@ text = "continue"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
