@@ -20,6 +20,7 @@ _data = {
 point_count = 2
 
 [node name="GameRoot" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_yqxk6")
 
 [node name="Background" type="CanvasLayer" parent="."]
@@ -34,15 +35,18 @@ region_enabled = true
 region_rect = Rect2(0, 512, 1024, 768)
 
 [node name="GameWorld" type="Node" parent="."]
+process_mode = 1
 script = ExtResource("1_sd42p")
 
 [node name="Player" parent="GameWorld" instance=ExtResource("1_oc7al")]
+process_mode = 3
 
 [node name="FruitManager" type="Path2D" parent="GameWorld"]
 curve = SubResource("Curve2D_sd42p")
 script = ExtResource("2_mf5tn")
 
 [node name="GameHUD" type="CanvasLayer" parent="."]
+process_mode = 1
 script = ExtResource("10_yhd5o")
 
 [node name="Misses" type="Node2D" parent="GameHUD"]

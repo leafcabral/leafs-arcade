@@ -11,7 +11,9 @@ enum Type {
 	BACK
 }
 
-@export var label_text: String
+@export var label_text: String:
+	set = change_label_text
+		
 @export var type := Type.CONFIRM
 @export var should_spin := true
 
@@ -72,6 +74,11 @@ func handle_interaction() -> void:
 	
 	await get_tree().create_timer(1).timeout
 	create_fruit()
+
+
+func change_label_text(new_label: String) -> void:
+	if label:
+		label.text = new_label
 
 
 func _on_fruit_sliced(_fruit: Fruit) -> void:

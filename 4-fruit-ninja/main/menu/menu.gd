@@ -32,10 +32,21 @@ func change_menu_visibility(become_visible: bool) -> void:
 		i.visible = become_visible
 
 
+func show_paused() -> void:
+	message.modulate = Color.GRAY
+	message.text = "[wave]Paused"
+	continue_button.label_text = "Continue"
+	exit_button.label_text = "Exit"
+	
+	change_menu_visibility(true)
+	
+
+
 func show_game_over() -> void:
 	message.modulate = Color.CRIMSON
 	message.text = "[wave]GAME OVER"
 	continue_button.label_text = "Try again"
+	exit_button.label_text = "Exit"
 	
 	change_menu_visibility(true)
 

@@ -3,6 +3,7 @@ extends Node2D
 
 var score := 0
 var high_score := 0
+var game_over := false
 
 @onready var background: CanvasLayer = $Background
 @onready var game_world: GameWorld = $GameWorld
@@ -16,9 +17,20 @@ func _ready() -> void:
 	new_game()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause") and not game_over:
+		if game_world.process_mode == Node.PROCESS_MODE_PAUSABLE:
+			game_world.process_mode = Node.PROCESS_MODE_DISABLED
+			menu.show_paused()
+		else:
+			game_world.process_mode = Node.PROCESS_MODE_PAUSABLE
+			menu.hide_menu()
+
+
 func new_game() -> void:
 	menu.hide_menu()
 	score = 0
+	game_over = false
 	reset_hud()
 	
 	await get_tree().create_timer(1.0).timeout
@@ -45,6 +57,7 @@ func _on_game_world_player_damaged(misses: int) -> void:
 
 
 func _on_game_world_player_died() -> void:
+	game_over = true
 	menu.show_game_over()
 
 
@@ -65,4 +78,10 @@ func _on_menu_exit_pressed() -> void:
 
 
 func _on_menu_continue_pressed() -> void:
-	new_game()
+	if not game_over:
+		var pause_event = InputEventAction.new()
+		pause_event.action = "pause"
+		pause_event.pressed = true
+		Input.parse_input_event(pause_event)
+	else:
+		new_game()
