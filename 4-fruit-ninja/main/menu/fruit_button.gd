@@ -2,8 +2,9 @@ class_name FruitButton
 extends Button
 
 
-signal pressed_and_animated
+signal fruit_sliced(slices: Array[Fruit])
 signal bomb_sliced
+signal pressed_and_animated
 
 enum Type {
 	CONFIRM,
@@ -55,19 +56,19 @@ func handle_interaction() -> void:
 	if fruit.type == Fruit.Type.NORMAL:
 		fruit.linear_velocity.x = _original_velocity.x
 		fruit.gravity_scale = 1
-		for i in fruit.create_slices():
+		var slices := fruit.create_slices()
+		for i in slices:
 			i.position = fruit.global_position
-			$"..".call_deferred("add_child", i)
+		fruit_sliced.emit(slices)
 		
 		fruit.queue_free()
-		pressed_and_animated.emit()
 	elif fruit.type == Fruit.Type.BOMB:
 		bomb_sliced.emit()
 		fruit.connect("exploded", func(bomb: Fruit):
 			bomb.queue_free()
-			pressed_and_animated.emit()
 		)
 		fruit.explode()
+	pressed_and_animated.emit()
 	
 	await get_tree().create_timer(1).timeout
 	create_fruit()

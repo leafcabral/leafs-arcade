@@ -6,7 +6,6 @@ signal fruit_sliced
 signal bomb_sliced
 signal player_damaged(misses: int)
 signal player_died
-signal game_restarted
 
 const MINIMUM_FRUITS := 3
 const MAXIMUM_FRUITS := 15
@@ -20,6 +19,7 @@ var wave := 1
 
 
 func restart() -> void:
+	running = true
 	wave = 1
 	player_health.reset_health()
 	fruit_manager.clear_fruits()
@@ -69,9 +69,3 @@ func _on_fruit_manager_bomb_sliced() -> void:
 	if running:
 		running = false
 		bomb_sliced.emit()
-
-
-func _on_continue_pressed_and_animated() -> void:
-	if not running:
-		running = true
-		game_restarted.emit()

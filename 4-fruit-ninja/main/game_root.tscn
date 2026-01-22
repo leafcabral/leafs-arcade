@@ -1,12 +1,14 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckefh8ijiavng"]
+[gd_scene load_steps=14 format=3 uid="uid://ckefh8ijiavng"]
 
-[ext_resource type="Texture2D" uid="uid://tcnyxsjtxkp7" path="res://main/hud/background.png" id="1_m7g0w"]
+[ext_resource type="Texture2D" uid="uid://tcnyxsjtxkp7" path="res://main/background/background.png" id="1_m7g0w"]
 [ext_resource type="PackedScene" uid="uid://b3vlxe62crhsp" path="res://entities/player/player.tscn" id="1_oc7al"]
-[ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/game_world.gd" id="1_sd42p"]
+[ext_resource type="Script" uid="uid://c7uw7yawvgcly" path="res://main/world/game_world.gd" id="1_sd42p"]
 [ext_resource type="Script" uid="uid://c3o8totjh8ofe" path="res://main/game_root.gd" id="1_yqxk6"]
-[ext_resource type="Script" uid="uid://308svwjg04wa" path="res://entities/fruit/fruit_manager.gd" id="2_mf5tn"]
-[ext_resource type="PackedScene" uid="uid://dhg5e2fmjei63" path="res://main/hud/fruit_button.tscn" id="10_anaw7"]
+[ext_resource type="Script" uid="uid://308svwjg04wa" path="res://main/world/fruit_manager.gd" id="2_mf5tn"]
+[ext_resource type="Script" uid="uid://crt8scyt0ld0j" path="res://main/explosion_layer.gd" id="6_anaw7"]
+[ext_resource type="PackedScene" uid="uid://dhg5e2fmjei63" path="res://main/menu/fruit_button.tscn" id="10_anaw7"]
 [ext_resource type="Texture2D" uid="uid://by4chl8jgl7l6" path="res://main/hud/missed-false.png" id="10_d0ffj"]
+[ext_resource type="Script" uid="uid://cv2awjkbn1i0j" path="res://main/menu/menu.gd" id="10_ukkfd"]
 [ext_resource type="Script" uid="uid://2kbfohb1a4x6" path="res://main/hud/game_hud.gd" id="10_yhd5o"]
 [ext_resource type="Texture2D" uid="uid://bfqk20rnuwoaq" path="res://entities/fruit/types/sprites/coconut-half-2.png" id="12_ukkfd"]
 [ext_resource type="Theme" uid="uid://0y0qe7aesqr" path="res://style/ui.tres" id="13_ukkfd"]
@@ -91,12 +93,27 @@ text = "[font_size=16][color=\"lightgreen\"]high score:
 0"
 horizontal_alignment = 1
 
-[node name="Overlay" type="ColorRect" parent="GameHUD"]
+[node name="Menu" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource("10_ukkfd")
+
+[node name="All" type="Control" parent="Menu"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Overlay" type="ColorRect" parent="Menu/All"]
+layout_mode = 0
 offset_right = 800.0
 offset_bottom = 600.0
-color = Color(0.52156866, 0.52156866, 0.52156866, 0.49803922)
+color = Color(0.24705882, 0.24705882, 0.24705882, 0.2509804)
 
-[node name="Message" type="RichTextLabel" parent="GameHUD"]
+[node name="Message" type="RichTextLabel" parent="Menu/All"]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -117,14 +134,21 @@ text = "[wave][color=]Message[/color][/wave]"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Continue" parent="GameHUD" instance=ExtResource("10_anaw7")]
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/All"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ContinueButton" parent="Menu/All" instance=ExtResource("10_anaw7")]
+layout_mode = 0
 offset_left = 304.0
 offset_top = 384.0
 offset_right = 368.0
 offset_bottom = 448.0
 label_text = "Try again"
 
-[node name="Exit" parent="GameHUD" instance=ExtResource("10_anaw7")]
+[node name="ExitButton" parent="Menu/All" instance=ExtResource("10_anaw7")]
+layout_mode = 0
 offset_left = 440.0
 offset_top = 384.0
 offset_right = 504.0
@@ -132,16 +156,29 @@ offset_bottom = 448.0
 label_text = "Exit"
 type = 1
 
+[node name="ExplosionLayer" type="CanvasLayer" parent="."]
+layer = 3
+script = ExtResource("6_anaw7")
+
+[node name="ColorRect" type="ColorRect" parent="ExplosionLayer"]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [connection signal="bomb_sliced" from="GameWorld" to="." method="_on_game_world_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld" to="." method="_on_game_world_fruit_sliced"]
-[connection signal="game_restarted" from="GameWorld" to="." method="_on_game_world_game_restarted"]
 [connection signal="player_damaged" from="GameWorld" to="." method="_on_game_world_player_damaged"]
 [connection signal="player_died" from="GameWorld" to="." method="_on_game_world_player_died"]
 [connection signal="bomb_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_bomb_sliced"]
 [connection signal="fruit_sliced" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruit_sliced"]
 [connection signal="fruits_depleted" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_fruits_depleted"]
 [connection signal="unsliced_fruit_left" from="GameWorld/FruitManager" to="GameWorld" method="_on_fruit_manager_unsliced_fruit_left"]
-[connection signal="explosion_finished" from="GameHUD" to="." method="_on_game_hud_explosion_finished"]
-[connection signal="pressed_and_animated" from="GameHUD/Continue" to="GameWorld" method="_on_continue_pressed_and_animated"]
-[connection signal="bomb_sliced" from="GameHUD/Exit" to="GameHUD" method="_on_exit_bomb_sliced"]
-[connection signal="pressed_and_animated" from="GameHUD/Exit" to="." method="_on_exit_pressed_and_animated"]
+[connection signal="continue_pressed" from="Menu" to="." method="_on_menu_continue_pressed"]
+[connection signal="exit_pressed" from="Menu" to="." method="_on_menu_exit_pressed"]
+[connection signal="fruit_sliced" from="Menu/All/ContinueButton" to="Menu" method="_on_continue_button_fruit_sliced"]
+[connection signal="pressed_and_animated" from="Menu/All/ContinueButton" to="Menu" method="_on_continue_button_pressed_and_animated"]
+[connection signal="pressed_and_animated" from="Menu/All/ExitButton" to="Menu" method="_on_exit_button_pressed_and_animated"]

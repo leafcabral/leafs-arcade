@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dhg5e2fmjei63"]
 
-[ext_resource type="Script" uid="uid://clkfbkwaywvjk" path="res://main/hud/fruit_button.gd" id="1_2bukb"]
+[ext_resource type="Script" uid="uid://clkfbkwaywvjk" path="res://main/menu/fruit_button.gd" id="1_2bukb"]
 [ext_resource type="Theme" uid="uid://0y0qe7aesqr" path="res://style/ui.tres" id="2_lm2tp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2bukb"]

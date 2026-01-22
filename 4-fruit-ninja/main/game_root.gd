@@ -5,8 +5,10 @@ var score := 0
 var high_score := 0
 
 @onready var background: CanvasLayer = $Background
-@onready var game_world: Node = $GameWorld
+@onready var game_world: GameWorld = $GameWorld
+@onready var explosion_layer: ExplosionLayer = $ExplosionLayer
 @onready var game_hud: GameHUD = $GameHUD
+@onready var menu: Menu = $Menu
 
 
 func _ready() -> void:
@@ -15,12 +17,11 @@ func _ready() -> void:
 
 
 func new_game() -> void:
+	menu.hide_menu()
 	score = 0
 	reset_hud()
 	
-	game_hud.show_message("Get Ready!", 1.0)
 	await get_tree().create_timer(1.0).timeout
-	game_hud.hide_message(0.3)
 	
 	game_world.restart()
 
@@ -44,21 +45,24 @@ func _on_game_world_player_damaged(misses: int) -> void:
 
 
 func _on_game_world_player_died() -> void:
-	game_hud.show_game_over()
+	menu.show_game_over()
 
 
 func _on_game_world_game_restarted() -> void:
-	game_hud.hide_messages()
 	new_game()
 
 
 func _on_game_world_bomb_sliced() -> void:
-	game_hud.show_explosion_animation()
-
-
-func _on_game_hud_explosion_finished() -> void:
+	explosion_layer.explode()
+	await explosion_layer.explosion_peak
 	game_world.kill_player()
 
 
-func _on_exit_pressed_and_animated() -> void:
+func _on_menu_exit_pressed() -> void:
+	explosion_layer.explode()
+	await explosion_layer.explosion_peak
 	get_tree().quit()
+
+
+func _on_menu_continue_pressed() -> void:
+	new_game()
