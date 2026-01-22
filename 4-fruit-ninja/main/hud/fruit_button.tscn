@@ -1,8 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhg5e2fmjei63"]
+[gd_scene load_steps=6 format=3 uid="uid://dhg5e2fmjei63"]
 
 [ext_resource type="Script" uid="uid://clkfbkwaywvjk" path="res://main/hud/fruit_button.gd" id="1_2bukb"]
+[ext_resource type="Theme" uid="uid://0y0qe7aesqr" path="res://style/ui.tres" id="2_lm2tp"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2bukb"]
+
+[sub_resource type="Gradient" id="Gradient_lm2tp"]
+offsets = PackedFloat32Array(0.68, 1)
+colors = PackedColorArray(0, 1, 0.19005466, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2bukb"]
+gradient = SubResource("Gradient_lm2tp")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5233645)
 
 [node name="FruitButton" type="Button"]
 offset_right = 64.0
@@ -10,6 +21,36 @@ offset_bottom = 64.0
 theme_override_styles/focus = SubResource("StyleBoxEmpty_2bukb")
 flat = true
 script = ExtResource("1_2bukb")
-metadata/_edit_group_ = true
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_2bukb")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -64.0
+offset_top = 4.0
+offset_right = 64.0
+offset_bottom = 34.000023
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_lm2tp")
+theme_override_font_sizes/font_size = 24
+text = "continue"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="." to="." method="_on_pressed"]

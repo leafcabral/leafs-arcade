@@ -6,7 +6,7 @@ signal fruit_sliced
 signal bomb_sliced
 signal player_damaged(misses: int)
 signal player_died
-signal game_restarted()
+signal game_restarted
 
 const MINIMUM_FRUITS := 3
 const MAXIMUM_FRUITS := 15
@@ -17,12 +17,6 @@ var wave := 1
 @onready var player: Player = $Player
 @onready var fruit_manager: FruitManager = $FruitManager
 @onready var player_health: HealthComponent = player.get_node("HealthComponent")
-
-
-func _process(_delta: float) -> void:
-	if Input.is_action_just_pressed("ui_accept") and not running:
-		running = true
-		game_restarted.emit()
 
 
 func restart() -> void:
@@ -75,3 +69,9 @@ func _on_fruit_manager_bomb_sliced() -> void:
 	if running:
 		running = false
 		bomb_sliced.emit()
+
+
+func _on_continue_pressed_and_animated() -> void:
+	if not running:
+		running = true
+		game_restarted.emit()

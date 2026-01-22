@@ -44,11 +44,11 @@ func _on_game_world_player_damaged(misses: int) -> void:
 
 
 func _on_game_world_player_died() -> void:
-	game_hud.show_game_over_message()
+	game_hud.show_game_over()
 
 
 func _on_game_world_game_restarted() -> void:
-	game_hud.hide_message(0.3)
+	game_hud.hide_messages()
 	new_game()
 
 
@@ -58,3 +58,7 @@ func _on_game_world_bomb_sliced() -> void:
 
 func _on_game_hud_explosion_finished() -> void:
 	game_world.kill_player()
+
+
+func _on_exit_pressed_and_animated() -> void:
+	get_tree().quit()

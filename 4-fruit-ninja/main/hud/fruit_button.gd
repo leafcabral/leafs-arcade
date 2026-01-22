@@ -3,36 +3,74 @@ extends Button
 
 
 signal pressed_and_animated
+signal bomb_sliced
 
 enum Type {
 	CONFIRM,
 	BACK
 }
 
+@export var label_text: String
 @export var type := Type.CONFIRM
 @export var should_spin := true
 
 var fruit: Fruit
 var _original_velocity: Vector2
 
+@onready var label: Label = $Label
+@onready var texture_rect: TextureRect = $TextureRect
+
 
 func _ready() -> void:
-	if type == Type.CONFIRM:
-		fruit = Fruit.create_random_normal()
-	else:
-		fruit = Fruit.create_bomb()
-	if should_spin:
-		fruit.apply_random_spin()
-	fruit.gravity_scale = 0
+	label.text = label_text
+	var color = Color.GREEN if type == Type.CONFIRM else Color.RED
+	label.add_theme_color_override("font_color", color)
+	texture_rect.texture = texture_rect.texture.duplicate()
+	texture_rect.texture.gradient = texture_rect.texture.gradient.duplicate()
+	texture_rect.texture.gradient.colors[0] = color
+	create_fruit()
+
+
+func create_fruit() -> void:
+	if not fruit:
+		if type == Type.CONFIRM:
+			fruit = Fruit.create_random_normal()
+		else:
+			fruit = Fruit.create_bomb()
+		if should_spin:
+			fruit.apply_random_spin()
+		fruit.gravity_scale = 0
+		
+		fruit.connect("sliced", _on_fruit_sliced)
+		add_child(fruit)
+		
+		fruit.position += fruit.sprite.get_size() / 2
+		_original_velocity = fruit.linear_velocity
+		fruit.linear_velocity = Vector2.ZERO
+		
+		size = fruit.sprite.get_size()
+
+
+func handle_interaction() -> void:
+	if fruit.type == Fruit.Type.NORMAL:
+		fruit.linear_velocity.x = _original_velocity.x
+		fruit.gravity_scale = 1
+		for i in fruit.create_slices():
+			i.position = fruit.global_position
+			$"..".call_deferred("add_child", i)
+		
+		fruit.queue_free()
+		pressed_and_animated.emit()
+	elif fruit.type == Fruit.Type.BOMB:
+		bomb_sliced.emit()
+		fruit.connect("exploded", func(bomb: Fruit):
+			bomb.queue_free()
+			pressed_and_animated.emit()
+		)
+		fruit.explode()
 	
-	fruit.connect("sliced", _on_fruit_sliced)
-	add_child(fruit)
-	
-	fruit.position += fruit.sprite.get_size() / 2
-	_original_velocity = fruit.linear_velocity
-	fruit.linear_velocity = Vector2.ZERO
-	
-	size = fruit.sprite.get_size()
+	await get_tree().create_timer(1).timeout
+	create_fruit()
 
 
 func _on_fruit_sliced(_fruit: Fruit) -> void:
@@ -41,17 +79,3 @@ func _on_fruit_sliced(_fruit: Fruit) -> void:
 
 func _on_pressed() -> void:
 	handle_interaction()
-
-
-func handle_interaction() -> void:
-	if fruit.type == Fruit.Type.NORMAL:
-		fruit.linear_velocity.x = _original_velocity.x
-		fruit.gravity_scale = 1
-		for i in fruit.create_slices():
-			call_deferred("add_child", i)
-		
-		fruit.queue_free()
-	elif fruit.type == Fruit.Type.BOMB:
-		fruit.connect("exploded", func(bomb: Fruit): bomb.queue_free())
-		fruit.explode()
-	pressed_and_animated.emit()
