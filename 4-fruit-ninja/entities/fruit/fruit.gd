@@ -104,11 +104,15 @@ func create_slices() -> Array[Fruit]:
 
 func explode() -> void:
 	if type == Type.BOMB:
+		SoundManager.play(preload("res://assets/bomb-fuse.mp3"))
 		sprite_2d.material = sprite_2d.material.duplicate()
 		
 		var tween := create_tween()
 		tween.tween_property(sprite_2d.material, "shader_parameter/white_multiplier", 1, BOMB_EXPLODE_TIME)
 		tween.tween_callback(exploded.emit.bind(self))
+		
+		tween.tween_callback(SoundManager.play.bind(preload("res://assets/small-explosion.mp3")))
+
 
 
 func toggle_collision(on: bool) -> void:
@@ -127,3 +131,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("Player"):
 		area_2d.queue_free()
 		sliced.emit(self)
+		if type == Type.NORMAL:
+			SoundManager.play(preload("res://assets/slice.mp3"))
+		else:
+			SoundManager.play(preload("res://assets/bomb-hit.mp3"))
