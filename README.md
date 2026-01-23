@@ -1,6 +1,10 @@
 # Leaf's Arcade
 
-A collection of classic arcade games recreated in Godot.
+A collection of arcade-styled games recreated in Godot.
+
+Some games are meant to be close to their original counterpart, others have the 
+focus on the unique mechanics presented in them.
+
 
 ## About
 
@@ -11,12 +15,13 @@ folders, numbered in the order I made them.
 I have plans to, somehow, create another Godot project that visually imitate
 an emulator for these games. 
 
+
 ### Games Included
 - Pong
 - Duck Hunt
 - Asteroids
-- ~~Fruit Ninja~~
-- *More games will be added over time as development continues.*
+- Fruit Ninja
+- *More games may be added over time as development continues.*
 
 ## Installation
 
