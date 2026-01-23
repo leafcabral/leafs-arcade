@@ -3,7 +3,7 @@ extends Path2D
 
 
 signal fruit_sliced
-signal unsliced_fruit_left
+signal unsliced_fruit_left(fruit_pos: Vector2)
 signal bomb_sliced
 signal fruits_depleted
 
@@ -82,7 +82,8 @@ func erase_fruit(fruit: Fruit) -> void:
 
 func _on_fruit_exited_screen(fruit: Fruit) -> void:
 	if fruit.type == Fruit.Type.NORMAL:
-		unsliced_fruit_left.emit()
+		var viewport := get_viewport_rect()
+		unsliced_fruit_left.emit(fruit.position.clamp(viewport.position, viewport.size))
 	erase_fruit(fruit)
 
 

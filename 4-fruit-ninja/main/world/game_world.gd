@@ -47,8 +47,16 @@ func _on_fruit_manager_fruits_depleted() -> void:
 		start_wave()
 
 
-func _on_fruit_manager_unsliced_fruit_left() -> void:
+func _on_fruit_manager_unsliced_fruit_left(fruit_pos: Vector2) -> void:
 	if running:
+		var miss := Sprite2D.new()
+		miss.texture = preload("res://main/hud/missed-true.png")
+		miss.position = fruit_pos - Vector2(0, float(miss.texture.get_height())/2)
+		var tween := miss.create_tween()
+		tween.tween_property(miss, "position:y", fruit_pos.y - 100, 0.5)
+		tween.tween_callback(miss.queue_free)
+		call_deferred("add_child", miss)
+		
 		player_health.damage()
 		player_damaged.emit(int(player_health.get_available()))
 		
