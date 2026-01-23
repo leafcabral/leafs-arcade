@@ -95,6 +95,7 @@ func _on_menu_continue_pressed() -> void:
 
 
 func _on_start_button_pressed_and_animated() -> void:
+	main_menu = false
 	game_hud.show()
 	game_world.process_mode = Node.PROCESS_MODE_PAUSABLE
 	new_game()
