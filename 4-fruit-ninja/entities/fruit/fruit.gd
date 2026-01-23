@@ -102,6 +102,20 @@ func create_slices() -> Array[Fruit]:
 	return slices
 
 
+func create_splash() -> Sprite2D:
+	var splash := sprite_data.get_splash_sprite()
+	splash.position = position
+	splash.modulate.a = 0.5
+	
+	var tween := splash.create_tween()
+	var initial_time := randfn(1.5, 0.5)
+	tween.tween_property(splash, "position:y", splash.position.y + randfn(40, 10), initial_time)
+	tween.parallel().tween_property(splash, "modulate:a", 0, initial_time)
+	tween.tween_callback(splash.queue_free)
+	
+	return splash
+
+
 func explode() -> void:
 	if type == Type.BOMB:
 		SoundManager.play(preload("res://assets/bomb-fuse.mp3"))

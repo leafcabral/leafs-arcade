@@ -92,6 +92,9 @@ func _on_fruit_sliced(fruit: Fruit) -> void:
 			call_deferred("add_child", i)
 			connect_fruit_signals(i)
 		fruit_sliced.emit()
+		
+		call_deferred("add_child", fruit.create_splash())
+		
 		erase_fruit(fruit)
 	elif fruit.type == Fruit.Type.BOMB:
 		fruit.explode()

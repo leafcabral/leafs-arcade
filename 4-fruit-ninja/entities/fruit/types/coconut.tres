@@ -7,6 +7,8 @@
 
 [resource]
 script = ExtResource("1_i3766")
+name = "Coconut"
 full = ExtResource("1_4fft0")
 halfs = Array[CompressedTexture2D]([ExtResource("3_3q32y"), ExtResource("2_3vdh5")])
+splash_color = Color(1, 1, 1, 1)
 metadata/_custom_type_script = "uid://cmyijexk5nwjg"
