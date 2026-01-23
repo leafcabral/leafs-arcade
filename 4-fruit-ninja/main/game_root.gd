@@ -14,6 +14,10 @@ var game_over := false
 
 
 func _ready() -> void:
+	var data := SaveLoadSystem.load_data()
+	if data:
+		high_score = data["high_score"]
+	
 	game_hud.hide()
 	game_world.process_mode = Node.PROCESS_MODE_DISABLED
 
@@ -42,6 +46,7 @@ func new_game() -> void:
 func reset_hud() -> void:
 	game_hud.reset_misses()
 	game_hud.update_score(score)
+	game_hud.update_high_score(high_score)
 
 
 func _on_game_world_fruit_sliced() -> void:
@@ -73,6 +78,7 @@ func _on_game_world_bomb_sliced() -> void:
 
 
 func _on_menu_exit_pressed() -> void:
+	SaveLoadSystem.save_data({"high_score": high_score})
 	explosion_layer.explode()
 	await explosion_layer.explosion_peak
 	get_tree().quit()
