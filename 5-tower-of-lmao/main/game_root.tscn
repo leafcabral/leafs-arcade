@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://chtr8cd86u401"]
+
+[ext_resource type="PackedScene" uid="uid://dg2hpc4g0evkm" path="res://main/world/world.tscn" id="1_oc7al"]
+[ext_resource type="PackedScene" uid="uid://b6uvxvcf0811" path="res://entities/player/player.tscn" id="2_mf5tn"]
+
+[node name="GameRoot" type="Node"]
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="MainColor" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.3962834, 0.4936691, 0.98049575, 1)
+
+[node name="World" parent="." instance=ExtResource("1_oc7al")]
+
+[node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
+position = Vector2(403, 411)
