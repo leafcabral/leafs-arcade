@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=4 format=3 uid="uid://b6uvxvcf0811"]
 
+[ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_abrql"]
 [ext_resource type="Texture2D" uid="uid://dmg650n3i811n" path="res://icon.svg" id="1_symyc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
 size = Vector2(64, 64)
 
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_abrql")
+gravity_multiplier = 2.5
+jump_height = 600.0
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

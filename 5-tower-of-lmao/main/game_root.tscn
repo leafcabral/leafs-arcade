@@ -1,22 +1,37 @@
-[gd_scene load_steps=3 format=3 uid="uid://chtr8cd86u401"]
+[gd_scene load_steps=5 format=3 uid="uid://chtr8cd86u401"]
 
 [ext_resource type="PackedScene" uid="uid://dg2hpc4g0evkm" path="res://main/world/world.tscn" id="1_oc7al"]
 [ext_resource type="PackedScene" uid="uid://b6uvxvcf0811" path="res://entities/player/player.tscn" id="2_mf5tn"]
+
+[sub_resource type="Gradient" id="Gradient_mf5tn"]
+colors = PackedColorArray(0.39607844, 0.49411765, 0.98039216, 1, 0.39607844, 0.6901961, 0.98039216, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sd42p"]
+gradient = SubResource("Gradient_mf5tn")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
 
 [node name="GameRoot" type="Node"]
 
 [node name="Background" type="CanvasLayer" parent="."]
 layer = -1
 
-[node name="MainColor" type="ColorRect" parent="Background"]
+[node name="TextureRect" type="TextureRect" parent="Background"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.3962834, 0.4936691, 0.98049575, 1)
+texture = SubResource("GradientTexture2D_sd42p")
 
 [node name="World" parent="." instance=ExtResource("1_oc7al")]
 
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
-position = Vector2(403, 411)
+position = Vector2(400, 400)
+scale = Vector2(0.7, 0.7)
+
+[node name="CameraFollow" type="Camera2D" parent="World/Player"]
+zoom = Vector2(0.7, 0.7)
+limit_bottom = 600
+drag_left_margin = 0.1
+drag_right_margin = 0.1

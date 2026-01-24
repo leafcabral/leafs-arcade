@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dg2hpc4g0evkm"]
 
 [sub_resource type="Gradient" id="Gradient_auiua"]
-offsets = PackedFloat32Array(0)
-colors = PackedColorArray(0.4627451, 0.7137255, 0.39607844, 1)
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.4627451, 0.7137255, 0.7176471, 1, 0.4627451, 0.7137255, 0.39607844, 1, 1, 0.7137255, 0.39607844, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_myska"]
 gradient = SubResource("Gradient_auiua")
@@ -16,7 +16,7 @@ size = Vector2(256, 16)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(400, 500)
-scale = Vector2(2, 2)
+scale = Vector2(5, 2)
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Floor"]
