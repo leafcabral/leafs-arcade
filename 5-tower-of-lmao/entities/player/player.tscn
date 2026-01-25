@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=5 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_abrql"]
 [ext_resource type="Texture2D" uid="uid://dmg650n3i811n" path="res://icon.svg" id="1_symyc"]
@@ -6,12 +6,15 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
 size = Vector2(64, 64)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abrql"]
+size = Vector2(54, 32)
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_abrql")
 gravity_multiplier = 2.5
 jump_height = 600.0
 jump_buffer_total = 0.05
-metadata/_edit_group_ = true
+corner_correction_distance = 5.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
@@ -19,3 +22,16 @@ texture = ExtResource("1_symyc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_symyc")
+
+[node name="CornerCorrectionLeft" type="RayCast2D" parent="."]
+position = Vector2(-32, -32)
+target_position = Vector2(0, -32)
+
+[node name="CornerCorrectionMiddle" type="ShapeCast2D" parent="."]
+position = Vector2(0, -48)
+shape = SubResource("RectangleShape2D_abrql")
+target_position = Vector2(0, 0)
+
+[node name="CornerCorrectionRight" type="RayCast2D" parent="."]
+position = Vector2(32, -32)
+target_position = Vector2(0, -32)

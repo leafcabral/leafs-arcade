@@ -1,4 +1,3 @@
-#@tool
 extends CharacterBody2D
 
 
@@ -13,19 +12,27 @@ extends CharacterBody2D
 @export_range(0, 1, 0.01) var small_jump_multiplier := 0.5
 @export var jump_buffer_total := 0.1
 @export var coyote_jump_time := 0.1
+@export var corner_correction_distance := 8.0
 
 var jump_buffer := 0.0
 var coyote_jump := 0.0
 
+@onready var cc_left: RayCast2D = $CornerCorrectionLeft
+@onready var cc_middle: ShapeCast2D = $CornerCorrectionMiddle
+@onready var cc_right: RayCast2D = $CornerCorrectionRight
+
+
+func _ready() -> void:
+	cc_middle.shape.size.x = cc_left.position.distance_to(cc_right.position) - 2 * corner_correction_distance
+
 
 func _physics_process(delta: float) -> void:
-	if Engine.is_editor_hint():
-		return
-	
 	_handle_horizontal_movement(delta)
 	_handle_vertical_movement(delta)
 	
 	move_and_slide()
+	if velocity.y < 0 and not cc_middle.is_colliding():
+		_try_corner_correction()
 
 
 func _handle_horizontal_movement(delta: float) -> void:
@@ -58,3 +65,13 @@ func _handle_vertical_movement(delta: float) -> void:
 		jump_buffer = max(0, jump_buffer - delta)
 	if coyote_jump > 0:
 		coyote_jump = max(0, coyote_jump - delta)
+
+
+func _try_corner_correction() -> void:
+	var cc_left_colliding := cc_left.is_colliding()
+	var cc_right_colliding := cc_right.is_colliding()
+	if cc_left_colliding and not cc_right_colliding:
+		position.x += corner_correction_distance
+	elif not cc_left_colliding and cc_right_colliding:
+		position.x -= corner_correction_distance
+	
