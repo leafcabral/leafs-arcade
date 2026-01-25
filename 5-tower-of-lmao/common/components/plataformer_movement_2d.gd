@@ -17,6 +17,7 @@ extends Node2D
 @export_range(-10, 10, 0.01) var gravity_scale := 2.5
 @export_range(0, 1000, 0.1, "or_greater") var jump_height := 600.0
 @export_range(0, 5, 0.01, "or_greater") var jump_duration := 0.7
+@export_range(0, 5000, 0.1, "or_greater") var terminal_falling_velocity := 2000.0
 @export_subgroup("Responsiveness")
 @export_range(0, 1, 0.01) var variable_jump_scale := 0.5
 @export_range(0, 5, 0.01, "or_greater") var jump_buffering_time := 0.05
@@ -146,6 +147,7 @@ func _handle_horizontal_movement(delta: float) -> void:
 func _handle_vertical_movement(delta: float) -> void:
 	if not parent.is_on_floor():
 		parent.velocity += parent.get_gravity() * gravity_scale * delta
+		parent.velocity.y = min(parent.velocity.y, terminal_falling_velocity)
 	
 	if Input.is_action_pressed(input_jump):
 		jump_buffering = jump_buffering_time
