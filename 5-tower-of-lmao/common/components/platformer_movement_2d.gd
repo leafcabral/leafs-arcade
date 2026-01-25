@@ -1,6 +1,7 @@
 @tool
-class_name PlataformerMovement2D
+class_name PlatformerMovement2D
 extends Node2D
+
 
 @export var disabled := false
 @export var input_move_left := &"move_left"
