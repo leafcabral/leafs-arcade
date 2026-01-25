@@ -24,3 +24,14 @@ texture = SubResource("GradientTexture2D_myska")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
 shape = SubResource("RectangleShape2D_76wn5")
+
+[node name="Floor2" type="StaticBody2D" parent="."]
+position = Vector2(680, 387)
+scale = Vector2(0.7, 2)
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Floor2"]
+texture = SubResource("GradientTexture2D_myska")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor2"]
+shape = SubResource("RectangleShape2D_76wn5")
