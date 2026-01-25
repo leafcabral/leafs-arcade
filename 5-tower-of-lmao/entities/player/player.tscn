@@ -10,6 +10,7 @@ size = Vector2(64, 64)
 script = ExtResource("1_abrql")
 gravity_multiplier = 2.5
 jump_height = 600.0
+jump_buffer_total = 0.05
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

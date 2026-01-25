@@ -11,6 +11,9 @@ extends CharacterBody2D
 @export var jump_height := 400.0
 @export var jump_duration := 0.7
 @export_range(0, 1, 0.01) var small_jump_multiplier := 0.5
+@export var jump_buffer_total := 0.1
+
+var jump_buffer := 0.0
 
 
 func _physics_process(delta: float) -> void:
@@ -37,8 +40,14 @@ func _handle_horizontal_movement(delta: float) -> void:
 func _handle_vertical_movement(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * gravity_multiplier * delta
-		if Input.is_action_just_released("jump") and velocity.y <= 0:
-			velocity.y *= small_jump_multiplier
-	else:
-		if Input.is_action_just_pressed("jump"):
+	
+	if Input.is_action_pressed("jump"):
+		jump_buffer = jump_buffer_total
+	if jump_buffer > 0 and is_on_floor():
 			velocity.y = - 2 * jump_height * jump_duration
+			jump_buffer = 0
+	elif Input.is_action_just_released("jump") and velocity.y <= 0:
+		velocity.y *= small_jump_multiplier
+	
+	if jump_buffer > 0:
+		jump_buffer = max(0, jump_buffer - delta)
