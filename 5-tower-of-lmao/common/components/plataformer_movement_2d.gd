@@ -63,6 +63,8 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		update_configuration_warnings()
 		return
+	if disabled:
+		return
 	
 	_handle_horizontal_movement(delta)
 	_handle_vertical_movement(delta)
