@@ -14,7 +14,7 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 
 @export_group("Horizontal Movement")
 @export_range(0, 1000, 0.1, "or_greater") var max_speed := 600.0
-@export_range(0, 5, 0.01, "or_greater") var acceleration_time := 0.3
+@export_range(0, 5, 0.01, "or_greater") var acceleration_time := 0.1
 @export_range(0, 5, 0.01, "or_greater") var deceleration_time := 0.0
 @export var directional_snap := true
 
@@ -44,6 +44,8 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 	set(value):
 		corner_correction_ray_length = value
 		_update_corner_correction_properties()
+
+var velocity := Vector2.ZERO
 
 var jump_buffering := 0.0
 var coyote_jump := 0.0
@@ -84,6 +86,7 @@ func _physics_process(delta: float) -> void:
 	process_movement(delta)
 	
 	parent.move_and_slide()
+	velocity = parent.velocity
 	
 	if parent.velocity.y < 0 and not _corner_correction_middle.is_colliding():
 		_try_corner_correction()
@@ -93,6 +96,8 @@ func process_movement(delta: float) -> void:
 	_handle_horizontal_movement(delta)
 	_handle_vertical_movement(delta)
 	
+	parent.velocity = velocity
+	
 	if jump_buffering > 0:
 		jump_buffering = max(0, jump_buffering - delta)
 	if coyote_jump > 0:
@@ -100,24 +105,25 @@ func process_movement(delta: float) -> void:
 
 
 func _handle_horizontal_movement(delta: float) -> void:
-	var previous_direction := signf(parent.velocity.x)
+	var previous_direction := signf(velocity.x)
 	var direction = Input.get_axis(input_move_left, input_move_right)
 	var delta_speed := max_speed * delta
 	
-	if direction == previous_direction:
-		parent.velocity.x = move_toward(parent.velocity.x, direction * max_speed, delta_speed / acceleration_time)
-	elif direction and parent.velocity.x and directional_snap:
-		parent.velocity.x = - parent.velocity.x
-	else:
-		parent.velocity.x = move_toward(parent.velocity.x, direction * max_speed, delta_speed / deceleration_time)
+	if not direction:
+		velocity.x = move_toward(velocity.x, 0, delta_speed / deceleration_time)
+
+	elif direction == previous_direction or not previous_direction:
+		velocity.x = move_toward(velocity.x, direction * max_speed, delta_speed / acceleration_time)
+	elif velocity.x and directional_snap:
+		velocity.x = - velocity.x
 
 
 func _handle_vertical_movement(delta: float) -> void:
 	var on_floor := parent.is_on_floor()
 	
 	if not on_floor:
-		parent.velocity += parent.get_gravity() * gravity_scale * delta
-		parent.velocity.y = min(parent.velocity.y, terminal_falling_velocity)
+		velocity += parent.get_gravity() * gravity_scale * delta
+		velocity.y = min(velocity.y, terminal_falling_velocity)
 	
 	if Input.is_action_pressed(input_jump):
 		jump_buffering = jump_buffering_time
@@ -125,11 +131,11 @@ func _handle_vertical_movement(delta: float) -> void:
 		coyote_jump = coyote_jump_time
 	
 	if (jump_buffering > 0 and on_floor) or (coyote_jump > 0 and Input.is_action_just_pressed(input_jump)):
-			parent.velocity.y = - 2 * jump_height * jump_duration
+			velocity.y = - 2 * jump_height * jump_duration
 			jump_buffering = 0
 			coyote_jump = 0
-	elif Input.is_action_just_released(input_jump) and parent.velocity.y <= 0:
-		parent.velocity.y *= variable_jump_scale
+	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
+		velocity.y *= variable_jump_scale
 	
 
 
