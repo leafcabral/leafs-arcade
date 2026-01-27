@@ -53,6 +53,10 @@ var coyote_jump := 0.0
 var _corner_correction_left: RayCast2D
 var _corner_correction_middle: ShapeCast2D
 var _corner_correction_right: RayCast2D
+var _left_pressed := false
+var _right_pressed := false
+var _time_left_pressed := 0.0
+var _time_right_pressed := 0.0
 
 @onready var parent := get_parent() as CharacterBody2D
 
@@ -93,6 +97,17 @@ func _physics_process(delta: float) -> void:
 
 
 func process_movement(delta: float) -> void:
+	_left_pressed = Input.is_action_pressed("move_left")
+	_right_pressed = Input.is_action_pressed("move_right")
+	_time_left_pressed = (
+			_time_left_pressed + delta if _left_pressed
+			else 0.0
+	)
+	_time_right_pressed = (
+			_time_right_pressed + delta if _right_pressed
+			else 0.0
+	)
+
 	_handle_horizontal_movement(delta)
 	_handle_vertical_movement(delta)
 	
@@ -105,17 +120,18 @@ func process_movement(delta: float) -> void:
 
 
 func _handle_horizontal_movement(delta: float) -> void:
-	var previous_direction := signf(velocity.x)
-	var direction = Input.get_axis(input_move_left, input_move_right)
 	var delta_speed := max_speed * delta
+	
+	var direction := Input.get_axis("move_left", "move_right")
+	if directional_snap and (_left_pressed and _right_pressed):
+		var closest_time = minf(_time_left_pressed, _time_right_pressed)
+		direction = -1 if closest_time == _time_left_pressed else 1
+	
 	
 	if not direction:
 		velocity.x = move_toward(velocity.x, 0, delta_speed / deceleration_time)
-
-	elif direction == previous_direction or not previous_direction:
+	else:
 		velocity.x = move_toward(velocity.x, direction * max_speed, delta_speed / acceleration_time)
-	elif velocity.x and directional_snap:
-		velocity.x = - velocity.x
 
 
 func _handle_vertical_movement(delta: float) -> void:
