@@ -28,7 +28,6 @@ texture = SubResource("GradientTexture2D_sd42p")
 
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
 position = Vector2(400, 400)
-scale = Vector2(0.7, 0.7)
 
 [node name="CameraFollow" type="Camera2D" parent="World/Player"]
 zoom = Vector2(0.7, 0.7)

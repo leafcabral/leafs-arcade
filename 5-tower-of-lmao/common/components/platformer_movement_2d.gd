@@ -3,6 +3,9 @@ class_name PlatformerMovement2D
 extends Node2D
 
 
+signal jumped
+signal hit_floor
+
 const CC_LEFT_NAME := ^"CornerCorrectionLeft"
 const CC_MIDDLE_NAME := ^"CornerCorrectionMiddle"
 const CC_RIGHT_NAME := ^"CornerCorrectionRight"
@@ -49,6 +52,8 @@ var velocity := Vector2.ZERO
 
 var jump_buffering := 0.0
 var coyote_jump := 0.0
+
+var is_airbourne := false
 
 var _corner_correction_left: RayCast2D
 var _corner_correction_middle: ShapeCast2D
@@ -137,9 +142,14 @@ func _handle_horizontal_movement(delta: float) -> void:
 func _handle_vertical_movement(delta: float) -> void:
 	var on_floor := parent.is_on_floor()
 	
-	if not on_floor:
+	if on_floor:
+		if is_airbourne:
+			is_airbourne = false
+			hit_floor.emit()
+	else:
 		velocity += parent.get_gravity() * gravity_scale * delta
 		velocity.y = min(velocity.y, terminal_falling_velocity)
+		is_airbourne = true
 	
 	if Input.is_action_pressed(input_jump):
 		jump_buffering = jump_buffering_time
@@ -150,6 +160,8 @@ func _handle_vertical_movement(delta: float) -> void:
 			velocity.y = - 2 * jump_height * jump_duration
 			jump_buffering = 0
 			coyote_jump = 0
+			if not is_airbourne:
+				jumped.emit()
 	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
 		velocity.y *= variable_jump_scale
 	
