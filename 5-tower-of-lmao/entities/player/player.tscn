@@ -22,8 +22,9 @@ shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
 script = ExtResource("3_sglur")
+jump_height = 128.0
+time_to_peak = 0.4
 corner_correction_offset = Vector2(0, -32)
-corner_correction_distance_between = 64.0
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]

@@ -18,20 +18,21 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 @export_group("Horizontal Movement")
 @export_range(0, 1000, 0.1, "or_greater") var max_speed := 600.0
 @export_range(0, 5, 0.01, "or_greater") var acceleration_time := 0.1
-@export_range(0, 5, 0.01, "or_greater") var deceleration_time := 0.0
+@export_range(0, 5, 0.01, "or_greater") var deceleration_time := 0.05
 @export var directional_snap := true
 
 @export_group("Vertical Movement")
-@export_range(-10, 10, 0.01) var gravity_scale := 2.5
-@export_range(0, 1000, 0.1, "or_greater") var jump_height := 600.0
-@export_range(0, 5, 0.01, "or_greater") var jump_duration := 0.7
+@export_range(0, 1000, 0.1, "or_greater") var jump_height := 64.0
+@export_range(0, 2, 0.01, "or_greater") var time_to_peak := 0.3
+@export_range(0, 2, 0.01, "or_greater") var time_to_fall := 0.3
 @export_range(0, 5000, 0.1, "or_greater") var terminal_falling_velocity := 2000.0
-@export_subgroup("Responsiveness")
+
+@export_group("Quality of Life")
 @export_range(0, 1, 0.01) var variable_jump_scale := 0.5
 @export_range(0, 5, 0.01, "or_greater") var jump_buffering_time := 0.05
 @export_range(0, 5, 0.01, "or_greater") var coyote_jump_time := 0.1
 @export_subgroup("Corner Correction", "corner_correction_")
-@export_range(0, 32, 0.01, "or_greater") var corner_correction_amount := 5.0:
+@export_range(0, 32, 0.01, "or_greater") var corner_correction_amount := 16.0:
 	set(value):
 		corner_correction_amount = value
 		_update_corner_correction_properties()
@@ -39,7 +40,7 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 	set(value):
 		corner_correction_offset = value
 		_update_corner_correction_properties()
-@export_range(0, 100, 0.01, "or_greater") var corner_correction_distance_between := 32.0:
+@export_range(0, 100, 0.01, "or_greater") var corner_correction_distance_between := 64.0:
 	set(value):
 		corner_correction_distance_between = value
 		_update_corner_correction_properties()
@@ -124,6 +125,14 @@ func process_movement(delta: float) -> void:
 		coyote_jump = max(0, coyote_jump - delta)
 
 
+func get_gravity() -> Vector2:
+	return Vector2(0, 2 * jump_height / pow(
+			time_to_peak if velocity.y < 0 else time_to_fall,
+			2
+		)
+	)
+
+
 func _handle_horizontal_movement(delta: float) -> void:
 	var delta_speed := max_speed * delta
 	
@@ -147,7 +156,7 @@ func _handle_vertical_movement(delta: float) -> void:
 			is_airbourne = false
 			hit_floor.emit()
 	else:
-		velocity += parent.get_gravity() * gravity_scale * delta
+		velocity += get_gravity() * delta
 		velocity.y = min(velocity.y, terminal_falling_velocity)
 		is_airbourne = true
 	
@@ -157,7 +166,7 @@ func _handle_vertical_movement(delta: float) -> void:
 		coyote_jump = coyote_jump_time
 	
 	if (jump_buffering > 0 and on_floor) or (coyote_jump > 0 and Input.is_action_just_pressed(input_jump)):
-			velocity.y = - 2 * jump_height * jump_duration
+			velocity.y = - (2 * jump_height) / time_to_peak
 			jump_buffering = 0
 			coyote_jump = 0
 			if not is_airbourne:
