@@ -26,6 +26,7 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 @export_range(0, 2, 0.01, "or_greater") var time_to_peak := 0.3
 @export_range(0, 2, 0.01, "or_greater") var time_to_fall := 0.3
 @export_range(0, 5000, 0.1, "or_greater") var terminal_falling_velocity := 2000.0
+@export var hold_to_jump := false
 
 @export_group("Quality of Life")
 @export_range(0, 1, 0.01) var variable_jump_scale := 0.5
@@ -160,7 +161,7 @@ func _handle_vertical_movement(delta: float) -> void:
 		velocity.y = min(velocity.y, terminal_falling_velocity)
 		is_airbourne = true
 	
-	if Input.is_action_pressed(input_jump):
+	if Input.is_action_just_pressed(input_jump) or (hold_to_jump and Input.is_action_pressed(input_jump)):
 		jump_buffering = jump_buffering_time
 	if on_floor:
 		coyote_jump = coyote_jump_time

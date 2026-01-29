@@ -24,6 +24,7 @@ shape = SubResource("RectangleShape2D_symyc")
 script = ExtResource("3_sglur")
 jump_height = 128.0
 time_to_peak = 0.4
+jump_buffering_time = 0.1
 corner_correction_offset = Vector2(0, -32)
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
