@@ -2,14 +2,36 @@ extends CharacterBody2D
 
 
 @export_range(1, 2, 0.01, "or_greater") var strech_scale := 1.3
+@export_range(0, 1, 0.01, "or_greater") var strech_restore_seconds := 0.1
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
 @onready var movement_controller: PlatformerMovement2D = $PlatformerMovement2D
 
 
 func _physics_process(delta: float) -> void:
-	sprite.scale = sprite.scale.move_toward(sprite_original_scale, delta * strech_scale)
+	sprite.scale = sprite.scale.move_toward(
+		sprite_original_scale,
+		delta * strech_scale / strech_restore_seconds
+	)
+	update_sprite_animation()
+
+
+func update_sprite_animation() -> void:
+	if velocity.y:
+		if velocity.y < 0:
+			sprite.play("jump")
+		elif velocity.y > 0:
+			sprite.play("fall")
+	elif velocity.x:
+		sprite.play("walk")
+	else:
+		sprite.play("idle")
+		
+	if velocity.x > 0:
+		sprite.flip_h = false
+	elif velocity.x < 0:
+		sprite.flip_h = true
 
 
 func _on_platformer_movement_2d_jumped() -> void:

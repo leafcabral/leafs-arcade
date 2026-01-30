@@ -1,23 +1,128 @@
-[gd_scene load_steps=5 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=17 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
-[ext_resource type="Texture2D" uid="uid://dmg650n3i811n" path="res://icon.svg" id="1_symyc"]
+[ext_resource type="Texture2D" uid="uid://mpovthr8rfmt" path="res://entities/player/sprites/sprite-sheet.png" id="2_bls4j"]
 [ext_resource type="Script" uid="uid://4s62gvwpjvxj" path="res://common/components/platformer_movement_2d.gd" id="3_sglur"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_sglur"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bls4j"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a1qjk"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkugw"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3ovn"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8fjmc"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qiwj3"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26q78"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bectd"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(48, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvtmh"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(64, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7thud"]
+atlas = ExtResource("2_bls4j")
+region = Rect2(80, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1qjk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sglur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bls4j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a1qjk")
+}],
+"loop": false,
+"name": &"fall",
+"speed": 11.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkugw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3ovn")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8fjmc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qiwj3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26q78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bectd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wvtmh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7thud")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
-size = Vector2(64, 64)
+size = Vector2(52, 48)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_sglur")
+strech_restore_seconds = 0.15
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprites" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 32)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("1_symyc")
-offset = Vector2(0, -64)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_a1qjk")
+animation = &"fall"
+frame = 2
+frame_progress = 1.0
+offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 8)
 shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
@@ -25,7 +130,9 @@ script = ExtResource("3_sglur")
 jump_height = 128.0
 time_to_peak = 0.4
 jump_buffering_time = 0.1
-corner_correction_offset = Vector2(0, -32)
+corner_correction_amount = 11.78
+corner_correction_offset = Vector2(2, -16)
+corner_correction_distance_between = 50.6
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
