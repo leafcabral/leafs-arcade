@@ -19,10 +19,7 @@ func _physics_process(delta: float) -> void:
 
 func update_sprite_animation() -> void:
 	if velocity.y:
-		if velocity.y < 0:
-			sprite.play("jump")
-		elif velocity.y > 0:
-			sprite.play("fall")
+		sprite.play("jump")
 	elif velocity.x:
 		sprite.play("walk")
 	else:
