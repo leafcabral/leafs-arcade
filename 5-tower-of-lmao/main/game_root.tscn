@@ -1,65 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://chtr8cd86u401"]
+[gd_scene load_steps=3 format=3 uid="uid://chtr8cd86u401"]
 
 [ext_resource type="PackedScene" uid="uid://dg2hpc4g0evkm" path="res://main/world/world.tscn" id="1_oc7al"]
 [ext_resource type="PackedScene" uid="uid://b6uvxvcf0811" path="res://entities/player/player.tscn" id="2_mf5tn"]
-[ext_resource type="Texture2D" uid="uid://bwp1l6tw1k784" path="res://entities/player/sprites/jump.png" id="3_sd42p"]
-
-[sub_resource type="Gradient" id="Gradient_mf5tn"]
-colors = PackedColorArray(0.39607844, 0.49411765, 0.98039216, 1, 0.39607844, 0.6901961, 0.98039216, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_sd42p"]
-gradient = SubResource("Gradient_mf5tn")
-fill_from = Vector2(0, 1)
-fill_to = Vector2(0, 0)
 
 [node name="GameRoot" type="Node"]
-
-[node name="Background" type="CanvasLayer" parent="."]
-layer = -1
-
-[node name="TextureRect" type="TextureRect" parent="Background"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("GradientTexture2D_sd42p")
 
 [node name="World" parent="." instance=ExtResource("1_oc7al")]
 
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
-position = Vector2(400, 400)
+position = Vector2(428, 360)
+metadata/_edit_group_ = true
 
 [node name="CameraFollow" type="Camera2D" parent="World/Player"]
 zoom = Vector2(0.7, 0.7)
 limit_bottom = 600
 drag_left_margin = 0.1
 drag_right_margin = 0.1
-
-[node name="Node2D" type="Node2D" parent="World"]
-modulate = Color(0.5271547, 0.5271547, 0.5271547, 1)
-position = Vector2(300, 484)
-
-[node name="Icon" type="Sprite2D" parent="World/Node2D"]
-z_index = -1
-position = Vector2(0, -32)
-scale = Vector2(4, 4)
-texture = ExtResource("3_sd42p")
-region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
-
-[node name="Icon2" type="Sprite2D" parent="World/Node2D"]
-z_index = -1
-position = Vector2(0, -96)
-scale = Vector2(4, 4)
-texture = ExtResource("3_sd42p")
-region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
-
-[node name="Icon3" type="Sprite2D" parent="World/Node2D"]
-z_index = -1
-position = Vector2(0, -160)
-scale = Vector2(4, 4)
-texture = ExtResource("3_sd42p")
-region_enabled = true
-region_rect = Rect2(0, 0, 16, 16)
