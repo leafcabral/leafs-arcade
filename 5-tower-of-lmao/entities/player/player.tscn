@@ -1,10 +1,27 @@
-[gd_scene load_steps=19 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=23 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://74xqh7pg6t8y" path="res://entities/player/sprites/idle.png" id="2_fkugw"]
 [ext_resource type="Texture2D" uid="uid://bwp1l6tw1k784" path="res://entities/player/sprites/jump.png" id="3_8fjmc"]
 [ext_resource type="Script" uid="uid://4s62gvwpjvxj" path="res://common/components/platformer_movement_2d.gd" id="3_sglur"]
 [ext_resource type="Texture2D" uid="uid://cpjuoviyhyp6x" path="res://entities/player/sprites/walk.png" id="4_qiwj3"]
+[ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_component.gd" id="6_8fjmc"]
+
+[sub_resource type="Curve" id="Curve_8fjmc"]
+_data = [Vector2(0, 0.52808994), 0.0, 0.0, 0, 0, Vector2(0.29347828, 1), 0.0, 0.0, 0, 0, Vector2(0.9891305, 0.3370787), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_8fjmc"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(0.30094567, 0.41608977, 0.66292787, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qiwj3"]
+gradient = SubResource("Gradient_8fjmc")
+width = 32
+height = 32
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.9752475, 0.00990099)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_26q78"]
 atlas = ExtResource("2_fkugw")
@@ -109,12 +126,23 @@ collision_mask = 2
 script = ExtResource("1_sglur")
 strech_restore_seconds = 0.15
 
+[node name="ClothTrailComponent" type="Line2D" parent="."]
+position = Vector2(4, 4)
+points = PackedVector2Array(0, 0, 4e-45, 12, 1e-44, 24, 1.4e-44, 36)
+width = 24.0
+width_curve = SubResource("Curve_8fjmc")
+texture = SubResource("GradientTexture2D_qiwj3")
+texture_mode = 2
+end_cap_mode = 2
+script = ExtResource("6_8fjmc")
+strech_scale = 2.0
+metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
+
 [node name="Sprites" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 32)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_a1qjk")
-animation = &"walk"
-frame_progress = 0.14452553
+animation = &"idle"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -123,6 +151,7 @@ shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
 script = ExtResource("3_sglur")
+max_speed = 400.0
 jump_height = 128.0
 time_to_peak = 0.4
 jump_buffering_time = 0.1

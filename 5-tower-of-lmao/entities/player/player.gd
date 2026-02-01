@@ -6,6 +6,7 @@ extends CharacterBody2D
 
 @onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
+@onready var cape: ClothTrailComponent = $ClothTrailComponent
 @onready var movement_controller: PlatformerMovement2D = $PlatformerMovement2D
 
 
@@ -27,8 +28,10 @@ func update_sprite_animation() -> void:
 		
 	if velocity.x > 0:
 		sprite.flip_h = false
+		cape.position.x = abs(cape.position.x)
 	elif velocity.x < 0:
 		sprite.flip_h = true
+		cape.position.x = - abs(cape.position.x)
 
 
 func _on_platformer_movement_2d_jumped() -> void:
