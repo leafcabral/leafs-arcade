@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=23 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://74xqh7pg6t8y" path="res://entities/player/sprites/idle.png" id="2_fkugw"]
@@ -10,6 +10,20 @@
 [sub_resource type="Curve" id="Curve_8fjmc"]
 _data = [Vector2(0, 0.8539326), 0.0, 0.0, 0, 0, Vector2(0.2771739, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_8fjmc"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.7866667)
+colors = PackedColorArray(0.14117648, 0.25490198, 0.41960785, 1, 0.204, 0.36239994, 0.6, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qiwj3"]
+gradient = SubResource("Gradient_8fjmc")
+width = 10
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_26q78"]
 atlas = ExtResource("2_fkugw")
@@ -117,7 +131,7 @@ strech_restore_seconds = 0.15
 [node name="ClothTrailComponent" type="Line2D" parent="."]
 position = Vector2(3, 7)
 points = PackedVector2Array(0, 0, 0, 4, 0, 8, 0, 12, 0, 16)
-width = 26.0
+width = 0.0
 width_curve = SubResource("Curve_8fjmc")
 default_color = Color(0.14117648, 0.25490198, 0.41960785, 1)
 begin_cap_mode = 2
@@ -126,7 +140,10 @@ script = ExtResource("6_8fjmc")
 num_of_points = 5
 point_spacing = 2.0
 strech_scale = 2.0
-gravity_strength = 2.0
+damping_scale = 0.3
+gravity_strength = 0.5
+sprite = SubResource("GradientTexture2D_qiwj3")
+sprite_scale = Vector2(4, 4)
 metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
 
 [node name="Sprites" type="AnimatedSprite2D" parent="."]

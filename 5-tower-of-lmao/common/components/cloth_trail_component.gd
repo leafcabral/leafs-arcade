@@ -15,6 +15,12 @@ extends Line2D
 @export_range(0, 1, 0.01) var damping_scale := 0.7
 @export_range(0, 10, 0.01, "or_greater") var gravity_strength := 1.0
 
+@export var sprite: Texture2D:
+	set = _update_sprite
+@export_custom(PROPERTY_HINT_LINK, "") var sprite_scale := Vector2.ONE
+
+var _old_width := 26.0
+
 @onready var _last_global_position := global_position
 
 
@@ -28,6 +34,17 @@ func _physics_process(delta: float) -> void:
 	
 	apply_gravity(delta)
 	apply_swing(distance)
+
+
+func _draw() -> void:
+	if sprite:
+		draw_set_transform(Vector2.ZERO, 0.0, sprite_scale)
+		var sprite_offset := sprite.get_size() / 2
+		
+		for i in points:
+			draw_texture(sprite, (i / sprite_scale).round() - sprite_offset)
+		
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 func apply_gravity(delta: float) -> void:
@@ -49,6 +66,16 @@ func _update_cloth():
 	
 	for i in range(num_of_points):
 		add_point(Vector2(0, i * point_spacing))
+
+
+func _update_sprite(new_sprite: Texture2D) -> void:
+	sprite = new_sprite
+	if sprite:
+		_old_width = width
+		width = 0
+	else:
+		width = _old_width
+		print(_old_width)
 
 
 func _fix_strech(point: Vector2, previous_point: Vector2) -> Vector2:
