@@ -13,6 +13,7 @@ extends Line2D
 		_update_cloth()
 @export_range(1, 5, 0.01, "or_greater") var strech_scale := 1.0
 @export_range(0, 1, 0.01) var damping_scale := 0.7
+@export_range(0, 10, 0.01, "or_greater") var gravity_strength := 1.0
 
 @onready var _last_global_position := global_position
 
@@ -32,7 +33,7 @@ func _physics_process(delta: float) -> void:
 func apply_gravity(delta: float) -> void:
 	const gravity := Vector2(0, 150.0)
 	for i in range(1, num_of_points):
-		set_point_position(i, points[i] + gravity * delta)
+		set_point_position(i, points[i] + gravity * delta * gravity_strength)
 
 
 func apply_swing(distance: Vector2) -> void:
