@@ -1,17 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://chtr8cd86u401"]
+[gd_scene load_steps=4 format=3 uid="uid://chtr8cd86u401"]
 
-[ext_resource type="PackedScene" uid="uid://dg2hpc4g0evkm" path="res://main/world/world.tscn" id="1_oc7al"]
+[ext_resource type="Script" uid="uid://dji5ke5aomc67" path="res://main/world.gd" id="1_sd42p"]
 [ext_resource type="PackedScene" uid="uid://b6uvxvcf0811" path="res://entities/player/player.tscn" id="2_mf5tn"]
+[ext_resource type="PackedScene" uid="uid://duj5un7cu7q6a" path="res://map/tower.tscn" id="3_d3btu"]
 
 [node name="GameRoot" type="Node"]
 
-[node name="World" parent="." node_paths=PackedStringArray("player") instance=ExtResource("1_oc7al")]
-player = NodePath("Player")
+[node name="World" type="Node" parent="."]
+script = ExtResource("1_sd42p")
 
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
 position = Vector2(428, 360)
 metadata/_edit_group_ = true
 
 [node name="CameraFollow" type="Camera2D" parent="World/Player"]
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 10.0
 drag_left_margin = 0.1
 drag_right_margin = 0.1
+
+[node name="Tower" parent="World" instance=ExtResource("3_d3btu")]
