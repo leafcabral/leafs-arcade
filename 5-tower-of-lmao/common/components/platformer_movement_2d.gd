@@ -94,13 +94,13 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or disabled:
 		return
 	
+	if velocity.y < 0 and not _corner_correction_middle.is_colliding():
+		_try_corner_correction()
+	
 	process_movement(delta)
 	
 	parent.move_and_slide()
 	velocity = parent.velocity
-	
-	if parent.velocity.y < 0 and not _corner_correction_middle.is_colliding():
-		_try_corner_correction()
 
 
 func process_movement(delta: float) -> void:
@@ -174,16 +174,15 @@ func _handle_vertical_movement(delta: float) -> void:
 				jumped.emit()
 	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
 		velocity.y *= variable_jump_scale
-	
 
 
 func _try_corner_correction() -> void:
 	var left_colliding := _corner_correction_left.is_colliding()
 	var right_colliding := _corner_correction_right.is_colliding()
 	
-	if left_colliding and not right_colliding:
+	if left_colliding and not right_colliding and velocity.x >= 0:
 		parent.position.x += corner_correction_amount
-	elif not left_colliding and right_colliding:
+	elif not left_colliding and right_colliding and velocity.x <= 0:
 		parent.position.x -= corner_correction_amount
 
 
