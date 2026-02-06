@@ -12,7 +12,7 @@ script = ExtResource("1_sd42p")
 [node name="Tower" parent="World" instance=ExtResource("3_d3btu")]
 
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
-position = Vector2(428, 360)
+position = Vector2(336, 507)
 metadata/_edit_group_ = true
 
 [node name="CameraFollow" type="Camera2D" parent="World/Player"]
@@ -21,3 +21,8 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 drag_left_margin = 0.1
 drag_right_margin = 0.1
+
+[node name="SpawnPoint" type="Marker2D" parent="World"]
+position = Vector2(336, 507)
+
+[connection signal="player_exited_screen" from="World/Tower" to="World" method="_on_tower_player_exited_screen"]
