@@ -9,6 +9,8 @@
 [node name="World" type="Node" parent="."]
 script = ExtResource("1_sd42p")
 
+[node name="Tower" parent="World" instance=ExtResource("3_d3btu")]
+
 [node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
 position = Vector2(428, 360)
 metadata/_edit_group_ = true
@@ -19,5 +21,3 @@ position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 drag_left_margin = 0.1
 drag_right_margin = 0.1
-
-[node name="Tower" parent="World" instance=ExtResource("3_d3btu")]

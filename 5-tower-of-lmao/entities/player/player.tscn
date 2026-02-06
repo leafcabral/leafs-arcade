@@ -121,7 +121,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
-size = Vector2(52, 48)
+size = Vector2(40, 48)
 
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 2
@@ -154,20 +154,18 @@ animation = &"idle"
 offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2(2, 8)
+position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_symyc")
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
-visible = false
 script = ExtResource("3_sglur")
 max_speed = 400.0
 jump_height = 128.0
 time_to_peak = 0.4
 jump_buffering_time = 0.1
-corner_correction_amount = 11.78
-corner_correction_offset = Vector2(2, -16)
-corner_correction_distance_between = 50.6
+corner_correction_amount = 8.0
+corner_correction_offset = Vector2(0, -16)
+corner_correction_distance_between = 40.0
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
