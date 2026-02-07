@@ -26,3 +26,4 @@ drag_right_margin = 0.1
 position = Vector2(336, 507)
 
 [connection signal="player_exited_screen" from="World/Tower" to="World" method="_on_tower_player_exited_screen"]
+[connection signal="died" from="World/Player" to="World" method="_on_player_died"]
