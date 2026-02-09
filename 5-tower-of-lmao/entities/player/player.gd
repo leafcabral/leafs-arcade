@@ -11,6 +11,8 @@ signal died
 @onready var sprite_original_scale := sprite.scale
 @onready var cape: ClothTrailComponent = $ClothTrailComponent
 @onready var movement_controller: PlatformerMovement2D = $PlatformerMovement2D
+@onready var normal_collision_box: CollisionShape2D = $NormalCollisionBox
+@onready var crouch_collision_box: CollisionShape2D = $CrouchCollisionBox
 
 
 func _physics_process(delta: float) -> void:
@@ -23,8 +25,12 @@ func _physics_process(delta: float) -> void:
 func update_sprite_animation() -> void:
 	if movement_controller.is_airbourne:
 		sprite.play("jump")
+	elif movement_controller.is_walking and movement_controller.is_crouching:
+		sprite.play("crouch-walk")
 	elif movement_controller.is_walking:
 		sprite.play("walk")
+	elif movement_controller.is_crouching:
+		sprite.play("crouch")
 	else:
 		sprite.play("idle")
 	
@@ -65,3 +71,15 @@ func _on_platformer_movement_2d_jumped() -> void:
 
 func _on_platformer_movement_2d_hit_floor() -> void:
 	strech_sprite(strech_scale)
+
+
+func _on_platformer_movement_2d_got_up() -> void:
+	normal_collision_box.set_deferred("disabled", false)
+	await get_tree().process_frame
+	crouch_collision_box.set_deferred("disabled", true)
+
+
+func _on_platformer_movement_2d_crouched() -> void:
+	crouch_collision_box.set_deferred("disabled", false)
+	await get_tree().process_frame
+	normal_collision_box.set_deferred("disabled", true)

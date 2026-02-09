@@ -1,9 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=35 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://74xqh7pg6t8y" path="res://entities/player/sprites/idle.png" id="2_fkugw"]
 [ext_resource type="Texture2D" uid="uid://bwp1l6tw1k784" path="res://entities/player/sprites/jump.png" id="3_8fjmc"]
+[ext_resource type="Texture2D" uid="uid://3cpl42alwemv" path="res://entities/player/sprites/crouch.png" id="3_26q78"]
 [ext_resource type="Script" uid="uid://4s62gvwpjvxj" path="res://common/components/platformer_movement_2d.gd" id="3_sglur"]
+[ext_resource type="Texture2D" uid="uid://cj2arrqx7ywag" path="res://entities/player/sprites/crouch-walk.png" id="4_bectd"]
 [ext_resource type="Texture2D" uid="uid://cpjuoviyhyp6x" path="res://entities/player/sprites/walk.png" id="4_qiwj3"]
 [ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_component.gd" id="6_8fjmc"]
 [ext_resource type="Script" uid="uid://fmpoq8my4dhh" path="res://common/components/corner_correction_component.gd" id="7_qiwj3"]
@@ -25,6 +27,38 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(1, 0.5)
 metadata/_snap_enabled = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_we0b7"]
+atlas = ExtResource("3_26q78")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mtric"]
+atlas = ExtResource("4_bectd")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyb6c"]
+atlas = ExtResource("4_bectd")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_221hk"]
+atlas = ExtResource("4_bectd")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghoj8"]
+atlas = ExtResource("4_bectd")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1t22"]
+atlas = ExtResource("4_bectd")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50fht"]
+atlas = ExtResource("4_bectd")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuv6x"]
+atlas = ExtResource("4_bectd")
+region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_26q78"]
 atlas = ExtResource("2_fkugw")
@@ -72,6 +106,40 @@ region = Rect2(96, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a1qjk"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_we0b7")
+}],
+"loop": true,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mtric")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyb6c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_221hk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghoj8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1t22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50fht")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuv6x")
+}],
+"loop": true,
+"name": &"crouch-walk",
+"speed": 8.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_26q78")
@@ -124,14 +192,17 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
 size = Vector2(40, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bectd"]
+size = Vector2(40, 40)
+
 [node name="Player" type="CharacterBody2D"]
 collision_mask = 10
 script = ExtResource("1_sglur")
 strech_restore_seconds = 0.15
 
 [node name="ClothTrailComponent" type="Line2D" parent="."]
-position = Vector2(3, 7)
-points = PackedVector2Array(0, 0, 0, 4, 0, 8, 0, 12, 0, 16)
+position = Vector2(3, 4)
+points = PackedVector2Array(0, 0, -3e-45, 4, -6e-45, 8, -8e-45, 12, -1.1e-44, 16)
 width = 0.0
 width_curve = SubResource("Curve_8fjmc")
 default_color = Color(0.14117648, 0.25490198, 0.41960785, 1)
@@ -148,31 +219,40 @@ sprite_scale = Vector2(4, 4)
 metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
 
 [node name="Sprites" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 32)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_a1qjk")
-animation = &"idle"
-offset = Vector2(0, -8)
+animation = &"crouch"
+offset = Vector2(0, -2)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 8)
+[node name="NormalCollisionBox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_symyc")
+
+[node name="CrouchCollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_bectd")
+disabled = true
+debug_color = Color(0.70196074, 0, 0.22620443, 0.41960785)
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
 script = ExtResource("3_sglur")
+input_crouch = null
 max_speed = 400.0
 jump_height = 128.0
 time_to_peak = 0.4
+crouching_speed_scale = 0.3
+crouch_jump_scale = 1.5
 jump_buffering_time = 0.1
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [node name="CornerCorrectionComponent" type="Node2D" parent="."]
-position = Vector2(0, -16)
+position = Vector2(0, -24)
 script = ExtResource("7_qiwj3")
 amount = 8.0
 length = 14.0
 distance_between = 40.0
 metadata/_custom_type_script = "uid://fmpoq8my4dhh"
 
+[connection signal="crouched" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouched"]
+[connection signal="got_up" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_got_up"]
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
 [connection signal="jumped" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_jumped"]

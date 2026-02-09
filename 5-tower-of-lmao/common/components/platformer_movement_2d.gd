@@ -5,11 +5,14 @@ extends Node2D
 
 signal jumped
 signal hit_floor
+signal crouched
+signal got_up
 
 @export var disabled := false
 @export var input_move_left := &"move_left"
 @export var input_move_right := &"move_right"
 @export var input_jump := &"jump"
+@export var input_crouch := &"crouch"
 
 @export_group("Horizontal Movement")
 @export_range(0, 1000, 0.1, "or_greater") var max_speed := 600.0
@@ -24,6 +27,11 @@ signal hit_floor
 @export_range(0, 5000, 0.1, "or_greater") var terminal_falling_velocity := 2000.0
 @export var hold_to_jump := false
 
+@export_group("Crouching")
+@export_range(0, 1, 0.01) var crouching_speed_scale := 0.5
+@export_range(1, 2, 0.1, "or_greater") var crouch_jump_scale := 1.0
+@export_range(0, 2, 0.01, "or_greater") var strong_jump_buffer := 0.1
+
 @export_group("Quality of Life")
 @export_range(0, 1, 0.01) var variable_jump_scale := 0.5
 @export_range(0, 5, 0.01, "or_greater") var jump_buffering_time := 0.05
@@ -33,6 +41,7 @@ var velocity := Vector2.ZERO
 
 var jump_buffering := 0.0
 var coyote_jump := 0.0
+var strong_jump := 0.0
 
 var is_walking := false
 var is_jumping := false:
@@ -45,10 +54,19 @@ var is_airbourne := false:
 		if is_airbourne and not value:
 			hit_floor.emit()
 		is_airbourne = value
+var is_crouching := false:
+	set(value):
+		if is_crouching and not value:
+			got_up.emit()
+		elif not is_crouching and value:
+			crouched.emit()
+		is_crouching = value
+var did_super_jump := false
 
 var _left_pressed := false
 var _right_pressed := false
 var _jump_pressed := false
+var _crouch_pressed := false
 var _time_left_pressed := 0.0
 var _time_right_pressed := 0.0
 
@@ -98,9 +116,15 @@ func process_movement(delta: float) -> void:
 	var direction := get_movement_axis()
 	is_walking = direction
 	
+	var speed := max_speed * direction
+	if _crouch_pressed:
+		is_crouching = true
+		speed *= crouching_speed_scale
+	else:
+		is_crouching = false
 	velocity.x = move_toward(
 		velocity.x,
-		(max_speed * direction) if direction else 0.0,
+		speed if direction else 0.0,
 		max_speed * delta / (acceleration_time if direction else deceleration_time)
 	)
 
@@ -128,6 +152,7 @@ func apply_gravity(delta: float) -> void:
 		is_airbourne = true
 		if velocity.y >= 0:
 			is_jumping = false
+			did_super_jump = false
 
 
 func should_jump() -> bool:
@@ -143,7 +168,10 @@ func get_movement_axis() -> float:
 
 
 func get_gravity() -> Vector2:
-	return Vector2(0, 2 * jump_height / pow(
+	var final_jump_height = jump_height
+	if did_super_jump:
+		final_jump_height *= crouch_jump_scale
+	return Vector2(0, 2 * final_jump_height / pow(
 			time_to_peak if is_jumping else time_to_fall,
 			2
 		)
@@ -151,7 +179,11 @@ func get_gravity() -> Vector2:
 
 
 func get_jump_velocity() -> float:
-	return - (2 * jump_height) / time_to_peak
+	var final_jump_height = jump_height
+	if strong_jump:
+		final_jump_height *= crouch_jump_scale
+		did_super_jump = true
+	return - (2 * final_jump_height) / time_to_peak
 
 
 func _update_key_presses(delta: float) -> void:
@@ -169,6 +201,7 @@ func _update_key_presses(delta: float) -> void:
 		Input.is_action_just_pressed(input_jump) or
 		(hold_to_jump and Input.is_action_pressed(input_jump))
 	)
+	_crouch_pressed = Input.is_action_pressed(input_crouch)
 
 
 func _update_timers(delta: float) -> void:
@@ -176,8 +209,13 @@ func _update_timers(delta: float) -> void:
 		jump_buffering = jump_buffering_time
 	if parent.is_on_floor():
 		coyote_jump = coyote_jump_time
+	if _crouch_pressed:
+		strong_jump = strong_jump_buffer
 	
 	if jump_buffering > 0:
 		jump_buffering = max(0, jump_buffering - delta)
 	if coyote_jump > 0:
 		coyote_jump = max(0, coyote_jump - delta)
+	if strong_jump > 0:
+		strong_jump = max(0, strong_jump - delta)
+		
