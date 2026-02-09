@@ -14,10 +14,7 @@ signal died
 
 
 func _physics_process(delta: float) -> void:
-	sprite.scale = sprite.scale.move_toward(
-		sprite_original_scale,
-		delta * strech_scale / strech_restore_seconds
-	)
+	restore_strech(delta * strech_scale / strech_restore_seconds)
 	update_sprite_animation()
 	
 	_check_hazard_collisions()
@@ -39,6 +36,14 @@ func update_sprite_animation() -> void:
 		cape.position.x = - abs(cape.position.x)
 
 
+func strech_sprite(x_amount: float) -> void:
+	sprite.scale = sprite_original_scale * Vector2(x_amount, 1 / x_amount)
+
+
+func restore_strech(by: float) -> void:
+	sprite.scale = sprite.scale.move_toward(sprite_original_scale, by)
+
+
 func _check_hazard_collisions() -> void:
 	for i in get_slide_collision_count():
 		var collision := get_slide_collision(i)
@@ -55,12 +60,8 @@ func _check_hazard_collisions() -> void:
 
 
 func _on_platformer_movement_2d_jumped() -> void:
-	sprite.scale = sprite_original_scale
-	sprite.scale.y *= strech_scale
-	sprite.scale.x /= strech_scale
+	strech_sprite(1 / strech_scale)
 
 
 func _on_platformer_movement_2d_hit_floor() -> void:
-	sprite.scale = sprite_original_scale
-	sprite.scale.y /= strech_scale
-	sprite.scale.x *= strech_scale
+	strech_sprite(strech_scale)
