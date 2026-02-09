@@ -6,10 +6,6 @@ extends Node2D
 signal jumped
 signal hit_floor
 
-const CC_LEFT_NAME := ^"CornerCorrectionLeft"
-const CC_MIDDLE_NAME := ^"CornerCorrectionMiddle"
-const CC_RIGHT_NAME := ^"CornerCorrectionRight"
-
 @export var disabled := false
 @export var input_move_left := &"move_left"
 @export var input_move_right := &"move_right"
@@ -32,23 +28,6 @@ const CC_RIGHT_NAME := ^"CornerCorrectionRight"
 @export_range(0, 1, 0.01) var variable_jump_scale := 0.5
 @export_range(0, 5, 0.01, "or_greater") var jump_buffering_time := 0.05
 @export_range(0, 5, 0.01, "or_greater") var coyote_jump_time := 0.1
-@export_subgroup("Corner Correction", "corner_correction_")
-@export_range(0, 32, 0.01, "or_greater") var corner_correction_amount := 16.0:
-	set(value):
-		corner_correction_amount = value
-		_update_corner_correction_properties()
-@export var corner_correction_offset := Vector2.ZERO:
-	set(value):
-		corner_correction_offset = value
-		_update_corner_correction_properties()
-@export_range(0, 100, 0.01, "or_greater") var corner_correction_distance_between := 64.0:
-	set(value):
-		corner_correction_distance_between = value
-		_update_corner_correction_properties()
-@export_range(0, 128, 0.1, "or_greater") var corner_correction_ray_length := 32.0:
-	set(value):
-		corner_correction_ray_length = value
-		_update_corner_correction_properties()
 
 var velocity := Vector2.ZERO
 
@@ -57,9 +36,6 @@ var coyote_jump := 0.0
 
 var is_airbourne := false
 
-var _corner_correction_left: RayCast2D
-var _corner_correction_middle: ShapeCast2D
-var _corner_correction_right: RayCast2D
 var _left_pressed := false
 var _right_pressed := false
 var _time_left_pressed := 0.0
@@ -86,16 +62,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 
-func _ready() -> void:
-	_setup_corner_correction_nodes()
-
-
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or disabled:
 		return
-	
-	if velocity.y < 0 and not _corner_correction_middle.is_colliding():
-		_try_corner_correction()
 	
 	process_movement(delta)
 	
@@ -174,65 +143,3 @@ func _handle_vertical_movement(delta: float) -> void:
 				jumped.emit()
 	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
 		velocity.y *= variable_jump_scale
-
-
-func _try_corner_correction() -> void:
-	var left_colliding := _corner_correction_left.is_colliding()
-	var right_colliding := _corner_correction_right.is_colliding()
-	
-	if left_colliding and not right_colliding and velocity.x >= 0:
-		parent.position.x += corner_correction_amount
-	elif not left_colliding and right_colliding and velocity.x <= 0:
-		parent.position.x -= corner_correction_amount
-
-
-func _setup_corner_correction_nodes() -> void:
-	_corner_correction_left = get_node_or_null(CC_LEFT_NAME)
-	_corner_correction_middle = get_node_or_null(CC_MIDDLE_NAME)
-	_corner_correction_right = get_node_or_null(CC_RIGHT_NAME)
-	
-	if not _corner_correction_left:
-		_corner_correction_left = _create_ray_cast(CC_LEFT_NAME)
-		add_child(_corner_correction_left)
-	if not _corner_correction_middle:
-		_corner_correction_middle = _create_shape_cast(CC_MIDDLE_NAME)
-		add_child(_corner_correction_middle)
-	if not _corner_correction_right:
-		_corner_correction_right = _create_ray_cast(CC_RIGHT_NAME)
-		add_child(_corner_correction_right)
-	
-	_update_corner_correction_properties()
-
-
-func _create_ray_cast(node_name: String) -> RayCast2D:
-	var raycast := RayCast2D.new()
-	raycast.name = node_name
-	raycast.collision_mask = parent.collision_mask
-	return raycast
-
-
-func _create_shape_cast(node_name: String) -> ShapeCast2D:
-	var shape_cast := ShapeCast2D.new()
-	shape_cast.name = node_name
-	shape_cast.shape = RectangleShape2D.new()
-	shape_cast.collision_mask = parent.collision_mask
-	return shape_cast
-
-
-func _update_corner_correction_properties() -> void:
-	if not (_corner_correction_left and _corner_correction_right and _corner_correction_middle):
-		return
-	
-	var half_distance := corner_correction_distance_between / 2
-	var rays: Array[RayCast2D] = [_corner_correction_left, _corner_correction_right]
-	for i in 2:
-		rays[i].position = corner_correction_offset
-		rays[i].position.x += half_distance * [-1, 1][i]
-		rays[i].target_position.y = -corner_correction_ray_length
-	
-	var middle := _corner_correction_middle
-	middle.position = corner_correction_offset
-	middle.position.y -= corner_correction_ray_length / 2
-	middle.target_position = Vector2.ZERO
-	middle.shape.size.x = maxf(0, corner_correction_distance_between - 2 * corner_correction_amount)
-	middle.shape.size.y = corner_correction_ray_length
