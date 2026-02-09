@@ -38,6 +38,7 @@ var is_airbourne := false
 
 var _left_pressed := false
 var _right_pressed := false
+var _jump_pressed := false
 var _time_left_pressed := 0.0
 var _time_right_pressed := 0.0
 
@@ -66,33 +67,68 @@ func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint() or disabled:
 		return
 	
-	process_movement(delta)
+	process_physics(delta)
 	
 	parent.move_and_slide()
 	velocity = parent.velocity
 
 
-func process_movement(delta: float) -> void:
-	_left_pressed = Input.is_action_pressed("move_left")
-	_right_pressed = Input.is_action_pressed("move_right")
-	_time_left_pressed = (
-			_time_left_pressed + delta if _left_pressed
-			else 0.0
-	)
-	_time_right_pressed = (
-			_time_right_pressed + delta if _right_pressed
-			else 0.0
-	)
+func process_physics(delta: float) -> void:
+	_update_key_presses(delta)
 
-	_handle_horizontal_movement(delta)
-	_handle_vertical_movement(delta)
+	process_movement(delta)
+	process_jump_and_fall(delta)
 	
 	parent.velocity = velocity
 	
-	if jump_buffering > 0:
-		jump_buffering = max(0, jump_buffering - delta)
-	if coyote_jump > 0:
-		coyote_jump = max(0, coyote_jump - delta)
+	_update_timers(delta)
+
+
+func process_movement(delta: float) -> void:
+	var direction := get_movement_axis()
+	
+	velocity.x = move_toward(
+		velocity.x,
+		(max_speed * direction) if direction else 0.0,
+		max_speed * delta / (acceleration_time if direction else deceleration_time)
+	)
+
+
+func process_jump_and_fall(delta: float) -> void:
+	apply_gravity(delta)
+	
+	if parent.is_on_floor():
+		if is_airbourne:
+			is_airbourne = false
+			hit_floor.emit()
+	
+	if should_jump():
+			velocity.y = get_jump_velocity()
+			jump_buffering = 0
+			coyote_jump = 0
+			if not is_airbourne:
+				jumped.emit()
+	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
+		velocity.y *= variable_jump_scale
+
+
+func apply_gravity(delta: float) -> void:
+	if not parent.is_on_floor():
+		velocity += get_gravity() * delta
+		velocity.y = min(velocity.y, terminal_falling_velocity)
+		is_airbourne = true
+
+
+func should_jump() -> bool:
+	return (jump_buffering > 0 and parent.is_on_floor()) or (coyote_jump > 0 and _jump_pressed)
+
+
+func get_movement_axis() -> float:
+	var direction := Input.get_axis(input_move_left, input_move_right)
+	if directional_snap and (_left_pressed and _right_pressed):
+		var closest_time = minf(_time_left_pressed, _time_right_pressed)
+		direction = -1 if closest_time == _time_left_pressed else 1
+	return direction
 
 
 func get_gravity() -> Vector2:
@@ -103,43 +139,34 @@ func get_gravity() -> Vector2:
 	)
 
 
-func _handle_horizontal_movement(delta: float) -> void:
-	var delta_speed := max_speed * delta
-	
-	var direction := Input.get_axis("move_left", "move_right")
-	if directional_snap and (_left_pressed and _right_pressed):
-		var closest_time = minf(_time_left_pressed, _time_right_pressed)
-		direction = -1 if closest_time == _time_left_pressed else 1
-	
-	
-	if not direction:
-		velocity.x = move_toward(velocity.x, 0, delta_speed / deceleration_time)
-	else:
-		velocity.x = move_toward(velocity.x, direction * max_speed, delta_speed / acceleration_time)
+func get_jump_velocity() -> float:
+	return - (2 * jump_height) / time_to_peak
 
 
-func _handle_vertical_movement(delta: float) -> void:
-	var on_floor := parent.is_on_floor()
-	
-	if on_floor:
-		if is_airbourne:
-			is_airbourne = false
-			hit_floor.emit()
-	else:
-		velocity += get_gravity() * delta
-		velocity.y = min(velocity.y, terminal_falling_velocity)
-		is_airbourne = true
-	
-	if Input.is_action_just_pressed(input_jump) or (hold_to_jump and Input.is_action_pressed(input_jump)):
+func _update_key_presses(delta: float) -> void:
+	_left_pressed = Input.is_action_pressed("move_left")
+	_right_pressed = Input.is_action_pressed("move_right")
+	_time_left_pressed = (
+			_time_left_pressed + delta if _left_pressed
+			else 0.0
+	)
+	_time_right_pressed = (
+			_time_right_pressed + delta if _right_pressed
+			else 0.0
+	)
+	_jump_pressed = (
+		Input.is_action_just_pressed(input_jump) or
+		(hold_to_jump and Input.is_action_pressed(input_jump))
+	)
+
+
+func _update_timers(delta: float) -> void:
+	if _jump_pressed:
 		jump_buffering = jump_buffering_time
-	if on_floor:
+	if parent.is_on_floor():
 		coyote_jump = coyote_jump_time
 	
-	if (jump_buffering > 0 and on_floor) or (coyote_jump > 0 and Input.is_action_just_pressed(input_jump)):
-			velocity.y = - (2 * jump_height) / time_to_peak
-			jump_buffering = 0
-			coyote_jump = 0
-			if not is_airbourne:
-				jumped.emit()
-	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
-		velocity.y *= variable_jump_scale
+	if jump_buffering > 0:
+		jump_buffering = max(0, jump_buffering - delta)
+	if coyote_jump > 0:
+		coyote_jump = max(0, coyote_jump - delta)
