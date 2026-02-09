@@ -21,13 +21,13 @@ func _physics_process(delta: float) -> void:
 
 
 func update_sprite_animation() -> void:
-	if velocity.y:
+	if movement_controller.is_airbourne:
 		sprite.play("jump")
-	elif velocity.x:
+	elif movement_controller.is_walking:
 		sprite.play("walk")
 	else:
 		sprite.play("idle")
-		
+	
 	if velocity.x > 0:
 		sprite.flip_h = false
 		cape.position.x = abs(cape.position.x)

@@ -34,7 +34,17 @@ var velocity := Vector2.ZERO
 var jump_buffering := 0.0
 var coyote_jump := 0.0
 
-var is_airbourne := false
+var is_walking := false
+var is_jumping := false:
+	set(value):
+		if not is_jumping and value:
+			jumped.emit()
+		is_jumping = value
+var is_airbourne := false:
+	set(value):
+		if is_airbourne and not value:
+			hit_floor.emit()
+		is_airbourne = value
 
 var _left_pressed := false
 var _right_pressed := false
@@ -86,6 +96,7 @@ func process_physics(delta: float) -> void:
 
 func process_movement(delta: float) -> void:
 	var direction := get_movement_axis()
+	is_walking = direction
 	
 	velocity.x = move_toward(
 		velocity.x,
@@ -98,18 +109,16 @@ func process_jump_and_fall(delta: float) -> void:
 	apply_gravity(delta)
 	
 	if parent.is_on_floor():
-		if is_airbourne:
-			is_airbourne = false
-			hit_floor.emit()
+		is_airbourne = false
 	
 	if should_jump():
 			velocity.y = get_jump_velocity()
 			jump_buffering = 0
 			coyote_jump = 0
-			if not is_airbourne:
-				jumped.emit()
-	elif Input.is_action_just_released(input_jump) and velocity.y <= 0:
+			is_jumping = true
+	elif Input.is_action_just_released(input_jump) and is_jumping:
 		velocity.y *= variable_jump_scale
+		is_jumping = false
 
 
 func apply_gravity(delta: float) -> void:
@@ -117,6 +126,8 @@ func apply_gravity(delta: float) -> void:
 		velocity += get_gravity() * delta
 		velocity.y = min(velocity.y, terminal_falling_velocity)
 		is_airbourne = true
+		if velocity.y >= 0:
+			is_jumping = false
 
 
 func should_jump() -> bool:
@@ -133,7 +144,7 @@ func get_movement_axis() -> float:
 
 func get_gravity() -> Vector2:
 	return Vector2(0, 2 * jump_height / pow(
-			time_to_peak if velocity.y < 0 else time_to_fall,
+			time_to_peak if is_jumping else time_to_fall,
 			2
 		)
 	)
