@@ -7,6 +7,7 @@ signal jumped
 signal hit_floor
 signal crouched
 signal got_up
+signal crouch_jump_charged
 
 @export var disabled := false
 @export var input_move_left := &"move_left"
@@ -28,6 +29,7 @@ signal got_up
 
 @export_group("Crouching")
 @export_range(0, 1, 0.01) var crouching_speed_scale := 0.5
+@export_range(0, 3, 0.01, "or_greater") var crouch_jump_delay_max := 0.5
 @export_range(1, 2, 0.1, "or_greater") var crouch_jump_scale := 1.0
 @export_range(0, 2, 0.01, "or_greater") var crouch_jump_buffer_max := 0.1
 
@@ -38,10 +40,13 @@ signal got_up
 
 var velocity := Vector2.ZERO
 var x_direction := 0.0
+var crouch_jump_ready := false
 
 var jump_buffer := 0.0
 var coyote_jump_buffer := 0.0
 var crouch_jump_buffer := 0.0
+
+var crouch_jump_delay := 0.0
 
 var is_walking := false
 var is_jumping := false:
@@ -210,7 +215,7 @@ func _update_key_presses(delta: float) -> void:
 		(hold_to_jump and Input.is_action_pressed(input_jump))
 	)
 	
-	_crouch_pressed = Input.is_action_pressed(input_crouch)
+	_crouch_pressed = Input.is_action_pressed(input_crouch) and not is_airbourne
 
 
 func _update_timers(delta: float) -> void:
@@ -218,9 +223,17 @@ func _update_timers(delta: float) -> void:
 		jump_buffer = jump_buffer_max
 	if parent.is_on_floor():
 		coyote_jump_buffer = coyote_jump_buffer_max
-	if _crouch_pressed:
-		crouch_jump_buffer = crouch_jump_buffer_max
+	if _crouch_pressed and parent.is_on_floor():
+		crouch_jump_delay = minf(crouch_jump_delay_max, crouch_jump_delay + delta)
+		if crouch_jump_delay == crouch_jump_delay_max:
+			if not crouch_jump_ready:
+				crouch_jump_charged.emit()
+				crouch_jump_ready = true
+			crouch_jump_buffer = crouch_jump_buffer_max
+	else:
+		crouch_jump_delay = 0
+		crouch_jump_ready = false
 	
-	jump_buffer = max(0, jump_buffer - delta)
-	coyote_jump_buffer = max(0, coyote_jump_buffer - delta)
-	crouch_jump_buffer = max(0, crouch_jump_buffer - delta)
+	jump_buffer = maxf(0, jump_buffer - delta)
+	coyote_jump_buffer = maxf(0, coyote_jump_buffer - delta)
+	crouch_jump_buffer = maxf(0, crouch_jump_buffer - delta)

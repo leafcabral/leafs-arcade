@@ -25,9 +25,9 @@ func _physics_process(delta: float) -> void:
 func update_sprite_animation() -> void:
 	if movement_controller.is_airbourne:
 		sprite.play("jump")
-	elif movement_controller.is_walking and movement_controller.is_crouching:
+	elif velocity.x and movement_controller.is_crouching:
 		sprite.play("crouch-walk")
-	elif movement_controller.is_walking:
+	elif velocity.x:
 		sprite.play("walk")
 	elif movement_controller.is_crouching:
 		sprite.play("crouch")
@@ -74,6 +74,8 @@ func _on_platformer_movement_2d_hit_floor() -> void:
 
 
 func _on_platformer_movement_2d_got_up() -> void:
+	cape.modulate = Color.WHITE
+	sprite.modulate = Color.WHITE
 	normal_collision_box.set_deferred("disabled", false)
 	await get_tree().process_frame
 	crouch_collision_box.set_deferred("disabled", true)
@@ -83,3 +85,8 @@ func _on_platformer_movement_2d_crouched() -> void:
 	crouch_collision_box.set_deferred("disabled", false)
 	await get_tree().process_frame
 	normal_collision_box.set_deferred("disabled", true)
+
+
+func _on_platformer_movement_2d_crouch_jump_charged() -> void:
+	cape.modulate = Color.GREEN
+	sprite.modulate = Color.GREEN

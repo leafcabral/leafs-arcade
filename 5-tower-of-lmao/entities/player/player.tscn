@@ -238,7 +238,6 @@ script = ExtResource("3_sglur")
 max_speed = 400.0
 jump_height = 128.0
 time_to_peak = 0.4
-crouching_speed_scale = 0.3
 crouch_jump_scale = 1.5
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
@@ -250,6 +249,7 @@ length = 14.0
 distance_between = 40.0
 metadata/_custom_type_script = "uid://fmpoq8my4dhh"
 
+[connection signal="crouch_jump_charged" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouch_jump_charged"]
 [connection signal="crouched" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouched"]
 [connection signal="got_up" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_got_up"]
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
