@@ -202,7 +202,7 @@ strech_restore_seconds = 0.15
 
 [node name="ClothTrailComponent" type="Line2D" parent="."]
 position = Vector2(3, 4)
-points = PackedVector2Array(0, 0, -3e-45, 4, -6e-45, 8, -8e-45, 12, -1.1e-44, 16)
+points = PackedVector2Array(0, 0, 0, 4, 0, 8, 0, 12, 0, 16)
 width = 0.0
 width_curve = SubResource("Curve_8fjmc")
 default_color = Color(0.14117648, 0.25490198, 0.41960785, 1)
@@ -235,13 +235,11 @@ debug_color = Color(0.70196074, 0, 0.22620443, 0.41960785)
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
 script = ExtResource("3_sglur")
-input_crouch = null
 max_speed = 400.0
 jump_height = 128.0
 time_to_peak = 0.4
 crouching_speed_scale = 0.3
 crouch_jump_scale = 1.5
-jump_buffering_time = 0.1
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [node name="CornerCorrectionComponent" type="Node2D" parent="."]
