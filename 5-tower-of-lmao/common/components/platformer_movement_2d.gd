@@ -73,7 +73,7 @@ var was_last_jump_crouched := false
 
 var _time_left_pressed := 0.0
 var _time_right_pressed := 0.0
-var _jump_pressed := false
+var jump_pressed := false
 var _crouch_pressed := false
 
 @onready var parent := get_parent() as CharacterBody2D
@@ -172,7 +172,7 @@ func get_gravity() -> Vector2:
 func should_jump() -> bool:
 	return (
 		(jump_buffer > 0 and parent.is_on_floor())
-		or (coyote_jump_buffer > 0 and _jump_pressed)
+		or (coyote_jump_buffer > 0 and jump_pressed)
 	)
 
 
@@ -200,7 +200,7 @@ func get_true_jump_height() -> float:
 func _update_key_presses(delta: float) -> void:
 	if input_disabled:
 		x_direction = 0
-		_jump_pressed = false
+		jump_pressed = false
 		_crouch_pressed = false
 		return
 	
@@ -214,7 +214,7 @@ func _update_key_presses(delta: float) -> void:
 	if left_pressed and right_pressed:
 		x_direction = -1 if closest_time == _time_left_pressed else 1
 	
-	_jump_pressed = (
+	jump_pressed = (
 		Input.is_action_just_pressed(input_jump) or
 		(hold_to_jump and Input.is_action_pressed(input_jump))
 	)
@@ -223,7 +223,7 @@ func _update_key_presses(delta: float) -> void:
 
 
 func _update_timers(delta: float) -> void:
-	if _jump_pressed:
+	if jump_pressed:
 		jump_buffer = jump_buffer_max
 	if parent.is_on_floor():
 		coyote_jump_buffer = coyote_jump_buffer_max

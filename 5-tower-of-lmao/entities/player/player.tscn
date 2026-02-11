@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=36 format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://74xqh7pg6t8y" path="res://entities/player/sprites/idle.png" id="2_fkugw"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cpjuoviyhyp6x" path="res://entities/player/sprites/walk.png" id="4_qiwj3"]
 [ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_component.gd" id="6_8fjmc"]
 [ext_resource type="Script" uid="uid://fmpoq8my4dhh" path="res://common/components/corner_correction_component.gd" id="7_qiwj3"]
+[ext_resource type="Script" uid="uid://fppk6w8fmj2k" path="res://common/components/wall_movement_component.gd" id="10_wvtmh"]
 
 [sub_resource type="Curve" id="Curve_8fjmc"]
 _data = [Vector2(0, 0.8539326), 0.0, 0.0, 0, 0, Vector2(0.2771739, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -249,8 +250,20 @@ length = 14.0
 distance_between = 40.0
 metadata/_custom_type_script = "uid://fmpoq8my4dhh"
 
+[node name="WallMovementComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("movement_controller")]
+position = Vector2(0, -8)
+target_position = Vector2(28, 0)
+collision_mask = 10
+script = ExtResource("10_wvtmh")
+input_move_down = &"crouch"
+length = 28.0
+movement_controller = NodePath("../PlatformerMovement2D")
+metadata/_custom_type_script = "uid://fppk6w8fmj2k"
+
 [connection signal="crouch_jump_charged" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouch_jump_charged"]
 [connection signal="crouched" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouched"]
 [connection signal="got_up" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_got_up"]
 [connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
 [connection signal="jumped" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_jumped"]
+[connection signal="started_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_started_climbing"]
+[connection signal="stopped_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_stopped_climbing"]

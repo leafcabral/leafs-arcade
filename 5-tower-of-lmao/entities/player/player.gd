@@ -7,10 +7,13 @@ signal died
 @export_range(1, 2, 0.01, "or_greater") var strech_scale := 1.3
 @export_range(0, 1, 0.01, "or_greater") var strech_restore_seconds := 0.1
 
+var is_climbing := false
+
 @onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
 @onready var cape: ClothTrailComponent = $ClothTrailComponent
 @onready var movement_controller: PlatformerMovement2D = $PlatformerMovement2D
+@onready var wall_movement: WallMovementComponent = $WallMovementComponent
 @onready var normal_collision_box: CollisionShape2D = $NormalCollisionBox
 @onready var crouch_collision_box: CollisionShape2D = $CrouchCollisionBox
 
@@ -18,10 +21,14 @@ signal died
 func _process(delta: float) -> void:
 	restore_strech(delta * strech_scale / strech_restore_seconds)
 	update_sprite_animation()
+	update_direction()
 
 
 func _physics_process(delta: float) -> void:
-	velocity = movement_controller.process_physics(delta)
+	if not is_climbing:
+		velocity = movement_controller.process_physics(delta)
+	else:
+		velocity = wall_movement.process_physics(delta)
 	move_and_slide()
 	
 	_check_hazard_collisions()
@@ -39,11 +46,16 @@ func update_sprite_animation() -> void:
 	else:
 		sprite.play("idle")
 	
+
+
+func update_direction() -> void:
 	if velocity.x > 0:
 		sprite.flip_h = false
+		wall_movement.flip_h = false
 		cape.position.x = abs(cape.position.x)
 	elif velocity.x < 0:
 		sprite.flip_h = true
+		wall_movement.flip_h = true
 		cape.position.x = - abs(cape.position.x)
 
 
@@ -95,3 +107,11 @@ func _on_platformer_movement_2d_crouched() -> void:
 func _on_platformer_movement_2d_crouch_jump_charged() -> void:
 	cape.modulate = Color.GREEN
 	sprite.modulate = Color.GREEN
+
+
+func _on_wall_movement_component_started_climbing() -> void:
+	is_climbing = true
+
+
+func _on_wall_movement_component_stopped_climbing() -> void:
+	is_climbing = false
