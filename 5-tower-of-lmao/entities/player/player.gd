@@ -15,9 +15,14 @@ signal died
 @onready var crouch_collision_box: CollisionShape2D = $CrouchCollisionBox
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	restore_strech(delta * strech_scale / strech_restore_seconds)
 	update_sprite_animation()
+
+
+func _physics_process(delta: float) -> void:
+	velocity = movement_controller.process_physics(delta)
+	move_and_slide()
 	
 	_check_hazard_collisions()
 

@@ -10,6 +10,9 @@ signal got_up
 signal crouch_jump_charged
 
 @export var disabled := false
+
+@export_group("Input", "input_")
+@export var input_disabled := false
 @export var input_move_left := &"move_left"
 @export var input_move_right := &"move_right"
 @export var input_jump := &"jump"
@@ -94,25 +97,20 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 
-func _physics_process(delta: float) -> void:
-	if Engine.is_editor_hint() or disabled:
-		return
+func process_physics(delta: float) -> Vector2:
+	if disabled:
+		return Vector2.ZERO
 	
-	process_physics(delta)
-	
-	parent.move_and_slide()
 	velocity = parent.velocity
-
-
-func process_physics(delta: float) -> void:
+	
 	_update_key_presses(delta)
 
 	process_movement(delta)
 	process_jump_and_fall(delta)
 	
-	parent.velocity = velocity
-	
 	_update_timers(delta)
+	
+	return velocity
 
 
 func process_movement(delta: float) -> void:
@@ -200,6 +198,12 @@ func get_true_jump_height() -> float:
 
 
 func _update_key_presses(delta: float) -> void:
+	if input_disabled:
+		x_direction = 0
+		_jump_pressed = false
+		_crouch_pressed = false
+		return
+	
 	var left_pressed := Input.is_action_pressed(input_move_left)
 	var right_pressed := Input.is_action_pressed(input_move_right)
 	_time_left_pressed = _time_left_pressed + delta if left_pressed else 0.0
