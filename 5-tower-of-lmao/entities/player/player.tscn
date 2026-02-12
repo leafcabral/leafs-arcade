@@ -198,10 +198,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_symyc"]
-size = Vector2(40, 48)
+size = Vector2(8, 12)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bectd"]
-size = Vector2(40, 40)
+size = Vector2(8, 10)
 
 [node name="Player" type="CharacterBody2D"]
 material = SubResource("ShaderMaterial_a1qjk")
@@ -211,8 +211,7 @@ strech_restore_seconds = 0.15
 
 [node name="ClothTrailComponent" type="Line2D" parent="."]
 use_parent_material = true
-position = Vector2(3, 4)
-points = PackedVector2Array(0, 0, 0, 4, 0, 8, 0, 12, 0, 16)
+points = PackedVector2Array(0, 0, 0, 1, 0, 2, 0, 3, 0, 4)
 width = 0.0
 width_curve = SubResource("Curve_8fjmc")
 default_color = Color(0.14117648, 0.25490198, 0.41960785, 1)
@@ -220,17 +219,15 @@ begin_cap_mode = 2
 end_cap_mode = 2
 script = ExtResource("6_8fjmc")
 num_of_points = 5
-point_spacing = 2.0
+point_spacing = 0.5
 strech_scale = 2.0
 damping_scale = 0.3
 gravity_strength = 0.5
 sprite = SubResource("GradientTexture2D_qiwj3")
-sprite_scale = Vector2(4, 4)
 metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
 
 [node name="Sprites" type="AnimatedSprite2D" parent="."]
 use_parent_material = true
-scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_a1qjk")
 animation = &"crouch"
 offset = Vector2(0, -2)
@@ -239,34 +236,37 @@ offset = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_symyc")
 
 [node name="CrouchCollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_bectd")
 disabled = true
 debug_color = Color(0.70196074, 0, 0.22620443, 0.41960785)
 
 [node name="PlatformerMovement2D" type="Node2D" parent="."]
 script = ExtResource("3_sglur")
-max_speed = 400.0
-jump_height = 128.0
-time_to_peak = 0.4
+max_speed = 128.0
+jump_height = 32.0
+terminal_falling_velocity = 1024.0
+crouching_speed_scale = 0.3
 crouch_jump_scale = 1.5
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [node name="CornerCorrectionComponent" type="Node2D" parent="."]
-position = Vector2(0, -24)
+position = Vector2(0, -4)
 script = ExtResource("7_qiwj3")
-amount = 8.0
-length = 14.0
-distance_between = 40.0
+amount = 2.0
+length = 5.0
+distance_between = 8.0
 metadata/_custom_type_script = "uid://fmpoq8my4dhh"
 
 [node name="WallMovementComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("movement_controller")]
-position = Vector2(0, -8)
-target_position = Vector2(28, 0)
+position = Vector2(0, -2)
+target_position = Vector2(7, 0)
 collision_mask = 10
 script = ExtResource("10_wvtmh")
 input_move_down = &"crouch"
-length = 28.0
+wall_jump_horizontal_force = 64.0
+length = 7.0
+max_speed = 64.0
 idle_stamina_consumption = 25.0
 movement_controller = NodePath("../PlatformerMovement2D")
 metadata/_custom_type_script = "uid://fppk6w8fmj2k"

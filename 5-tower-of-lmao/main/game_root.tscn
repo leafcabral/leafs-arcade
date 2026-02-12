@@ -6,24 +6,38 @@
 
 [node name="GameRoot" type="Node"]
 
-[node name="World" type="Node" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="World" type="Node" parent="SubViewportContainer/SubViewport"]
 script = ExtResource("1_sd42p")
 
-[node name="Tower" parent="World" instance=ExtResource("3_d3btu")]
+[node name="Tower" parent="SubViewportContainer/SubViewport/World" instance=ExtResource("3_d3btu")]
 
-[node name="Player" parent="World" instance=ExtResource("2_mf5tn")]
-position = Vector2(336, 507)
+[node name="Player" parent="SubViewportContainer/SubViewport/World" instance=ExtResource("2_mf5tn")]
+position = Vector2(92, 138)
 metadata/_edit_group_ = true
 
-[node name="CameraFollow" type="Camera2D" parent="World/Player"]
+[node name="CameraFollow" type="Camera2D" parent="SubViewportContainer/SubViewport/World/Player"]
+zoom = Vector2(4, 4)
 limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 drag_left_margin = 0.1
 drag_right_margin = 0.1
 
-[node name="SpawnPoint" type="Marker2D" parent="World"]
-position = Vector2(336, 507)
+[node name="SpawnPoint" type="Marker2D" parent="SubViewportContainer/SubViewport/World"]
+position = Vector2(92, 138)
 
-[connection signal="player_exited_screen" from="World/Tower" to="World" method="_on_tower_player_exited_screen"]
-[connection signal="died" from="World/Player" to="World" method="_on_player_died"]
+[connection signal="player_exited_screen" from="SubViewportContainer/SubViewport/World/Tower" to="SubViewportContainer/SubViewport/World" method="_on_tower_player_exited_screen"]
+[connection signal="died" from="SubViewportContainer/SubViewport/World/Player" to="SubViewportContainer/SubViewport/World" method="_on_player_died"]

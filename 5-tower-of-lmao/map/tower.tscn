@@ -35,7 +35,6 @@ size = Vector2(46.75, 49.5)
 size = Vector2(45.25, 43.75)
 
 [node name="Tower" type="Node2D"]
-scale = Vector2(4, 4)
 script = ExtResource("1_dpu0t")
 
 [node name="Background" type="CanvasLayer" parent="."]
