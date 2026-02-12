@@ -1,5 +1,6 @@
-[gd_scene load_steps=36 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene load_steps=38 format=3 uid="uid://b6uvxvcf0811"]
 
+[ext_resource type="Shader" uid="uid://72acx6q8fd5f" path="res://entities/player/low_stamina.gdshader" id="1_7thud"]
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
 [ext_resource type="Texture2D" uid="uid://74xqh7pg6t8y" path="res://entities/player/sprites/idle.png" id="2_fkugw"]
 [ext_resource type="Texture2D" uid="uid://bwp1l6tw1k784" path="res://entities/player/sprites/jump.png" id="3_8fjmc"]
@@ -10,6 +11,12 @@
 [ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_component.gd" id="6_8fjmc"]
 [ext_resource type="Script" uid="uid://fmpoq8my4dhh" path="res://common/components/corner_correction_component.gd" id="7_qiwj3"]
 [ext_resource type="Script" uid="uid://fppk6w8fmj2k" path="res://common/components/wall_movement_component.gd" id="10_wvtmh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_a1qjk"]
+shader = ExtResource("1_7thud")
+shader_parameter/activated = false
+shader_parameter/color = Color(1, 0, 0, 1)
+shader_parameter/mix_amount = 0.6999999843536
 
 [sub_resource type="Curve" id="Curve_8fjmc"]
 _data = [Vector2(0, 0.8539326), 0.0, 0.0, 0, 0, Vector2(0.2771739, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -197,11 +204,13 @@ size = Vector2(40, 48)
 size = Vector2(40, 40)
 
 [node name="Player" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_a1qjk")
 collision_mask = 10
 script = ExtResource("1_sglur")
 strech_restore_seconds = 0.15
 
 [node name="ClothTrailComponent" type="Line2D" parent="."]
+use_parent_material = true
 position = Vector2(3, 4)
 points = PackedVector2Array(0, 0, 0, 4, 0, 8, 0, 12, 0, 16)
 width = 0.0
@@ -220,6 +229,7 @@ sprite_scale = Vector2(4, 4)
 metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
 
 [node name="Sprites" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_a1qjk")
 animation = &"crouch"
@@ -257,8 +267,12 @@ collision_mask = 10
 script = ExtResource("10_wvtmh")
 input_move_down = &"crouch"
 length = 28.0
+idle_stamina_consumption = 25.0
 movement_controller = NodePath("../PlatformerMovement2D")
 metadata/_custom_type_script = "uid://fppk6w8fmj2k"
+
+[node name="LowStaminaTicking" type="Timer" parent="."]
+wait_time = 0.1
 
 [connection signal="crouch_jump_charged" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouch_jump_charged"]
 [connection signal="crouched" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouched"]
@@ -267,3 +281,4 @@ metadata/_custom_type_script = "uid://fppk6w8fmj2k"
 [connection signal="jumped" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_jumped"]
 [connection signal="started_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_started_climbing"]
 [connection signal="stopped_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_stopped_climbing"]
+[connection signal="timeout" from="LowStaminaTicking" to="." method="_on_low_stamina_ticking_timeout"]

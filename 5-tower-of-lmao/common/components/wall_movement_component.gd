@@ -20,8 +20,12 @@ const DEFAULT_DIRECTION := Vector2.RIGHT
 
 @export_group("Wall Jump", "wall_jump_")
 @export_range(0, 1000, 0.1, "or_greater") var wall_jump_horizontal_force := 300.0
+@export_range(0, 100, 0.1, "or_greater") var wall_jump_stamina_consumption := 60.0
 
-var jump_pressed_while_climbing := false
+@export_range(0, 100, 0.1, "or_greater") var stamina_max := 100.0:
+	set(value):
+		stamina_max = value
+		stamina = stamina_max
 @export_range(0, 128, 0.1) var length := 64.0:
 	set(value):
 		length = value
@@ -33,10 +37,13 @@ var jump_pressed_while_climbing := false
 		if flip_h:
 			target_position.x *= -1
 @export_range(0, 1000, 0.1, "or_greater") var max_speed := 250.0
+@export_range(0, 100, 0.1, "or_greater") var idle_stamina_consumption := 20.0
+@export_range(0, 100, 0.1, "or_greater") var climb_stamina_consumption := 40.0
 @export var movement_controller: PlatformerMovement2D
 
 var velocity := Vector2.ZERO
 var is_active := false
+var stamina := stamina_max
 var parent: CharacterBody2D
 
 
@@ -63,6 +70,9 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	if parent.is_on_floor():
+		stamina = stamina_max
+	
 	if should_climb():
 		if not is_active:
 			is_active = true
@@ -75,7 +85,7 @@ func _physics_process(_delta: float) -> void:
 
 func should_climb() -> bool:
 	return (
-		is_colliding() and (
+		is_colliding() and stamina and (
 			(Input.is_action_pressed(input_climb) and not movement_controller.is_jumping)
 			or Input.is_action_just_pressed(input_climb)
 		)
@@ -94,15 +104,19 @@ func process_physics(delta: float) -> Vector2:
 				else - wall_jump_horizontal_force 
 			)
 		velocity = Vector2.ZERO
+		stamina -= wall_jump_stamina_consumption
 		
 		return movement_controller.velocity
 	
 	if Input.is_action_pressed(input_move_up) and can_move_up(delta):
 		velocity.y = - max_speed
+		reduce_stamina(climb_stamina_consumption * delta)
 	elif Input.is_action_pressed(input_move_down) and can_move_down(delta):
 		velocity.y = max_speed
+		reduce_stamina(climb_stamina_consumption * delta)
 	else:
 		velocity.y = 0
+		reduce_stamina(idle_stamina_consumption * delta)
 	
 	return velocity
 
@@ -113,6 +127,10 @@ func can_move_up(delta: float) -> bool:
 
 func can_move_down(delta: float) -> bool:
 	return _test_if_offset_colliding(max_speed * delta)
+
+
+func reduce_stamina(amount: float) -> void:
+	stamina = maxf(0.0, stamina - amount)
 
 
 func _test_if_offset_colliding(y_offset: float) -> bool:
