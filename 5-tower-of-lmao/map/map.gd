@@ -1,8 +1,11 @@
+@tool
 class_name Map
 extends Node2D
 
 
 signal player_exited_screen
+
+static var game_viewport_size := Vector2i(320, 180)
 
 @export var player_camera: Camera2D
 

@@ -28,8 +28,9 @@ func _ready() -> void:
 
 func get_global_rect() -> Rect2i:
 	var global_rect := _rect
-	global_rect.size *= Vector2i(global_scale)
+	global_rect.position += Vector2i(global_position)
 	global_rect.position *= Vector2i(global_scale)
+	global_rect.size *= Vector2i(global_scale)
 	return global_rect
 
 
@@ -62,6 +63,7 @@ func _update_rect() -> void:
 	if tile_set:
 		_rect.position *= tile_set.tile_size
 		_rect.size *= tile_set.tile_size
+	_rect.size = _rect.size.max(Map.game_viewport_size)
 
 
 func reload_area() -> void:
