@@ -1,5 +1,6 @@
 @tool
-class_name CornerCorrectionComponent
+@icon("res://common/components/corner_correction_2d.png")
+class_name CornerCorrection2D
 extends Node2D
 
 

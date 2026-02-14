@@ -1,5 +1,6 @@
 @tool
-class_name ClothTrailComponent
+@icon("res://common/components/cloth_trail_2d.png")
+class_name ClothTrail2D
 extends Line2D
 
 

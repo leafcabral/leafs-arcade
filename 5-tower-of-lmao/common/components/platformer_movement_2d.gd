@@ -1,6 +1,7 @@
 @tool
+@icon("res://common/components/platformer_movement_2d.png")
 class_name PlatformerMovement2D
-extends Node2D
+extends Movement2D
 
 
 signal jumped
@@ -9,14 +10,7 @@ signal crouched
 signal got_up
 signal crouch_jump_charged
 
-@export var disabled := false
-
-@export_group("Input", "input_")
-@export var input_disabled := false
-@export var input_move_left := &"move_left"
-@export var input_move_right := &"move_right"
 @export var input_jump := &"jump"
-@export var input_crouch := &"crouch"
 
 @export_group("Horizontal Movement")
 @export_range(0, 1000, 0.1, "or_greater") var max_speed := 600.0
@@ -41,8 +35,6 @@ signal crouch_jump_charged
 @export_range(0, 5, 0.01, "or_greater") var jump_buffer_max := 0.1
 @export_range(0, 5, 0.01, "or_greater") var coyote_jump_buffer_max := 0.1
 
-var velocity := Vector2.ZERO
-var x_direction := 0.0
 var crouch_jump_ready := false
 
 var jump_buffer := 0.0
@@ -71,46 +63,17 @@ var is_crouching := false:
 		is_crouching = value
 var was_last_jump_crouched := false
 
-var _time_left_pressed := 0.0
-var _time_right_pressed := 0.0
 var jump_pressed := false
 var _crouch_pressed := false
 
-@onready var parent := get_parent() as CharacterBody2D
 
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PARENTED:
-		parent = get_parent()
-		update_configuration_warnings()
-
-
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
-	
-	if not parent is CharacterBody2D:
-		warnings.append(
-			"PlatformerMovement2D only serves to provide movement for a CharacterBody2D derived node.
-			Please, only use it as a child of CharacterBody2D to make it move."
-		)
-		
-	return warnings
-
-
-func process_physics(delta: float) -> Vector2:
-	if disabled:
-		return Vector2.ZERO
-	
-	velocity = parent.velocity
-	
-	_update_key_presses(delta)
+func _update_physics(delta: float) -> void:
+	_update_key_presses()
 
 	process_movement(delta)
 	process_jump_and_fall(delta)
 	
 	_update_timers(delta)
-	
-	return velocity
 
 
 func process_movement(delta: float) -> void:
@@ -197,29 +160,18 @@ func get_true_jump_height() -> float:
 	return true_jump_height
 
 
-func _update_key_presses(delta: float) -> void:
+func _update_key_presses() -> void:
 	if input_disabled:
-		x_direction = 0
 		jump_pressed = false
 		_crouch_pressed = false
 		return
-	
-	var left_pressed := Input.is_action_pressed(input_move_left)
-	var right_pressed := Input.is_action_pressed(input_move_right)
-	_time_left_pressed = _time_left_pressed + delta if left_pressed else 0.0
-	_time_right_pressed = _time_right_pressed + delta if right_pressed else 0.0
-	var closest_time = minf(_time_left_pressed, _time_right_pressed)
-	
-	x_direction = Input.get_axis(input_move_left, input_move_right)
-	if left_pressed and right_pressed:
-		x_direction = -1 if closest_time == _time_left_pressed else 1
 	
 	jump_pressed = (
 		Input.is_action_just_pressed(input_jump) or
 		(hold_to_jump and Input.is_action_pressed(input_jump))
 	)
 	
-	_crouch_pressed = Input.is_action_pressed(input_crouch) and not is_airbourne
+	_crouch_pressed = Input.is_action_pressed(input_down) and not is_airbourne
 
 
 func _update_timers(delta: float) -> void:

@@ -11,9 +11,9 @@ var is_climbing := false
 
 @onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
-@onready var cape: ClothTrailComponent = $ClothTrailComponent
-@onready var movement_controller: PlatformerMovement2D = $PlatformerMovement2D
-@onready var wall_movement: WallMovementComponent = $WallMovementComponent
+@onready var cape: ClothTrail2D = $Cape
+@onready var movement_controller: PlatformerMovement2D = $MovementController
+@onready var wall_movement: WallMovement2D = $WallMovement2D
 @onready var normal_collision_box: CollisionShape2D = $NormalCollisionBox
 @onready var crouch_collision_box: CollisionShape2D = $CrouchCollisionBox
 @onready var low_stamina_ticking: Timer = $LowStaminaTicking
@@ -33,9 +33,9 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_climbing:
-		velocity = movement_controller.process_physics(delta)
+		velocity = movement_controller.get_updated_velocity(delta)
 	else:
-		velocity = wall_movement.process_physics(delta)
+		velocity = wall_movement.get_updated_velocity(delta)
 	move_and_slide()
 	
 	_check_hazard_collisions()

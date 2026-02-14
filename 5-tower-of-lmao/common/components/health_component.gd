@@ -1,3 +1,4 @@
+@icon("res://common/components/health_component.png")
 class_name HealthComponent
 extends Node
 ## Component that gives its parent health that can be damaged until death and

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://b6uvxvcf0811"]
+[gd_scene format=3 uid="uid://b6uvxvcf0811"]
 
 [ext_resource type="Shader" uid="uid://72acx6q8fd5f" path="res://entities/player/low_stamina.gdshader" id="1_7thud"]
 [ext_resource type="Script" uid="uid://bbqag8hc5bpke" path="res://entities/player/player.gd" id="1_sglur"]
@@ -8,9 +8,9 @@
 [ext_resource type="Script" uid="uid://4s62gvwpjvxj" path="res://common/components/platformer_movement_2d.gd" id="3_sglur"]
 [ext_resource type="Texture2D" uid="uid://cj2arrqx7ywag" path="res://entities/player/sprites/crouch-walk.png" id="4_bectd"]
 [ext_resource type="Texture2D" uid="uid://cpjuoviyhyp6x" path="res://entities/player/sprites/walk.png" id="4_qiwj3"]
-[ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_component.gd" id="6_8fjmc"]
-[ext_resource type="Script" uid="uid://fmpoq8my4dhh" path="res://common/components/corner_correction_component.gd" id="7_qiwj3"]
-[ext_resource type="Script" uid="uid://fppk6w8fmj2k" path="res://common/components/wall_movement_component.gd" id="10_wvtmh"]
+[ext_resource type="Script" uid="uid://ddtv83v7vkf2v" path="res://common/components/cloth_trail_2d.gd" id="6_8fjmc"]
+[ext_resource type="Script" uid="uid://fmpoq8my4dhh" path="res://common/components/corner_correction_2d.gd" id="7_qiwj3"]
+[ext_resource type="Script" uid="uid://fppk6w8fmj2k" path="res://common/components/wall_movement_2d.gd" id="10_wvtmh"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_a1qjk"]
 shader = ExtResource("1_7thud")
@@ -203,13 +203,13 @@ size = Vector2(8, 12)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bectd"]
 size = Vector2(8, 10)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1452981242]
 material = SubResource("ShaderMaterial_a1qjk")
 collision_mask = 10
 script = ExtResource("1_sglur")
 strech_restore_seconds = 0.15
 
-[node name="ClothTrailComponent" type="Line2D" parent="."]
+[node name="Cape" type="Line2D" parent="." unique_id=441523553]
 use_parent_material = true
 points = PackedVector2Array(0, 0, 0, 1, 0, 2, 0, 3, 0, 4)
 width = 0.0
@@ -226,22 +226,22 @@ gravity_strength = 0.5
 sprite = SubResource("GradientTexture2D_qiwj3")
 metadata/_custom_type_script = "uid://ddtv83v7vkf2v"
 
-[node name="Sprites" type="AnimatedSprite2D" parent="."]
+[node name="Sprites" type="AnimatedSprite2D" parent="." unique_id=515200443]
 use_parent_material = true
 sprite_frames = SubResource("SpriteFrames_a1qjk")
 animation = &"crouch"
 offset = Vector2(0, -2)
 
-[node name="NormalCollisionBox" type="CollisionShape2D" parent="."]
+[node name="NormalCollisionBox" type="CollisionShape2D" parent="." unique_id=280820414]
 shape = SubResource("RectangleShape2D_symyc")
 
-[node name="CrouchCollisionBox" type="CollisionShape2D" parent="."]
+[node name="CrouchCollisionBox" type="CollisionShape2D" parent="." unique_id=1730298085]
 position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_bectd")
 disabled = true
 debug_color = Color(0.70196074, 0, 0.22620443, 0.41960785)
 
-[node name="PlatformerMovement2D" type="Node2D" parent="."]
+[node name="MovementController" type="Node2D" parent="." unique_id=1761638966]
 script = ExtResource("3_sglur")
 max_speed = 128.0
 jump_height = 32.0
@@ -250,7 +250,17 @@ crouching_speed_scale = 0.3
 crouch_jump_scale = 1.5
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
-[node name="CornerCorrectionComponent" type="Node2D" parent="."]
+[node name="WallMovement2D" type="Node2D" parent="." unique_id=856168364 node_paths=PackedStringArray("movement_controller")]
+position = Vector2(0, -2)
+script = ExtResource("10_wvtmh")
+wall_jump_horizontal_force = 64.0
+length = 7.0
+max_speed = 64.0
+idle_stamina_consumption = 25.0
+movement_controller = NodePath("../MovementController")
+metadata/_custom_type_script = "uid://fppk6w8fmj2k"
+
+[node name="CornerCorrection2D" type="Node2D" parent="." unique_id=2058887613]
 position = Vector2(0, -4)
 script = ExtResource("7_qiwj3")
 amount = 2.0
@@ -258,27 +268,14 @@ length = 5.0
 distance_between = 8.0
 metadata/_custom_type_script = "uid://fmpoq8my4dhh"
 
-[node name="WallMovementComponent" type="RayCast2D" parent="." node_paths=PackedStringArray("movement_controller")]
-position = Vector2(0, -2)
-target_position = Vector2(7, 0)
-collision_mask = 10
-script = ExtResource("10_wvtmh")
-input_move_down = &"crouch"
-wall_jump_horizontal_force = 64.0
-length = 7.0
-max_speed = 64.0
-idle_stamina_consumption = 25.0
-movement_controller = NodePath("../PlatformerMovement2D")
-metadata/_custom_type_script = "uid://fppk6w8fmj2k"
-
-[node name="LowStaminaTicking" type="Timer" parent="."]
+[node name="LowStaminaTicking" type="Timer" parent="." unique_id=761394304]
 wait_time = 0.1
 
-[connection signal="crouch_jump_charged" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouch_jump_charged"]
-[connection signal="crouched" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_crouched"]
-[connection signal="got_up" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_got_up"]
-[connection signal="hit_floor" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_hit_floor"]
-[connection signal="jumped" from="PlatformerMovement2D" to="." method="_on_platformer_movement_2d_jumped"]
-[connection signal="started_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_started_climbing"]
-[connection signal="stopped_climbing" from="WallMovementComponent" to="." method="_on_wall_movement_component_stopped_climbing"]
+[connection signal="crouch_jump_charged" from="MovementController" to="." method="_on_platformer_movement_2d_crouch_jump_charged"]
+[connection signal="crouched" from="MovementController" to="." method="_on_platformer_movement_2d_crouched"]
+[connection signal="got_up" from="MovementController" to="." method="_on_platformer_movement_2d_got_up"]
+[connection signal="hit_floor" from="MovementController" to="." method="_on_platformer_movement_2d_hit_floor"]
+[connection signal="jumped" from="MovementController" to="." method="_on_platformer_movement_2d_jumped"]
+[connection signal="started_climbing" from="WallMovement2D" to="." method="_on_wall_movement_component_started_climbing"]
+[connection signal="stopped_climbing" from="WallMovement2D" to="." method="_on_wall_movement_component_stopped_climbing"]
 [connection signal="timeout" from="LowStaminaTicking" to="." method="_on_low_stamina_ticking_timeout"]
