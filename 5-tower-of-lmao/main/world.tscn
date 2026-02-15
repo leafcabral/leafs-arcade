@@ -11,7 +11,7 @@ script = ExtResource("1_sdvrk")
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="." unique_id=318669594 instance=ExtResource("3_mnuad")]
-position = Vector2(575, -189)
+position = Vector2(32, 153)
 metadata/_edit_group_ = true
 
 [node name="CameraFollow" type="Camera2D" parent="Player" unique_id=1304369378]
