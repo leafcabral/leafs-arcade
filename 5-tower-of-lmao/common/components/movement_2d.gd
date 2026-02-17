@@ -5,6 +5,7 @@ extends Node2D
 
 
 @export var disabled := false
+@export var source: CharacterBody2D
 
 @export_group("Input", "input_")
 @export var input_disabled := false
@@ -22,24 +23,6 @@ var _time_up_pressed := 0.0
 var _time_down_pressed := 0.0
 
 var velocity := Vector2.ZERO
-var parent: CharacterBody2D
-
-
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
-	
-	if not parent is CharacterBody2D:
-		warnings.append(
-			"WallMovementComponent only serves to provide wall movement for a CharacterBody2D derived node.
-			Please, only use it as a child of CharacterBody2D to make it move."
-		)
-		
-	return warnings
-
-
-func _enter_tree() -> void:
-	parent = get_parent()
-	update_configuration_warnings()
 
 
 func _physics_process(delta: float) -> void:
@@ -54,10 +37,10 @@ func _update_physics(delta: float) -> void:
 
 
 func get_updated_velocity(delta: float) -> Vector2:
-	if disabled:
+	if disabled or not source:
 		return Vector2.ZERO
 	
-	velocity = parent.velocity
+	velocity = source.velocity
 	
 	_update_physics(delta)
 	

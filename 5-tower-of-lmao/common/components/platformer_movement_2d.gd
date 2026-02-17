@@ -35,6 +35,9 @@ signal crouch_jump_charged
 @export_range(0, 5, 0.01, "or_greater") var jump_buffer_max := 0.1
 @export_range(0, 5, 0.01, "or_greater") var coyote_jump_buffer_max := 0.1
 
+@export_group("Extras")
+@export var wall_movement: WallMovement2D
+
 var crouch_jump_ready := false
 
 var jump_buffer := 0.0
@@ -69,9 +72,12 @@ var _crouch_pressed := false
 
 func _update_physics(delta: float) -> void:
 	_update_key_presses()
-
-	process_movement(delta)
-	process_jump_and_fall(delta)
+	
+	if wall_movement and (wall_movement.should_climb() or wall_movement.should_wall_jump()):
+		velocity = wall_movement.get_updated_velocity(delta)
+	else:
+		process_movement(delta)
+		process_jump_and_fall(delta)
 	
 	_update_timers(delta)
 
@@ -113,7 +119,7 @@ func process_jump_and_fall(delta: float) -> void:
 
 
 func apply_gravity(delta: float) -> void:
-	if not parent.is_on_floor():
+	if not source.is_on_floor():
 		velocity += get_gravity() * delta
 		velocity.y = min(velocity.y, terminal_falling_velocity)
 		is_airbourne = true
@@ -134,7 +140,7 @@ func get_gravity() -> Vector2:
 
 func should_jump() -> bool:
 	return (
-		(jump_buffer > 0 and parent.is_on_floor())
+		(jump_buffer > 0 and source.is_on_floor())
 		or (coyote_jump_buffer > 0 and jump_pressed)
 	)
 
@@ -147,6 +153,12 @@ func jump() -> void:
 	jump_buffer = 0
 	coyote_jump_buffer = 0
 	is_jumping = true
+
+
+func wall_jump(horizontal_velocity: float) -> void:
+	jump()
+	velocity.y *= 0.8
+	velocity.x = horizontal_velocity
 
 
 func get_jump_velocity() -> float:
@@ -177,9 +189,9 @@ func _update_key_presses() -> void:
 func _update_timers(delta: float) -> void:
 	if jump_pressed:
 		jump_buffer = jump_buffer_max
-	if parent.is_on_floor():
+	if source.is_on_floor():
 		coyote_jump_buffer = coyote_jump_buffer_max
-	if _crouch_pressed and parent.is_on_floor():
+	if _crouch_pressed and source.is_on_floor():
 		crouch_jump_delay = minf(crouch_jump_delay_max, crouch_jump_delay + delta)
 		if crouch_jump_delay == crouch_jump_delay_max:
 			if not crouch_jump_ready:

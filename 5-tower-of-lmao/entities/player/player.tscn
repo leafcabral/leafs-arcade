@@ -241,23 +241,27 @@ shape = SubResource("RectangleShape2D_bectd")
 disabled = true
 debug_color = Color(0.70196074, 0, 0.22620443, 0.41960785)
 
-[node name="MovementController" type="Node2D" parent="." unique_id=1761638966]
+[node name="MovementController" type="Node2D" parent="." unique_id=1761638966 node_paths=PackedStringArray("wall_movement", "source")]
 script = ExtResource("3_sglur")
 max_speed = 128.0
 jump_height = 32.0
 terminal_falling_velocity = 480.0
 crouching_speed_scale = 0.3
 crouch_jump_scale = 1.5
+wall_movement = NodePath("WallMovement2D")
+source = NodePath("..")
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
-[node name="WallMovement2D" type="Node2D" parent="." unique_id=856168364 node_paths=PackedStringArray("movement_controller")]
-position = Vector2(0, -2)
+[node name="WallMovement2D" type="Node2D" parent="MovementController" unique_id=856168364 node_paths=PackedStringArray("movement_controller", "source")]
+position = Vector2(0, 1)
 script = ExtResource("10_wvtmh")
-wall_jump_horizontal_force = 64.0
-length = 7.0
+movement_controller = NodePath("..")
+rays_length = 7.0
+rays_offset = 6.0
 max_speed = 64.0
 idle_stamina_consumption = 25.0
-movement_controller = NodePath("../MovementController")
+wall_jump_horizontal_force = 256.0
+source = NodePath("../..")
 metadata/_custom_type_script = "uid://fppk6w8fmj2k"
 
 [node name="CornerCorrection2D" type="Node2D" parent="." unique_id=2058887613]
@@ -276,6 +280,4 @@ wait_time = 0.1
 [connection signal="got_up" from="MovementController" to="." method="_on_platformer_movement_2d_got_up"]
 [connection signal="hit_floor" from="MovementController" to="." method="_on_platformer_movement_2d_hit_floor"]
 [connection signal="jumped" from="MovementController" to="." method="_on_platformer_movement_2d_jumped"]
-[connection signal="started_climbing" from="WallMovement2D" to="." method="_on_wall_movement_component_started_climbing"]
-[connection signal="stopped_climbing" from="WallMovement2D" to="." method="_on_wall_movement_component_stopped_climbing"]
 [connection signal="timeout" from="LowStaminaTicking" to="." method="_on_low_stamina_ticking_timeout"]

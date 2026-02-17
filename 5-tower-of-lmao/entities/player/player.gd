@@ -7,13 +7,12 @@ signal died
 @export_range(1, 2, 0.01, "or_greater") var strech_scale := 1.3
 @export_range(0, 1, 0.01, "or_greater") var strech_restore_seconds := 0.1
 @export_range(0, 1, 0.001, "or_greater") var low_stamina_ticking_time := 0.1
-var is_climbing := false
 
 @onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
 @onready var cape: ClothTrail2D = $Cape
 @onready var movement_controller: PlatformerMovement2D = $MovementController
-@onready var wall_movement: WallMovement2D = $WallMovement2D
+@onready var wall_movement: WallMovement2D = $MovementController/WallMovement2D
 @onready var normal_collision_box: CollisionShape2D = $NormalCollisionBox
 @onready var crouch_collision_box: CollisionShape2D = $CrouchCollisionBox
 @onready var low_stamina_ticking: Timer = $LowStaminaTicking
@@ -32,10 +31,7 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if not is_climbing:
-		velocity = movement_controller.get_updated_velocity(delta)
-	else:
-		velocity = wall_movement.get_updated_velocity(delta)
+	velocity = movement_controller.get_updated_velocity(delta)
 	move_and_slide()
 	
 	_check_hazard_collisions()
@@ -58,11 +54,11 @@ func update_sprite_animation() -> void:
 func update_direction() -> void:
 	if velocity.x > 0:
 		sprite.flip_h = false
-		wall_movement.flip_h = false
+		wall_movement.rays_flip_h = false
 		cape.position.x = abs(cape.position.x)
 	elif velocity.x < 0:
 		sprite.flip_h = true
-		wall_movement.flip_h = true
+		wall_movement.rays_flip_h = true
 		cape.position.x = - abs(cape.position.x)
 
 
@@ -81,6 +77,11 @@ func is_low_stamina() -> bool:
 func reset_low_stamina_animation() -> void:
 	var shader_material := material as ShaderMaterial
 	shader_material.set_shader_parameter("activated", false)
+
+
+func die() -> void:
+	normal_collision_box.set_deferred("disabled", true)
+	crouch_collision_box.set_deferred("disabled", true)
 
 
 func _check_hazard_collisions() -> void:
@@ -122,14 +123,6 @@ func _on_platformer_movement_2d_crouched() -> void:
 func _on_platformer_movement_2d_crouch_jump_charged() -> void:
 	cape.modulate = Color.GREEN
 	sprite.modulate = Color.GREEN
-
-
-func _on_wall_movement_component_started_climbing() -> void:
-	is_climbing = true
-
-
-func _on_wall_movement_component_stopped_climbing() -> void:
-	is_climbing = false
 
 
 func _on_low_stamina_ticking_timeout() -> void:
