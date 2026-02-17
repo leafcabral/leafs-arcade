@@ -26,12 +26,11 @@ signal player_entered(checkpoint: Checkpoint)
 		else:
 			fire.hide()
 
-var checkpoint_area: CollisionShape2D
+@onready var checkpoint_area: CollisionShape2D = $CheckpointArea
 
 
 func _ready() -> void:
-	checkpoint_area = get_node_or_null("CheckpointArea")
-	area = RectangleShape2D.new()
+	area = area.duplicate()
 	body_entered.connect(_on_body_entered)
 
 

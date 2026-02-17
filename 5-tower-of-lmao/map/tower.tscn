@@ -22,13 +22,13 @@ size = Vector2(48, 48)
 size = Vector2(456, 224)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sy16a"]
-size = Vector2(64, 24)
+size = Vector2(32, 24)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gskyl"]
 size = Vector2(320, 552)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_escie"]
-size = Vector2(40, 56)
+size = Vector2(56, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_446gn"]
 size = Vector2(320, 184)

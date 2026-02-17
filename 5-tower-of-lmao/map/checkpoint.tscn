@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://jgsmkbiqxy4b" path="res://map/fire_init.png" id="4_5u8oj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gsmh7"]
-size = Vector2(32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dse3g"]
 atlas = ExtResource("3_xs4j5")
