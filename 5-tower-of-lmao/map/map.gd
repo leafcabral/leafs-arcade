@@ -4,9 +4,11 @@ extends Node2D
 
 
 signal player_exited_screen
+signal player_activated_checkpoint(checkpoint: Checkpoint)
 
 static var game_viewport_size := Vector2i(320, 180)
 
+@export var starting_checkpoint: Checkpoint
 @export var player_camera: Camera2D
 
 var rooms_in_touch: Array[MapRoom]
@@ -57,3 +59,4 @@ func _on_map_room_player_exited(area: MapRoom) -> void:
 
 func _on_checkpoint_player_entered(checkpoint: Checkpoint) -> void:
 	current_checkpoint = checkpoint
+	player_activated_checkpoint.emit(checkpoint)

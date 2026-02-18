@@ -8,6 +8,8 @@ signal died
 @export_range(0, 1, 0.01, "or_greater") var strech_restore_seconds := 0.1
 @export_range(0, 1, 0.001, "or_greater") var low_stamina_ticking_time := 0.1
 
+var checkpoint_position: Vector2
+
 @onready var sprite: AnimatedSprite2D = $Sprites
 @onready var sprite_original_scale := sprite.scale
 @onready var cape: ClothTrail2D = $Cape
@@ -82,6 +84,17 @@ func reset_low_stamina_animation() -> void:
 func die() -> void:
 	normal_collision_box.set_deferred("disabled", true)
 	crouch_collision_box.set_deferred("disabled", true)
+	movement_controller.disabled = true
+	
+	var tween := create_tween()
+	tween.tween_property(self, "scale", Vector2.ZERO, 0.1)
+	tween.tween_property(self, "position", checkpoint_position, 0.1)
+	tween.tween_property(self, "scale", sprite_original_scale, 0.1)
+	tween.tween_callback(func():
+		normal_collision_box.set_deferred("disabled", false)
+		crouch_collision_box.set_deferred("disabled", false)
+		movement_controller.disabled = false
+	)
 
 
 func _check_hazard_collisions() -> void:

@@ -54,8 +54,9 @@ size = Vector2(320, 184)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_boeaf"]
 size = Vector2(320, 184)
 
-[node name="Tower" type="Node2D" unique_id=1210857861]
+[node name="Tower" type="Node2D" unique_id=1210857861 node_paths=PackedStringArray("starting_checkpoint")]
 script = ExtResource("1_dpu0t")
+starting_checkpoint = NodePath("Room1/Checkpoint")
 
 [node name="Background" type="CanvasLayer" parent="." unique_id=128274755]
 layer = -1

@@ -25,5 +25,6 @@ drag_right_margin = 0.1
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=16996650]
 position = Vector2(32, 153)
 
+[connection signal="player_activated_checkpoint" from="Tower" to="." method="_on_tower_player_activated_checkpoint"]
 [connection signal="player_exited_screen" from="Tower" to="." method="_on_tower_player_exited_screen"]
 [connection signal="died" from="Player" to="." method="_on_player_died"]
