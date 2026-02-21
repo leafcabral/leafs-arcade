@@ -253,11 +253,10 @@ source = NodePath("..")
 metadata/_custom_type_script = "uid://4s62gvwpjvxj"
 
 [node name="WallMovement2D" type="Node2D" parent="MovementController" unique_id=856168364 node_paths=PackedStringArray("movement_controller", "source")]
-position = Vector2(0, 1)
+position = Vector2(0, -2)
 script = ExtResource("10_wvtmh")
 movement_controller = NodePath("..")
 rays_length = 7.0
-rays_offset = 6.0
 max_speed = 64.0
 idle_stamina_consumption = 25.0
 wall_jump_horizontal_force = 256.0
