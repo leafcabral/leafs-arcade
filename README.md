@@ -21,6 +21,7 @@ an emulator for these games.
 - Duck Hunt
 - Asteroids
 - Fruit Ninja
+- (**WP**) *Angry Birds*
 - *More games may be added over time as development continues.*
 
 ## Installation
