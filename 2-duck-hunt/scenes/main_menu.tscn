@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dn17tbs2dwo0q"]
+[gd_scene format=3 uid="uid://dn17tbs2dwo0q"]
 
 [ext_resource type="Theme" uid="uid://cc4a4pwjrogip" path="res://style/arcade.tres" id="1_ekxnf"]
 [ext_resource type="FontFile" uid="uid://bqnvl7aapihp2" path="res://style/PublicPixel.ttf" id="1_l6cm7"]
@@ -9,7 +9,7 @@
 font = ExtResource("1_l6cm7")
 font_size = 86
 
-[node name="Main Menu" type="Control"]
+[node name="Main Menu" type="Control" unique_id=1874275743]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,13 +19,13 @@ grow_vertical = 2
 theme = ExtResource("1_ekxnf")
 script = ExtResource("2_bqqt6")
 
-[node name="BirdSpawn" type="Marker2D" parent="."]
+[node name="BirdSpawn" type="Marker2D" parent="." unique_id=153964578]
 position = Vector2(400, 420)
 
-[node name="Background" parent="." instance=ExtResource("3_wu84c")]
+[node name="Background" parent="." unique_id=1032429806 instance=ExtResource("3_wu84c")]
 layout_mode = 1
 
-[node name="Ttile" type="Label" parent="."]
+[node name="Ttile" type="Label" parent="." unique_id=943996971]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -41,7 +41,7 @@ label_settings = SubResource("LabelSettings_ekxnf")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Play" type="Button" parent="."]
+[node name="Play" type="Button" parent="." unique_id=1911078856]
 z_index = 10
 layout_mode = 1
 offset_left = 196.0
@@ -53,7 +53,7 @@ focus_next = NodePath("../Exit")
 text = "PLAY"
 flat = true
 
-[node name="Exit" type="Button" parent="."]
+[node name="Exit" type="Button" parent="." unique_id=1194392807]
 z_index = 10
 layout_mode = 1
 offset_left = 196.0
@@ -65,10 +65,11 @@ focus_previous = NodePath("../Play")
 text = "EXIT GAME"
 flat = true
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1014018483]
 wait_time = 0.4
 autostart = true
 
+[connection signal="dog_jumped" from="Background" to="." method="_on_background_dog_jumped"]
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

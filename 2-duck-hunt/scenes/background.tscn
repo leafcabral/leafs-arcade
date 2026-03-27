@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://txxmnnsfvgl8"]
+[gd_scene format=3 uid="uid://txxmnnsfvgl8"]
 
 [ext_resource type="Texture2D" uid="uid://dqnhu1hwcg82j" path="res://sprites/background/sky.png" id="1_bkp1e"]
 [ext_resource type="Script" uid="uid://d3jh5i4u1y8qh" path="res://scripts/background.gd" id="1_jougr"]
@@ -80,7 +80,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Background" type="Control"]
+[node name="Background" type="Control" unique_id=1014449756]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 800.0
@@ -89,7 +89,7 @@ mouse_filter = 2
 mouse_behavior_recursive = 1
 script = ExtResource("1_jougr")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=305307315]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -98,21 +98,22 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.3882353, 0.68235296, 1, 1)
 
-[node name="Trees" type="Sprite2D" parent="."]
+[node name="Trees" type="Sprite2D" parent="." unique_id=1612835583]
 z_index = 2
 position = Vector2(400, 169.705)
 scale = Vector2(3.15, 3.15)
 texture = ExtResource("1_bkp1e")
 
-[node name="Foreground" type="Sprite2D" parent="."]
+[node name="Foreground" type="Sprite2D" parent="." unique_id=1483325625]
 z_index = 4
 position = Vector2(400, 516)
 scale = Vector2(3.15, 3.15)
 texture = ExtResource("2_y0upk")
 
-[node name="Dog" type="AnimatedSprite2D" parent="."]
+[node name="Dog" type="AnimatedSprite2D" parent="." unique_id=1368544699]
 z_index = 4
 position = Vector2(-82, 468)
 scale = Vector2(2.875, 2.875)
 sprite_frames = SubResource("SpriteFrames_jougr")
 animation = &"searching"
+frame_progress = 0.78960216

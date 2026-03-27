@@ -3,11 +3,13 @@ extends Control
 
 const BIRD_SCENE := preload("res://scenes/bird.tscn")
 
+@onready var background: Control = $Background
 @onready var spawn_point: Vector2 = $BirdSpawn.position
 
 
 func _ready() -> void:
 	$Play.grab_focus()
+	background.dog_sniff_and_walk()
 
 
 func _on_exit_pressed() -> void:
@@ -15,6 +17,8 @@ func _on_exit_pressed() -> void:
 
 
 func _on_play_pressed() -> void:
+	background.dog_jump()
+	await background.dog_jumped
 	get_tree().change_scene_to_file("res://scenes/main.tscn")
 
 
