@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://bn4pmmb6y4rl2"]
+
+[ext_resource type="Script" uid="uid://c01stan78eq0n" path="res://entities/club/golf_club.gd" id="1_6nun0"]
+[ext_resource type="Script" uid="uid://b12p1pltfnvk0" path="res://common/mouse_drag_area_2d.gd" id="2_a5fw0"]
+[ext_resource type="Texture2D" uid="uid://cjxy3f51oep85" path="res://entities/club/golf_club.png" id="3_vxkus"]
+[ext_resource type="Texture2D" uid="uid://dw31wfjgxudcn" path="res://entities/club/direction-triangle.png" id="4_nkpju"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6nun0"]
+radius = 50.0
+
+[node name="GolfClub" type="Node2D" unique_id=788983583]
+script = ExtResource("1_6nun0")
+strength = 5.0
+
+[node name="ShotArea" type="Area2D" parent="." unique_id=1505072144]
+script = ExtResource("2_a5fw0")
+minimum_drag = 20.0
+minimum_angle = -1.0471975511965976
+maximum_angle = 0.5235987755982988
+metadata/_custom_type_script = "uid://b12p1pltfnvk0"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShotArea" unique_id=331843830]
+shape = SubResource("CircleShape2D_6nun0")
+
+[node name="Club" type="Sprite2D" parent="." unique_id=19719132]
+position = Vector2(0, 28)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("3_vxkus")
+offset = Vector2(-256, -156)
+
+[node name="SwingDirection" type="Sprite2D" parent="." unique_id=1351736429]
+visible = false
+scale = Vector2(1, 0.5)
+texture = ExtResource("4_nkpju")
+offset = Vector2(32, 0)
+
+[connection signal="grabbed" from="ShotArea" to="." method="_on_shot_area_grabbed"]
+[connection signal="released" from="ShotArea" to="." method="_on_shot_area_released"]
