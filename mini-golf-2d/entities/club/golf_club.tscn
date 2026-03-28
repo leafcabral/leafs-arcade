@@ -23,6 +23,7 @@ metadata/_custom_type_script = "uid://b12p1pltfnvk0"
 shape = SubResource("CircleShape2D_6nun0")
 
 [node name="Club" type="Sprite2D" parent="." unique_id=19719132]
+visible = false
 position = Vector2(0, 28)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_vxkus")

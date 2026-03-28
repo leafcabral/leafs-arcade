@@ -42,10 +42,10 @@ func _on_shot_area_grabbed() -> void:
 	club.visible = true
 
 
-func _on_shot_area_released() -> void:
+func _on_shot_area_released(cancelled: bool) -> void:
 	is_swinging = false
 	swing_ended.emit()
-	if ball:
+	if ball and not cancelled:
 		ball.apply_central_impulse(shot_area.drag * strength)
 	
 	club.visible = false

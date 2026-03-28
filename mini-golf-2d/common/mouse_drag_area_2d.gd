@@ -4,7 +4,7 @@ extends Area2D
 
 
 signal grabbed
-signal released
+signal released(cancelled: bool)
 
 @export var shoot := &"shoot"
 @export var cancel_shot := &"cancel_shot"
@@ -87,14 +87,11 @@ func get_drag_baked_length() -> float:
 	return remap(drag.length(), minimum_drag, maximum_drag, 0.0, 1.0)
 
 
-func set_is_holding(value: bool, silent := false) -> void:
+func set_is_holding(value: bool, active := false) -> void:
 	var was_holding := _is_holding
 	_is_holding = value
-	
-	if silent:
-		return
 	
 	if not was_holding and _is_holding:
 		grabbed.emit()
 	if was_holding and not _is_holding:
-		released.emit()
+		released.emit(active)
