@@ -44,11 +44,17 @@ func update_visuals() -> void:
 
 
 func _on_shot_area_grabbed() -> void:
+	if not ball.sleeping:
+		return
+	
 	is_swinging = true
 	swing_started.emit()
 
 
 func _on_shot_area_released(cancelled: bool) -> void:
+	if not is_swinging:
+		return
+	
 	is_swinging = false
 	swing_ended.emit()
 	
