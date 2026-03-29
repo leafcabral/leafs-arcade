@@ -14,9 +14,9 @@ strength = 5.0
 
 [node name="ShotArea" type="Area2D" parent="." unique_id=1505072144]
 script = ExtResource("2_a5fw0")
-minimum_drag = 20.0
+maximum_drag = 200.0
 minimum_angle = -1.0471975511965976
-maximum_angle = 0.5235987755982988
+maximum_angle = 0.0
 metadata/_custom_type_script = "uid://b12p1pltfnvk0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShotArea" unique_id=331843830]

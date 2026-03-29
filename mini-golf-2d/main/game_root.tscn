@@ -1,38 +1,49 @@
 [gd_scene format=3 uid="uid://bulhavk85t0mv"]
 
 [ext_resource type="PackedScene" uid="uid://bat5adyfrgx65" path="res://entities/ball/golf_ball.tscn" id="1_oc7al"]
+[ext_resource type="PackedScene" uid="uid://dknje8mdgobhp" path="res://map/floor_temp.tscn" id="1_sd42p"]
 [ext_resource type="PackedScene" uid="uid://bn4pmmb6y4rl2" path="res://entities/club/golf_club.tscn" id="2_mf5tn"]
-
-[sub_resource type="Gradient" id="Gradient_mf5tn"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_sd42p"]
-gradient = SubResource("Gradient_mf5tn")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d3btu"]
-size = Vector2(64, 64)
 
 [node name="GameRoot" type="Node" unique_id=905211831]
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=2062033187]
-position = Vector2(400, 550)
+[node name="Floor" parent="." unique_id=902436143 instance=ExtResource("1_sd42p")]
+position = Vector2(400, 544)
 scale = Vector2(8, 1)
-collision_layer = 2
-metadata/_edit_group_ = true
-
-[node name="Sprite2D" type="Sprite2D" parent="Floor" unique_id=1405638536]
-texture = SubResource("GradientTexture2D_sd42p")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=897706827]
-shape = SubResource("RectangleShape2D_d3btu")
 
 [node name="GolfClub" parent="." unique_id=788983583 node_paths=PackedStringArray("ball") instance=ExtResource("2_mf5tn")]
-position = Vector2(409, 483)
+position = Vector2(385, 483)
 ball = NodePath("../Ball")
 
 [node name="Ball" parent="." unique_id=1146808135 instance=ExtResource("1_oc7al")]
-position = Vector2(409, 483)
+position = Vector2(385, 483)
+linear_damp = 0.2
 
 [node name="RemoteTransform2D" type="RemoteTransform2D" parent="Ball" unique_id=1284780959]
 remote_path = NodePath("../../GolfClub")
 update_rotation = false
 update_scale = false
+
+[node name="Camera2D" type="Camera2D" parent="Ball" unique_id=421210679]
+zoom = Vector2(0.8, 0.8)
+limit_bottom = 600
+limit_smoothed = true
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Floor2" parent="." unique_id=222526537 instance=ExtResource("1_sd42p")]
+position = Vector2(1168, 544)
+scale = Vector2(12, 1)
+
+[node name="Floor3" parent="." unique_id=906758501 instance=ExtResource("1_sd42p")]
+position = Vector2(2103, 119.00006)
+rotation = -1.0471976
+scale = Vector2(10, 1)
+
+[node name="Floor4" parent="." unique_id=2117269610 instance=ExtResource("1_sd42p")]
+position = Vector2(720, 608)
+scale = Vector2(2, 1)
+
+[node name="Floor5" parent="." unique_id=509261733 instance=ExtResource("1_sd42p")]
+position = Vector2(1744.0001, 476.00003)
+rotation = -0.34906584
+scale = Vector2(6, 1)

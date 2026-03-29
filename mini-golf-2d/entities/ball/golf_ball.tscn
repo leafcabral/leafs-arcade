@@ -3,17 +3,25 @@
 [ext_resource type="Script" uid="uid://cndergi5r1kef" path="res://entities/ball/golf_ball.gd" id="1_jyt08"]
 [ext_resource type="Texture2D" uid="uid://r286suc682fo" path="res://entities/ball/golf_ball.png" id="2_17kaq"]
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_17kaq"]
+bounce = 0.3
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_oc7al"]
 radius = 28.0
 
 [node name="Ball" type="RigidBody2D" unique_id=1146808135]
 collision_mask = 2
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_17kaq")
+linear_damp = 0.4
 script = ExtResource("1_jyt08")
 metadata/_edit_group_ = true
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1980398275]
+[node name="BallSprite" type="Sprite2D" parent="." unique_id=1980398275]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_17kaq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2034281646]
+[node name="BallCollisionShape" type="CollisionShape2D" parent="." unique_id=2034281646]
 shape = SubResource("CircleShape2D_oc7al")
+
+[connection signal="sleeping_state_changed" from="." to="." method="_on_sleeping_state_changed"]

@@ -24,8 +24,8 @@ func _physics_process(_delta: float) -> void:
 	if is_swinging:	
 		var magnitude := shot_area.get_drag_baked_length()
 		swing_direction.rotation = shot_area.drag.angle()
-		swing_direction.scale.x = remap(magnitude, 0, 1, 1, 2)
-		club.offset.x = club_offset_x * remap(magnitude, 0, 1, 0.7, 1.5)
+		swing_direction.scale.x = remap(magnitude, 0, 1, 1, 5)
+		club.offset.x = club_offset_x * remap(magnitude, 0, 1, 0.7, 2)
 		if shot_area.should_invert():
 			club.offset.x *= -1
 			club.flip_h = true

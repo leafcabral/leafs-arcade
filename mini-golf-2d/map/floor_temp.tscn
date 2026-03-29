@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dknje8mdgobhp"]
+
+[sub_resource type="Gradient" id="Gradient_mf5tn"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sd42p"]
+gradient = SubResource("Gradient_mf5tn")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d3btu"]
+size = Vector2(64, 64)
+
+[node name="Floor" type="StaticBody2D" unique_id=902436143]
+collision_layer = 2
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=651971680]
+texture = SubResource("GradientTexture2D_sd42p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=428114348]
+shape = SubResource("RectangleShape2D_d3btu")
