@@ -24,10 +24,10 @@ shape = SubResource("CircleShape2D_6nun0")
 
 [node name="Club" type="Sprite2D" parent="." unique_id=19719132]
 visible = false
-position = Vector2(0, 28)
+position = Vector2(0, 24)
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("3_vxkus")
-offset = Vector2(-256, -156)
+offset = Vector2(-156, -156)
 
 [node name="SwingDirection" type="Sprite2D" parent="." unique_id=1351736429]
 visible = false
