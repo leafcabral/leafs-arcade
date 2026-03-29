@@ -1,14 +1,41 @@
 [gd_scene format=3 uid="uid://bulhavk85t0mv"]
 
+[ext_resource type="Script" uid="uid://c32yurtcufcqo" path="res://main/game_root.gd" id="1_lqs6t"]
 [ext_resource type="PackedScene" uid="uid://bat5adyfrgx65" path="res://entities/ball/golf_ball.tscn" id="1_oc7al"]
 [ext_resource type="PackedScene" uid="uid://dknje8mdgobhp" path="res://map/floor_temp.tscn" id="1_sd42p"]
 [ext_resource type="PackedScene" uid="uid://bn4pmmb6y4rl2" path="res://entities/club/golf_club.tscn" id="2_mf5tn"]
+[ext_resource type="PackedScene" uid="uid://c8hokmjtpi5nl" path="res://main/hud/hud.tscn" id="4_d3btu"]
 
 [node name="GameRoot" type="Node" unique_id=905211831]
+script = ExtResource("1_lqs6t")
 
-[node name="Floor" parent="." unique_id=902436143 instance=ExtResource("1_sd42p")]
+[node name="HUDLayer" type="CanvasLayer" parent="." unique_id=2012956048]
+
+[node name="HUD" parent="HUDLayer" unique_id=665113192 instance=ExtResource("4_d3btu")]
+
+[node name="Map" type="Node2D" parent="." unique_id=433403719]
+
+[node name="Floor" parent="Map" unique_id=902436143 instance=ExtResource("1_sd42p")]
 position = Vector2(400, 544)
 scale = Vector2(8, 1)
+
+[node name="Floor2" parent="Map" unique_id=222526537 instance=ExtResource("1_sd42p")]
+position = Vector2(1168, 544)
+scale = Vector2(12, 1)
+
+[node name="Floor3" parent="Map" unique_id=906758501 instance=ExtResource("1_sd42p")]
+position = Vector2(2103, 119.00006)
+rotation = -1.0471976
+scale = Vector2(10, 1)
+
+[node name="Floor4" parent="Map" unique_id=2117269610 instance=ExtResource("1_sd42p")]
+position = Vector2(720, 608)
+scale = Vector2(2, 1)
+
+[node name="Floor5" parent="Map" unique_id=509261733 instance=ExtResource("1_sd42p")]
+position = Vector2(1744.0001, 476.00003)
+rotation = -0.3490658
+scale = Vector2(6.0000005, 0.99999994)
 
 [node name="GolfClub" parent="." unique_id=788983583 node_paths=PackedStringArray("ball") instance=ExtResource("2_mf5tn")]
 position = Vector2(385, 483)
@@ -29,21 +56,3 @@ limit_bottom = 600
 limit_smoothed = true
 editor_draw_limits = true
 editor_draw_drag_margin = true
-
-[node name="Floor2" parent="." unique_id=222526537 instance=ExtResource("1_sd42p")]
-position = Vector2(1168, 544)
-scale = Vector2(12, 1)
-
-[node name="Floor3" parent="." unique_id=906758501 instance=ExtResource("1_sd42p")]
-position = Vector2(2103, 119.00006)
-rotation = -1.0471976
-scale = Vector2(10, 1)
-
-[node name="Floor4" parent="." unique_id=2117269610 instance=ExtResource("1_sd42p")]
-position = Vector2(720, 608)
-scale = Vector2(2, 1)
-
-[node name="Floor5" parent="." unique_id=509261733 instance=ExtResource("1_sd42p")]
-position = Vector2(1744.0001, 476.00003)
-rotation = -0.34906584
-scale = Vector2(6, 1)

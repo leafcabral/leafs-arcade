@@ -87,6 +87,15 @@ func get_drag_baked_length() -> float:
 	return remap(drag.length(), minimum_drag, maximum_drag, 0.0, 1.0)
 
 
+func get_drag_percentage() -> float:
+	return get_drag_baked_length() * 100
+
+
+func get_drag_angle_q1() -> float:
+	var angle := absf(drag.angle())
+	return remap(angle, PI/2, PI, PI/2, 0) if angle > PI/2 else angle
+
+
 func set_is_holding(value: bool, active := false) -> void:
 	var was_holding := _is_holding
 	_is_holding = value

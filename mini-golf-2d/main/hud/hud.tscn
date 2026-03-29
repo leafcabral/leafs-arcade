@@ -1,0 +1,149 @@
+[gd_scene format=3 uid="uid://c8hokmjtpi5nl"]
+
+[ext_resource type="FontFile" uid="uid://bjqkqhpyoecq4" path="res://main/hud/supply-center.regular.ttf" id="1_jj2fu"]
+[ext_resource type="Script" uid="uid://cnrwwcurhwar8" path="res://main/hud/hud.gd" id="1_tukhg"]
+[ext_resource type="Texture2D" uid="uid://davfbj2w037y3" path="res://main/hud/angle-circle.png" id="3_04044"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_22nai"]
+bg_color = Color(0.07058824, 0.14509805, 0.3882353, 1)
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color(0.20784314, 0.2509804, 0.3882353, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 2
+expand_margin_left = 6.0
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+expand_margin_bottom = 6.0
+
+[sub_resource type="Gradient" id="Gradient_tukhg"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_04044"]
+gradient = SubResource("Gradient_tukhg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tukhg"]
+bg_color = Color(0.06900272, 0.14715423, 0.38819927, 1)
+border_width_top = 6
+border_width_right = 6
+border_color = Color(0.20669998, 0.252525, 0.39, 1)
+corner_radius_top_right = 100
+corner_detail = 20
+expand_margin_top = 6.0
+expand_margin_right = 6.0
+
+[node name="HUD" type="Control" unique_id=665113192]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_tukhg")
+
+[node name="InfoSwing" type="Control" parent="." unique_id=1762243314]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+scale = Vector2(0.75, 0.75)
+
+[node name="Power" type="Panel" parent="InfoSwing" unique_id=1260201108]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 76.0
+offset_top = -36.0
+offset_right = 335.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_22nai")
+metadata/_edit_group_ = true
+
+[node name="PowerGraph" type="TextureProgressBar" parent="InfoSwing/Power" unique_id=1405446808]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+allow_greater = true
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_04044")
+tint_progress = Color(1, 1, 1, 0.9019608)
+
+[node name="PowerLabel" type="Label" parent="InfoSwing/Power" unique_id=977287263]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+theme_override_constants/shadow_outline_size = 1
+theme_override_fonts/font = ExtResource("1_jj2fu")
+theme_override_font_sizes/font_size = 14
+text = "0%"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Angle" type="Panel" parent="InfoSwing" unique_id=292100794]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+offset_right = 80.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_tukhg")
+metadata/_edit_group_ = true
+
+[node name="AngleGraph" type="TextureProgressBar" parent="InfoSwing/Angle" unique_id=1982983254]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -296.0
+offset_top = -216.0
+offset_right = 216.0
+offset_bottom = 296.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.32, 0.32)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+max_value = 90.0
+value = 30.0
+fill_mode = 5
+radial_initial_angle = 90.0
+radial_fill_degrees = 90.0
+texture_progress = ExtResource("3_04044")
+tint_progress = Color(1, 1, 1, 0.9019608)
+
+[node name="AngleLabel" type="Label" parent="InfoSwing/Angle" unique_id=1763959057]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = -56.0
+offset_right = 99.0
+offset_bottom = -15.0
+grow_vertical = 0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_jj2fu")
+theme_override_font_sizes/font_size = 32
+text = "30°"
+vertical_alignment = 1

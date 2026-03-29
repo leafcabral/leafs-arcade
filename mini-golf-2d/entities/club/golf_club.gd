@@ -43,6 +43,13 @@ func update_visuals() -> void:
 		club.position.x *= -1
 
 
+func get_swing_data() -> Dictionary:
+	return {
+			'power': shot_area.get_drag_percentage(),
+			'angle': shot_area.get_drag_angle_q1()
+		} if is_swinging else {}
+
+
 func _on_shot_area_grabbed() -> void:
 	if not ball.sleeping:
 		return
