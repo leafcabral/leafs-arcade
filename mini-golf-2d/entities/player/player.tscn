@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://b4q6xsrxg737y"]
+
+[ext_resource type="Script" uid="uid://don72l7jddws" path="res://entities/player/player.gd" id="1_sglur"]
+[ext_resource type="PackedScene" uid="uid://bn4pmmb6y4rl2" path="res://entities/club/golf_club.tscn" id="2_bls4j"]
+[ext_resource type="PackedScene" uid="uid://bat5adyfrgx65" path="res://entities/ball/golf_ball.tscn" id="3_fkugw"]
+
+[node name="Player" type="Node" unique_id=484016680]
+script = ExtResource("1_sglur")
+
+[node name="Club" parent="." unique_id=788983583 node_paths=PackedStringArray("ball") instance=ExtResource("2_bls4j")]
+ball = NodePath("../Ball")
+
+[node name="Ball" parent="." unique_id=1146808135 instance=ExtResource("3_fkugw")]
+linear_damp = 0.2
+
+[node name="Camera" type="Camera2D" parent="Ball" unique_id=2030620364]
+zoom = Vector2(0.8, 0.8)
+limit_bottom = 600
+limit_smoothed = true
+
+[node name="ClubTransform" type="RemoteTransform2D" parent="Ball" unique_id=462333221]
+remote_path = NodePath("../../Club")
+update_rotation = false
+update_scale = false
+
+[connection signal="started_moving" from="Ball" to="." method="_on_ball_started_moving"]
+[connection signal="stopped_moving" from="Ball" to="." method="_on_ball_stopped_moving"]

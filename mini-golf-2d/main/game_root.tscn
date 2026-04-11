@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://bulhavk85t0mv"]
 
 [ext_resource type="Script" uid="uid://c32yurtcufcqo" path="res://main/game_root.gd" id="1_lqs6t"]
-[ext_resource type="PackedScene" uid="uid://bat5adyfrgx65" path="res://entities/ball/golf_ball.tscn" id="1_oc7al"]
 [ext_resource type="PackedScene" uid="uid://dknje8mdgobhp" path="res://map/floor_temp.tscn" id="1_sd42p"]
-[ext_resource type="PackedScene" uid="uid://bn4pmmb6y4rl2" path="res://entities/club/golf_club.tscn" id="2_mf5tn"]
 [ext_resource type="PackedScene" uid="uid://c8hokmjtpi5nl" path="res://main/hud/hud.tscn" id="4_d3btu"]
-[ext_resource type="Resource" uid="uid://co7lprfyeuwgs" path="res://entities/club/implementations/driver.tres" id="5_ruu41"]
+[ext_resource type="PackedScene" uid="uid://b4q6xsrxg737y" path="res://entities/player/player.tscn" id="4_lqs6t"]
 
 [node name="GameRoot" type="Node" unique_id=905211831]
 script = ExtResource("1_lqs6t")
@@ -38,23 +36,9 @@ position = Vector2(1744.0001, 476.00003)
 rotation = -0.3490658
 scale = Vector2(6.0000005, 0.99999994)
 
-[node name="GolfClub" parent="." unique_id=788983583 node_paths=PackedStringArray("ball") instance=ExtResource("2_mf5tn")]
-position = Vector2(385, 483)
-type = ExtResource("5_ruu41")
-ball = NodePath("../Ball")
+[node name="Floor6" parent="Map" unique_id=531833253 instance=ExtResource("1_sd42p")]
+position = Vector2(-10, 325)
+rotation = 0.6056956
+scale = Vector2(8, 1)
 
-[node name="Ball" parent="." unique_id=1146808135 instance=ExtResource("1_oc7al")]
-position = Vector2(385, 483)
-linear_damp = 0.2
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="Ball" unique_id=1284780959]
-remote_path = NodePath("../../GolfClub")
-update_rotation = false
-update_scale = false
-
-[node name="Camera2D" type="Camera2D" parent="Ball" unique_id=421210679]
-zoom = Vector2(0.8, 0.8)
-limit_bottom = 600
-limit_smoothed = true
-editor_draw_limits = true
-editor_draw_drag_margin = true
+[node name="Player" parent="." unique_id=906491507 instance=ExtResource("4_lqs6t")]

@@ -11,15 +11,7 @@ const WEDGE: GolfClubType  = preload("uid://dqisdeotk3fkt")
 const WOOD: GolfClubType  = preload("uid://cllyoka27wb4x")
 
 @export var type: GolfClubType:
-	set(value):
-		if not is_node_ready():
-			await ready
-		type = value
-		if value:
-			club.texture = type.texture
-			shot_area.minimum_angle = -type.minimum_angle
-			shot_area.maximum_angle = type.maximum_angle
-		
+	set = equip
 @export var ball: GolfBall
 
 var clubs := [DRIVER, WOOD, WEDGE]
@@ -30,6 +22,11 @@ var clubs := [DRIVER, WOOD, WEDGE]
 @onready var CLUB_OFFSET_X := absf(club.offset.x)
 
 var is_swinging := false
+
+
+func _ready() -> void:
+	if not Engine.is_editor_hint():
+		club.hide()
 
 
 func _physics_process(_delta: float) -> void:
@@ -70,6 +67,19 @@ func get_swing_data() -> Dictionary:
 			'power': shot_area.get_drag_percentage(),
 			'angle': shot_area.get_drag_angle_q1()
 		} if is_swinging else {}
+
+
+func equip(new_club: GolfClubType) -> void:
+	type = new_club
+	if not type:
+		return
+	
+	if not is_node_ready():
+		await ready
+	
+	club.texture = type.texture
+	shot_area.minimum_angle = -type.minimum_angle
+	shot_area.maximum_angle = type.maximum_angle
 
 
 func _on_shot_area_grabbed() -> void:

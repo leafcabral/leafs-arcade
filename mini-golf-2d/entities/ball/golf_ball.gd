@@ -6,54 +6,29 @@ extends RigidBody2D
 signal stopped_moving
 signal started_moving
 
-enum NextAction {
-	NONE,
-	RESET_LAST,
-	RESET_START,
-}
-
 @export var stop_color := Color("34dda9")
 
-var next_action := NextAction.NONE
-var pos_start := Vector2.ZERO
-var pos_last := Vector2.ZERO
-
-@onready var ball_sprite: Sprite2D = $BallSprite
-
-
-func _ready() -> void:
-	pos_start = position
-	pos_last = pos_start
-
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("reset_last"):
-		next_action = NextAction.RESET_LAST
-		sleeping = false
-	if event.is_action_pressed("reset_start"):
-		next_action = NextAction.RESET_START
-		sleeping = false
+var _should_teleport := false
+var _teleport_pos := Vector2.ZERO
 
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
-	if next_action != NextAction.NONE:
+	if _should_teleport:
 		state.linear_velocity = Vector2.ZERO
 		state.angular_velocity = 0.0
+		state.transform.origin = _teleport_pos
 		
-		match next_action:
-			NextAction.RESET_LAST:
-				position = pos_last
-			NextAction.RESET_START:
-				position = pos_start
-		
-		next_action = NextAction.NONE
+		_should_teleport = false
+
+
+func teleport(new_position: Vector2) -> void:
+	_should_teleport = true
+	_teleport_pos = new_position
+	sleeping = false
 
 
 func _on_sleeping_state_changed() -> void:
 	if sleeping:
 		stopped_moving.emit()
-		ball_sprite.modulate = stop_color
-		pos_last = position
 	else:
 		started_moving.emit()
-		ball_sprite.modulate = Color.WHITE

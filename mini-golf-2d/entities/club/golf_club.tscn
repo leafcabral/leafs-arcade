@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://c01stan78eq0n" path="res://entities/club/golf_club.gd" id="1_6nun0"]
 [ext_resource type="Script" uid="uid://b12p1pltfnvk0" path="res://common/mouse_drag_area_2d.gd" id="2_a5fw0"]
+[ext_resource type="Resource" uid="uid://co7lprfyeuwgs" path="res://entities/club/implementations/driver.tres" id="2_nkpju"]
+[ext_resource type="Texture2D" uid="uid://7y1nbg08bxnr" path="res://entities/club/implementations/driver.png" id="4_j8rl4"]
 [ext_resource type="Texture2D" uid="uid://dw31wfjgxudcn" path="res://entities/club/direction-triangle.png" id="4_nkpju"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6nun0"]
@@ -9,21 +11,22 @@ radius = 50.0
 
 [node name="GolfClub" type="Node2D" unique_id=788983583]
 script = ExtResource("1_6nun0")
+type = ExtResource("2_nkpju")
 
 [node name="ShotArea" type="Area2D" parent="." unique_id=1505072144]
 script = ExtResource("2_a5fw0")
 maximum_drag = 200.0
-minimum_angle = 0.0
-maximum_angle = 0.5235987755982988
+minimum_angle = -0.5235987755982988
+maximum_angle = 0.7853981633974483
 metadata/_custom_type_script = "uid://b12p1pltfnvk0"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShotArea" unique_id=331843830]
 shape = SubResource("CircleShape2D_6nun0")
 
 [node name="Club" type="Sprite2D" parent="." unique_id=19719132]
-visible = false
 position = Vector2(0, 24)
-scale = Vector2(0.2, 0.2)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_j8rl4")
 offset = Vector2(-156, -156)
 
 [node name="SwingDirection" type="Sprite2D" parent="." unique_id=1351736429]
