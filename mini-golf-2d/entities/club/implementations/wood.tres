@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="GolfClubType" format=3 uid="uid://cllyoka27wb4x"]
+
+[ext_resource type="Script" uid="uid://da0ghyrcef4af" path="res://entities/club/golf_club_res.gd" id="1_ra3pk"]
+[ext_resource type="Texture2D" uid="uid://bkiqm7w6akbvw" path="res://entities/club/implementations/wood.png" id="2_cvymj"]
+
+[resource]
+script = ExtResource("1_ra3pk")
+minimum_angle = 0.2617993877991494
+maximum_angle = 0.5235987755982988
+power = 7.0
+texture = ExtResource("2_cvymj")
+metadata/_custom_type_script = "uid://da0ghyrcef4af"

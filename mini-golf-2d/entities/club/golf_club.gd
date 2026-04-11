@@ -6,8 +6,23 @@ extends Node2D
 signal swing_started
 signal swing_ended
 
+const DRIVER: GolfClubType = preload("uid://co7lprfyeuwgs")
+const WEDGE: GolfClubType  = preload("uid://dqisdeotk3fkt")
+const WOOD: GolfClubType  = preload("uid://cllyoka27wb4x")
+
+@export var type: GolfClubType:
+	set(value):
+		if not is_node_ready():
+			await ready
+		type = value
+		if value:
+			club.texture = type.texture
+			shot_area.minimum_angle = -type.minimum_angle
+			shot_area.maximum_angle = type.maximum_angle
+		
 @export var ball: GolfBall
-@export_range(0.0, 100.0, 0.1) var strength := 10.0
+
+var clubs := [DRIVER, WOOD, WEDGE]
 
 @onready var shot_area: DragThrowArea2D = $ShotArea
 @onready var club: Sprite2D = $Club
@@ -22,6 +37,13 @@ func _physics_process(_delta: float) -> void:
 		return
 	
 	update_visuals()
+
+
+func _input(event: InputEvent) -> void:
+	for i in range(1, 4):
+		if event.is_action_pressed("change_club_" + str(i)):
+			type = clubs[i - 1]
+			break
 
 
 func update_visuals() -> void:
@@ -69,5 +91,5 @@ func _on_shot_area_released(cancelled: bool) -> void:
 	var club_tween := club.create_tween()
 	club_tween.tween_property(club, "position:x", 0, 0.05)
 	if ball and not cancelled:
-		club_tween.tween_callback(ball.apply_central_impulse.bind(shot_area.drag * strength))
+		club_tween.tween_callback(ball.apply_central_impulse.bind(shot_area.drag * type.power))
 	club_tween.tween_property(club, "visible", false, 0.1)

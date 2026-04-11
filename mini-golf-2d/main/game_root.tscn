@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dknje8mdgobhp" path="res://map/floor_temp.tscn" id="1_sd42p"]
 [ext_resource type="PackedScene" uid="uid://bn4pmmb6y4rl2" path="res://entities/club/golf_club.tscn" id="2_mf5tn"]
 [ext_resource type="PackedScene" uid="uid://c8hokmjtpi5nl" path="res://main/hud/hud.tscn" id="4_d3btu"]
+[ext_resource type="Resource" uid="uid://co7lprfyeuwgs" path="res://entities/club/implementations/driver.tres" id="5_ruu41"]
 
 [node name="GameRoot" type="Node" unique_id=905211831]
 script = ExtResource("1_lqs6t")
@@ -39,6 +40,7 @@ scale = Vector2(6.0000005, 0.99999994)
 
 [node name="GolfClub" parent="." unique_id=788983583 node_paths=PackedStringArray("ball") instance=ExtResource("2_mf5tn")]
 position = Vector2(385, 483)
+type = ExtResource("5_ruu41")
 ball = NodePath("../Ball")
 
 [node name="Ball" parent="." unique_id=1146808135 instance=ExtResource("1_oc7al")]

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="GolfClubType" format=3 uid="uid://dqisdeotk3fkt"]
+
+[ext_resource type="Script" uid="uid://da0ghyrcef4af" path="res://entities/club/golf_club_res.gd" id="1_mvjta"]
+[ext_resource type="Texture2D" uid="uid://3e7jvm73do2f" path="res://entities/club/implementations/wedge.png" id="2_e4g2q"]
+
+[resource]
+script = ExtResource("1_mvjta")
+maximum_angle = 0.2617993877991494
+texture = ExtResource("2_e4g2q")
+metadata/_custom_type_script = "uid://da0ghyrcef4af"
