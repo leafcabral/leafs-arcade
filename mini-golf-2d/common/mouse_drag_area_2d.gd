@@ -14,8 +14,8 @@ signal released(cancelled: bool)
 @export_group("Range")
 @export_range(0, 1000, 0.1) var minimum_drag := 10.0
 @export_range(0, 1000, 0.1) var maximum_drag := 100.0
-@export_range(-180, 180, 0.1, "radians_as_degrees") var minimum_angle := -180.0
-@export_range(-180, 180, 0.1, "radians_as_degrees") var maximum_angle := 180.0
+@export_range(0, 180, 0.1, "radians_as_degrees") var minimum_angle := 180.0
+@export_range(0, 180, 0.1, "radians_as_degrees") var maximum_angle := 180.0
 
 
 var drag_raw := Vector2.ZERO
@@ -63,15 +63,18 @@ func _physics_process(_delta: float) -> void:
 
 
 func clamp_angle() -> void:
-	var should_invert_var := should_invert()
-	var angle := drag.angle()
+	var should_invert_x = should_invert()
+	var angle = drag.angle()
 	
-	if should_invert_var:
+	if should_invert_x:
 		angle = drag.reflect(Vector2.UP).angle()
-	angle = clampf(angle, minimum_angle, maximum_angle)
 	
+	# minimum_angle and maximum_angle use up direction as positive bc it's 
+	# easier to set them like that
+	angle = clampf(angle, -maximum_angle, minimum_angle)
 	drag = Vector2.from_angle(angle) * drag.length()
-	if should_invert_var:
+	
+	if should_invert_x:
 		drag = drag.reflect(Vector2.UP)
 
 
