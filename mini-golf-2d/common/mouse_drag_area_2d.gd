@@ -14,8 +14,8 @@ signal released(cancelled: bool)
 @export_group("Range")
 @export_range(0, 1000, 0.1) var minimum_drag := 10.0
 @export_range(0, 1000, 0.1) var maximum_drag := 100.0
-@export_range(0, 180, 0.1, "radians_as_degrees") var minimum_angle := 180.0
-@export_range(0, 180, 0.1, "radians_as_degrees") var maximum_angle := 180.0
+@export_range(0, 180, 0.1, "radians_as_degrees") var minimum_angle := PI
+@export_range(0, 180, 0.1, "radians_as_degrees") var maximum_angle := PI
 
 
 var drag_raw := Vector2.ZERO
