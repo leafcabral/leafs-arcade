@@ -23,9 +23,11 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 		_should_teleport = false
 
 
-func teleport(new_position: Vector2) -> void:
+func teleport(new_position: Vector2, from_center := true) -> void:
 	_should_teleport = true
-	_teleport_pos = new_position - Vector2(0, get_radius())
+	_teleport_pos = new_position
+	if not from_center: 
+		_teleport_pos -= Vector2(0, get_radius())
 	sleeping = false
 
 

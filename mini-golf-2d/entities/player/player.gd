@@ -12,17 +12,16 @@ const MIN_ZOOM := Vector2.ONE * 0.25
 	set(value):
 		spawn_point = value
 		if spawn_point:
-			pos_reset_start = spawn_point.get_real_position()
+			spawn_position = spawn_point.get_real_position()
 
 var strokes := 0
 var available_clubs := [DRIVER_CLUB, WOOD_CLUB, WEDGE_CLUB]
-var pos_reset_start := Vector2.ZERO:
+var spawn_position := Vector2.ZERO:
 	set(value):
-		pos_reset_start = value
-		pos_reset_last = pos_reset_start
+		spawn_position = value
 		if ball:
-			ball.position = pos_reset_start
-var pos_reset_last := Vector2.ZERO
+			ball.position = spawn_position
+var respawn_position := Vector2.ZERO
 
 @onready var club: GolfClub = $Club
 @onready var ball: GolfBall = $Ball
@@ -30,7 +29,7 @@ var pos_reset_last := Vector2.ZERO
 
 
 func _ready() -> void:
-	respawn()
+	spawn()
 
 
 func _input(event: InputEvent) -> void:
@@ -43,9 +42,9 @@ func _input(event: InputEvent) -> void:
 			break
 	
 	if event.is_action_pressed("reset_last"):
-		ball.teleport(pos_reset_last)
-	if event.is_action_pressed("reset_start"):
 		respawn()
+	if event.is_action_pressed("reset_start"):
+		spawn()
 	
 	if event.is_action_pressed("zoom_reset"):
 		camera.zoom = Vector2.ONE
@@ -62,11 +61,15 @@ func _process(delta: float) -> void:
 			zoom(zoom_amount)
 		elif Input.is_action_just_pressed("zoom_out"):
 			zoom(-zoom_amount)
-	
+
+
+func spawn() -> void:
+	ball.teleport(spawn_position, false)
 
 
 func respawn() -> void:
-	ball.teleport(pos_reset_start)
+	if strokes:
+		ball.teleport(respawn_position)
 
 
 func zoom(amount: float)-> void:
@@ -91,5 +94,4 @@ func _on_ball_started_moving() -> void:
 
 func _on_club_swing_ended() -> void:
 	strokes += 1
-	if ball.global_position != pos_reset_start:
-		pos_reset_last = ball.global_position
+	respawn_position = ball.global_position
