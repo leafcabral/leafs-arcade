@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dknje8mdgobhp" path="res://map/floor_temp.tscn" id="1_sd42p"]
 [ext_resource type="PackedScene" uid="uid://c8hokmjtpi5nl" path="res://main/hud/hud.tscn" id="4_d3btu"]
 [ext_resource type="PackedScene" uid="uid://b4q6xsrxg737y" path="res://entities/player/player.tscn" id="4_lqs6t"]
+[ext_resource type="PackedScene" uid="uid://bmyctxsd43w0" path="res://map/spawn_point.tscn" id="5_lqs6t"]
 
 [node name="GameRoot" type="Node" unique_id=905211831]
 script = ExtResource("1_lqs6t")
@@ -11,6 +12,10 @@ script = ExtResource("1_lqs6t")
 [node name="HUDLayer" type="CanvasLayer" parent="." unique_id=2012956048]
 
 [node name="HUD" parent="HUDLayer" unique_id=665113192 instance=ExtResource("4_d3btu")]
+
+[node name="Spawnpoint" parent="." unique_id=1645378099 instance=ExtResource("5_lqs6t")]
+position = Vector2(423, 512)
+tee_height = 65.0
 
 [node name="Map" type="Node2D" parent="." unique_id=433403719]
 
@@ -41,4 +46,5 @@ position = Vector2(-10, 325)
 rotation = 0.6056956
 scale = Vector2(8, 1)
 
-[node name="Player" parent="." unique_id=906491507 instance=ExtResource("4_lqs6t")]
+[node name="Player" parent="." unique_id=906491507 node_paths=PackedStringArray("spawn_point") instance=ExtResource("4_lqs6t")]
+spawn_point = NodePath("../Spawnpoint")

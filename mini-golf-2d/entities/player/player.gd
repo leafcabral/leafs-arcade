@@ -8,10 +8,20 @@ const WEDGE_CLUB := preload("uid://dqisdeotk3fkt")
 const MAX_ZOOM := Vector2.ONE * 1.5
 const MIN_ZOOM := Vector2.ONE * 0.25
 
-@export var pos_reset_start := Vector2.ZERO
+@export var spawn_point: SpawnPoint:
+	set(value):
+		spawn_point = value
+		if spawn_point:
+			pos_reset_start = spawn_point.get_real_position()
 
 var strokes := 0
 var available_clubs := [DRIVER_CLUB, WOOD_CLUB, WEDGE_CLUB]
+var pos_reset_start := Vector2.ZERO:
+	set(value):
+		pos_reset_start = value
+		pos_reset_last = pos_reset_start
+		if ball:
+			ball.position = pos_reset_start
 var pos_reset_last := Vector2.ZERO
 
 @onready var club: GolfClub = $Club
@@ -20,8 +30,7 @@ var pos_reset_last := Vector2.ZERO
 
 
 func _ready() -> void:
-	ball.position = pos_reset_start
-	pos_reset_last = pos_reset_start
+	respawn()
 
 
 func _input(event: InputEvent) -> void:
@@ -53,6 +62,11 @@ func _process(delta: float) -> void:
 			zoom(zoom_amount)
 		elif Input.is_action_just_pressed("zoom_out"):
 			zoom(-zoom_amount)
+	
+
+
+func respawn() -> void:
+	ball.position = pos_reset_start
 
 
 func zoom(amount: float)-> void:

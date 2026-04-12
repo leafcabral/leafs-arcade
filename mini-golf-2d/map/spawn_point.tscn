@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://bmyctxsd43w0"]
+
+[ext_resource type="Script" uid="uid://yf0lvob53xal" path="res://map/spawn_point.gd" id="1_agkt3"]
+[ext_resource type="Texture2D" uid="uid://jebtvepexfox" path="res://map/tee.png" id="1_j3kf3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_agkt3"]
+size = Vector2(7, 49)
+
+[node name="SpawnPoint" type="Node2D" unique_id=1645378099]
+script = ExtResource("1_agkt3")
+
+[node name="TeeBox" type="StaticBody2D" parent="." unique_id=1583553734]
+position = Vector2(0, -32.5)
+collision_layer = 2
+
+[node name="Sprite" type="Sprite2D" parent="TeeBox" unique_id=1910048583]
+position = Vector2(0, 1)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_j3kf3")
+offset = Vector2(0, 147)
+region_enabled = true
+region_rect = Rect2(0, 0, 320, 320)
+
+[node name="CollisionBody" type="CollisionShape2D" parent="TeeBox" unique_id=1004615211]
+position = Vector2(0, 40.5)
+shape = SubResource("RectangleShape2D_agkt3")
+
+[node name="CollisionHead" type="CollisionPolygon2D" parent="TeeBox" unique_id=514768706]
+position = Vector2(0, -1)
+polygon = PackedVector2Array(-8, 1, 8, 1, 4, 17, -4, 17)
