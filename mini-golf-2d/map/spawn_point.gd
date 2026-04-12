@@ -8,7 +8,7 @@ const TEE_MAX_HEIGHT := 65.0
 @export_group("Golf Tee", "tee_")
 @export_custom(PROPERTY_HINT_GROUP_ENABLE, "") var tee_enabled := true:
 	set = set_tee_enabled
-@export_range(0, TEE_MAX_HEIGHT, 0.1) var tee_height = TEE_MAX_HEIGHT / 2:
+@export_range(0, TEE_MAX_HEIGHT, 0.1) var tee_height = 0.0:
 	set = set_tee_height
 
 @onready var tee_box: StaticBody2D = $TeeBox

@@ -11,6 +11,8 @@ signal started_moving
 var _should_teleport := false
 var _teleport_pos := Vector2.ZERO
 
+@onready var collision_shape: CollisionShape2D = $CollisionShape
+
 
 func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 	if _should_teleport:
@@ -23,8 +25,12 @@ func _integrate_forces(state: PhysicsDirectBodyState2D) -> void:
 
 func teleport(new_position: Vector2) -> void:
 	_should_teleport = true
-	_teleport_pos = new_position
+	_teleport_pos = new_position - Vector2(0, get_radius())
 	sleeping = false
+
+
+func get_radius() -> float:
+	return collision_shape.shape.radius if collision_shape else 0.0
 
 
 func _on_sleeping_state_changed() -> void:

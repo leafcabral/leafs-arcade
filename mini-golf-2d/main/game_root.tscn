@@ -13,10 +13,6 @@ script = ExtResource("1_lqs6t")
 
 [node name="HUD" parent="HUDLayer" unique_id=665113192 instance=ExtResource("4_d3btu")]
 
-[node name="Spawnpoint" parent="." unique_id=1645378099 instance=ExtResource("5_lqs6t")]
-position = Vector2(423, 512)
-tee_height = 65.0
-
 [node name="Map" type="Node2D" parent="." unique_id=433403719]
 
 [node name="Floor" parent="Map" unique_id=902436143 instance=ExtResource("1_sd42p")]
@@ -48,3 +44,7 @@ scale = Vector2(8, 1)
 
 [node name="Player" parent="." unique_id=906491507 node_paths=PackedStringArray("spawn_point") instance=ExtResource("4_lqs6t")]
 spawn_point = NodePath("../Spawnpoint")
+
+[node name="Spawnpoint" parent="." unique_id=1645378099 instance=ExtResource("5_lqs6t")]
+position = Vector2(423, 512)
+tee_height = 32.5

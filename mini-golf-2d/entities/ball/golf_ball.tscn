@@ -17,11 +17,11 @@ linear_damp = 0.4
 script = ExtResource("1_jyt08")
 metadata/_edit_group_ = true
 
-[node name="BallSprite" type="Sprite2D" parent="." unique_id=1980398275]
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1980398275]
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_17kaq")
 
-[node name="BallCollisionShape" type="CollisionShape2D" parent="." unique_id=2034281646]
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=2034281646]
 shape = SubResource("CircleShape2D_oc7al")
 
 [connection signal="sleeping_state_changed" from="." to="." method="_on_sleeping_state_changed"]

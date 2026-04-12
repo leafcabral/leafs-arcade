@@ -45,7 +45,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("reset_last"):
 		ball.teleport(pos_reset_last)
 	if event.is_action_pressed("reset_start"):
-		ball.teleport(pos_reset_start)
+		respawn()
 	
 	if event.is_action_pressed("zoom_reset"):
 		camera.zoom = Vector2.ONE
@@ -66,7 +66,7 @@ func _process(delta: float) -> void:
 
 
 func respawn() -> void:
-	ball.position = pos_reset_start
+	ball.teleport(pos_reset_start)
 
 
 func zoom(amount: float)-> void:
