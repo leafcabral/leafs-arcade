@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://bat5adyfrgx65"]
 
 [ext_resource type="Script" uid="uid://cndergi5r1kef" path="res://entities/ball/golf_ball.gd" id="1_jyt08"]
-[ext_resource type="Texture2D" uid="uid://r286suc682fo" path="res://entities/ball/golf_ball.png" id="2_17kaq"]
+[ext_resource type="Texture2D" uid="uid://dx4xioilbdf1k" path="res://entities/ball/ball.png" id="2_17kaq"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_17kaq"]
 bounce = 0.3
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_oc7al"]
-radius = 28.0
+radius = 21.0
 
 [node name="Ball" type="RigidBody2D" unique_id=1146808135]
 collision_mask = 2
@@ -18,7 +18,7 @@ script = ExtResource("1_jyt08")
 metadata/_edit_group_ = true
 
 [node name="BallSprite" type="Sprite2D" parent="." unique_id=1980398275]
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("2_17kaq")
 
 [node name="BallCollisionShape" type="CollisionShape2D" parent="." unique_id=2034281646]
