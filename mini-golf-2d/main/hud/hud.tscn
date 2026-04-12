@@ -146,3 +146,16 @@ theme_override_fonts/font = ExtResource("1_jj2fu")
 theme_override_font_sizes/font_size = 32
 text = "0°"
 vertical_alignment = 1
+
+[node name="StrokesLabel" type="Label" parent="InfoSwing" unique_id=878968713]
+layout_mode = 0
+offset_left = 112.0
+offset_top = -83.99996
+offset_right = 272.0
+offset_bottom = -42.666588
+theme_override_constants/outline_size = 6
+theme_override_constants/shadow_outline_size = 4
+theme_override_fonts/font = ExtResource("1_jj2fu")
+theme_override_font_sizes/font_size = 16
+text = "Strokes:   0"
+vertical_alignment = 2

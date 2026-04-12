@@ -8,6 +8,7 @@ const WEDGE_CLUB := preload("uid://dqisdeotk3fkt")
 
 @export var pos_reset_start := Vector2.ZERO
 
+var strokes := 0
 var available_clubs := [DRIVER_CLUB, WOOD_CLUB, WEDGE_CLUB]
 var pos_reset_last := Vector2.ZERO
 
@@ -35,11 +36,19 @@ func _input(event: InputEvent) -> void:
 		ball.teleport(pos_reset_start)
 
 
+func get_hud_data() -> Dictionary:
+	return club.get_swing_data().merged({"strokes": strokes})
+
+
 func _on_ball_stopped_moving() -> void:
 	ball.modulate = ball.stop_color
 
 
 func _on_ball_started_moving() -> void:
+	ball.modulate = Color.WHITE
+
+
+func _on_club_swing_ended() -> void:
+	strokes += 1
 	if ball.global_position != pos_reset_start:
 		pos_reset_last = ball.global_position
-	ball.modulate = Color.WHITE

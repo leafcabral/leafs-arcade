@@ -23,5 +23,6 @@ remote_path = NodePath("../../Club")
 update_rotation = false
 update_scale = false
 
+[connection signal="swing_ended" from="Club" to="." method="_on_club_swing_ended"]
 [connection signal="started_moving" from="Ball" to="." method="_on_ball_started_moving"]
 [connection signal="stopped_moving" from="Ball" to="." method="_on_ball_stopped_moving"]

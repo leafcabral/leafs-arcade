@@ -7,6 +7,7 @@ extends Control
 @onready var power_label: Label = $InfoSwing/Power/PowerLabel
 @onready var angle_graph: TextureProgressBar = $InfoSwing/Angle/AngleGraph
 @onready var angle_label: Label = $InfoSwing/Angle/AngleLabel
+@onready var strokes_label: Label = $InfoSwing/StrokesLabel
 
 
 func _ready() -> void:
@@ -34,6 +35,12 @@ func show_swing_hud() -> void:
 	angle_label.show()
 
 
+func update_player_info(player_data: Dictionary) -> void:
+	set_angle(player_data["angle"])
+	set_power(player_data["power"])
+	set_strokes(player_data["strokes"])
+
+
 func set_angle(angle_rad: float) -> void:
 	var angle := snappedf(rad_to_deg(angle_rad), 1)
 	angle_graph.value = angle
@@ -44,3 +51,7 @@ func set_power(power_percent: float) -> void:
 	var power := snappedf(power_percent, 1)
 	power_graph.value = power
 	power_label.text = str(int(power)) + "%"
+
+
+func set_strokes(stroke_amount: int) -> void:
+	strokes_label.text = "Strokes:   " + str(stroke_amount)

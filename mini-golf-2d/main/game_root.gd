@@ -11,8 +11,4 @@ func _ready() -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if player.club.is_swinging:
-		var data := player.club.get_swing_data()
-		if data:
-			hud.set_angle(data["angle"])
-			hud.set_power(data["power"])
+	hud.update_player_info(player.get_hud_data())

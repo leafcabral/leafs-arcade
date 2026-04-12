@@ -64,9 +64,9 @@ func update_visuals() -> void:
 
 func get_swing_data() -> Dictionary:
 	return {
-			'power': shot_area.get_drag_percentage(),
-			'angle': shot_area.get_drag_angle_q1()
-		} if is_swinging else {}
+			'power': shot_area.get_drag_percentage() if is_swinging else 0.0,
+			'angle': shot_area.get_drag_angle_q1() if is_swinging else 0.0
+		}
 
 
 func equip(new_club: GolfClubType) -> void:
