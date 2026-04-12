@@ -14,7 +14,6 @@ ball = NodePath("../Ball")
 linear_damp = 0.2
 
 [node name="Camera" type="Camera2D" parent="Ball" unique_id=2030620364]
-zoom = Vector2(0.8, 0.8)
 limit_bottom = 600
 limit_smoothed = true
 
