@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3 uid="uid://dshjpps4rf3u5"]
+
+[ext_resource type="FontFile" uid="uid://bjqkqhpyoecq4" path="res://main/hud/supply-center.regular.ttf" id="1_yiln1"]
+
+[resource]
+default_font = ExtResource("1_yiln1")
+Label/constants/outline_size = 6
+RichTextLabel/constants/outline_size = 6
