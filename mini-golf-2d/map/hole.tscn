@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://r2nhlcvqdcrk"]
+
+[ext_resource type="Texture2D" uid="uid://cbphkxf7mx4k3" path="res://map/hole_inside.png" id="1_fw7of"]
+[ext_resource type="Script" uid="uid://o6k748j0a3sp" path="res://map/hole.gd" id="1_g5wkk"]
+[ext_resource type="Texture2D" uid="uid://bx3s1ryyuelec" path="res://map/hole_outside.png" id="2_g5wkk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_50ijx"]
+size = Vector2(58, 50)
+
+[node name="Hole" type="Node2D" unique_id=1690517943]
+script = ExtResource("1_g5wkk")
+
+[node name="CupInside" type="Sprite2D" parent="." unique_id=1928310191]
+z_index = -1
+texture = ExtResource("1_fw7of")
+
+[node name="CupOutside" type="Sprite2D" parent="." unique_id=13466349]
+texture = ExtResource("2_g5wkk")
+
+[node name="AreaInside" type="Area2D" parent="." unique_id=1870365]
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaInside" unique_id=1898143162]
+position = Vector2(0, 10)
+shape = SubResource("RectangleShape2D_50ijx")
+
+[node name="BodyOutside" type="StaticBody2D" parent="." unique_id=1731408056]
+collision_layer = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="BodyOutside" unique_id=329144363]
+polygon = PackedVector2Array(-40, -36, -40, 36, -16, 40, 18, 40, 40, 36, 40, -36, 29, -34, 29, 35, -29, 35, -29, -34)
+
+[connection signal="body_entered" from="AreaInside" to="." method="_on_area_inside_body_entered"]

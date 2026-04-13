@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c8hokmjtpi5nl" path="res://main/hud/hud.tscn" id="4_d3btu"]
 [ext_resource type="PackedScene" uid="uid://b4q6xsrxg737y" path="res://entities/player/player.tscn" id="4_lqs6t"]
 [ext_resource type="PackedScene" uid="uid://bmyctxsd43w0" path="res://map/spawn_point.tscn" id="5_lqs6t"]
+[ext_resource type="PackedScene" uid="uid://r2nhlcvqdcrk" path="res://map/hole.tscn" id="6_ruu41"]
 
 [node name="GameRoot" type="Node" unique_id=905211831]
 script = ExtResource("1_lqs6t")
@@ -13,6 +14,10 @@ script = ExtResource("1_lqs6t")
 
 [node name="HUD" parent="HUDLayer" unique_id=665113192 instance=ExtResource("4_d3btu")]
 
+[node name="Spawnpoint" parent="." unique_id=1645378099 instance=ExtResource("5_lqs6t")]
+position = Vector2(423, 512)
+tee_height = 32.5
+
 [node name="Map" type="Node2D" parent="." unique_id=433403719]
 
 [node name="Floor" parent="Map" unique_id=902436143 instance=ExtResource("1_sd42p")]
@@ -20,7 +25,7 @@ position = Vector2(400, 544)
 scale = Vector2(8, 1)
 
 [node name="Floor2" parent="Map" unique_id=222526537 instance=ExtResource("1_sd42p")]
-position = Vector2(1168, 544)
+position = Vector2(1120, 544)
 scale = Vector2(12, 1)
 
 [node name="Floor3" parent="Map" unique_id=906758501 instance=ExtResource("1_sd42p")]
@@ -29,7 +34,7 @@ rotation = -1.0471976
 scale = Vector2(10, 1)
 
 [node name="Floor4" parent="Map" unique_id=2117269610 instance=ExtResource("1_sd42p")]
-position = Vector2(720, 608)
+position = Vector2(1536, 562)
 scale = Vector2(2, 1)
 
 [node name="Floor5" parent="Map" unique_id=509261733 instance=ExtResource("1_sd42p")]
@@ -45,6 +50,5 @@ scale = Vector2(8, 1)
 [node name="Player" parent="." unique_id=906491507 node_paths=PackedStringArray("spawn_point") instance=ExtResource("4_lqs6t")]
 spawn_point = NodePath("../Spawnpoint")
 
-[node name="Spawnpoint" parent="." unique_id=1645378099 instance=ExtResource("5_lqs6t")]
-position = Vector2(423, 512)
-tee_height = 32.5
+[node name="Hole" parent="." unique_id=1690517943 instance=ExtResource("6_ruu41")]
+position = Vector2(696, 548)
