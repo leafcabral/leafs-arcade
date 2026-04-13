@@ -3,6 +3,7 @@ class_name SpawnPoint
 extends Node2D
 
 
+const TEE_COLLISION_LAYER := 2
 const TEE_MAX_HEIGHT := 65.0
 
 @export_group("Golf Tee", "tee_")
@@ -21,7 +22,7 @@ func get_real_position() -> Vector2:
 func set_tee_enabled(enabled: bool) -> void:
 	tee_enabled = enabled
 	if tee_box:
-		tee_box.visible = tee_enabled
+		tee_box.collision_layer = TEE_COLLISION_LAYER if tee_enabled else 0
 
 
 func set_tee_height(height: float) -> void:
